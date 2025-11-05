@@ -2,9 +2,9 @@ import React, { createContext, useContext, useReducer, useCallback } from 'react
 import {
   ProjectService,
   PaftaService,
-  ContactService,
-  ExperimentService, // Assuming this service will be created
-  BlogPostService,    // Assuming this service will be created
+  // ContactService, // Not used currently
+  ExperimentService,
+  BlogPostService,
   InspirationService
 } from '../firebase/services';
 
@@ -14,8 +14,9 @@ const initialState = {
   projects: [],
   featuredProjects: [],
   paftas: [],
-  experiments: [], // Add experiments to state
-  blogPosts: [],   // Add blogPosts to state
+  experiments: [],
+  blogPosts: [],
+  inspirations: [],
   loading: false,
   error: null,
   currentProject: null,
@@ -117,6 +118,26 @@ const projectReducer = (state, action) => {
       return {
         ...state,
         blogPosts: state.blogPosts.filter(post => post.id !== action.payload)
+      };
+    
+    case 'SET_INSPIRATIONS':
+      return { ...state, inspirations: action.payload, loading: false };
+    
+    case 'ADD_INSPIRATION':
+      return { ...state, inspirations: [...state.inspirations, action.payload] };
+    
+    case 'UPDATE_INSPIRATION':
+      return {
+        ...state,
+        inspirations: state.inspirations.map(inspiration =>
+          inspiration.id === action.payload.id ? action.payload : inspiration
+        )
+      };
+    
+    case 'DELETE_INSPIRATION':
+      return {
+        ...state,
+        inspirations: state.inspirations.filter(inspiration => inspiration.id !== action.payload)
       };
     
     default:
@@ -394,6 +415,42 @@ export const ProjectProvider = ({ children }) => {
     }
   }, []);
 
+  // İlham oluştur
+  const createInspiration = useCallback(async (inspirationData) => {
+    try {
+      const id = await InspirationService.create(inspirationData);
+      const newInspiration = { id, ...inspirationData };
+      dispatch({ type: 'ADD_INSPIRATION', payload: newInspiration });
+      return id;
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+      throw error;
+    }
+  }, []);
+
+  // İlham güncelle
+  const updateInspiration = useCallback(async (id, inspirationData) => {
+    try {
+      await InspirationService.update(id, inspirationData);
+      const updatedInspiration = { id, ...inspirationData };
+      dispatch({ type: 'UPDATE_INSPIRATION', payload: updatedInspiration });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+      throw error;
+    }
+  }, []);
+
+  // İlham sil
+  const deleteInspiration = useCallback(async (id) => {
+    try {
+      await InspirationService.delete(id);
+      dispatch({ type: 'DELETE_INSPIRATION', payload: id });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+      throw error;
+    }
+  }, []);
+
   // Hata temizle
   const clearError = useCallback(() => {
     dispatch({ type: 'SET_ERROR', payload: null });
@@ -424,6 +481,9 @@ export const ProjectProvider = ({ children }) => {
     createBlogPost,
     updateBlogPost,
     deleteBlogPost,
+    createInspiration,
+    updateInspiration,
+    deleteInspiration,
     clearError
   };
 

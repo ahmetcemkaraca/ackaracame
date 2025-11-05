@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { ArrowLeft, ZoomIn, Share2 } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 const PaftaPage = () => {
   const { qrCode } = useParams();
@@ -43,14 +43,6 @@ const PaftaPage = () => {
         >
           <div className="aspect-[3/4] w-full bg-gray-200 dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg">
             <div className="w-full h-full bg-center bg-no-repeat bg-cover" style={{ backgroundImage: `url("${images?.[0] || '/placeholder.jpg'}")` }}></div>
-          </div>
-          <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <button className="p-2 rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors">
-              <ZoomIn size={20} />
-            </button>
-            <button className="p-2 rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors">
-              <Share2 size={20} />
-            </button>
           </div>
         </motion.div>
         {/* Right Column: Project Details */}

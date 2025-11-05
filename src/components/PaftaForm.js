@@ -29,7 +29,8 @@ const PaftaForm = ({ pafta, onClose }) => {
     semester: '',
     year: new Date().getFullYear().toString(),
     status: 'active',
-    qrCodeData: ''
+    qrCodeData: '',
+    blocks: []
   });
 
   const [newTool, setNewTool] = useState({ name: '', purpose: '' });
@@ -204,14 +205,14 @@ const PaftaForm = ({ pafta, onClose }) => {
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white dark:bg-slate-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 dark:border-slate-700"
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
       >
-        <div className="p-6 border-b border-secondary-200">
+        <div className="p-6 border-b border-slate-200 dark:border-slate-700">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-secondary-800">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
               {pafta ? 'Pafta Düzenle' : 'Yeni Pafta'}
             </h2>
             <div className="flex items-center space-x-4">
@@ -224,7 +225,7 @@ const PaftaForm = ({ pafta, onClose }) => {
               </button>
               <button
                 onClick={onClose}
-                className="text-secondary-500 hover:text-secondary-700 transition-colors duration-200"
+                className="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors duration-200"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -246,7 +247,7 @@ const PaftaForm = ({ pafta, onClose }) => {
             {/* Temel Bilgiler */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Pafta Başlığı *
                 </label>
                 <input
@@ -262,7 +263,7 @@ const PaftaForm = ({ pafta, onClose }) => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-secondary-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Açıklama *
               </label>
               <textarea
@@ -277,7 +278,7 @@ const PaftaForm = ({ pafta, onClose }) => {
 
             {/* Görseller */}
             <div>
-              <label className="block text-sm font-medium text-secondary-700 mb-2">
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 Pafta Görselleri
               </label>
               
@@ -378,7 +379,7 @@ const PaftaForm = ({ pafta, onClose }) => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     İşlem Süresi (dakika)
                   </label>
                   <input
@@ -391,7 +392,7 @@ const PaftaForm = ({ pafta, onClose }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-secondary-700 mb-2">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                     Doğruluk Oranı (%)
                   </label>
                   <input
@@ -406,7 +407,7 @@ const PaftaForm = ({ pafta, onClose }) => {
               </div>
 
               <div className="mt-4">
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   AI Notları
                 </label>
                 <textarea
@@ -422,7 +423,7 @@ const PaftaForm = ({ pafta, onClose }) => {
             {/* Dönem Bilgileri */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Dönem
                 </label>
                 <input
@@ -436,7 +437,7 @@ const PaftaForm = ({ pafta, onClose }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-secondary-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Yıl
                 </label>
                 <input

@@ -11,7 +11,7 @@ const AdminLoginForm = ({ onLoginSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const { login, loading } = useAuth();
-  const { t } = useLanguage();
+  // const { t } = useLanguage(); // Not used in this component
 
   const handleSubmit = async (e) => {
     e.preventDefault();

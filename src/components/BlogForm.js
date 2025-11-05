@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { X, Upload } from 'lucide-react';
 import { FileService } from '../firebase/services';
 import { useProject } from '../context/ProjectContext';
+import BlockEditor from './BlockEditor/BlockEditor';
 
 const BlogForm = ({ blogPost, onClose }) => {
   const { createBlogPost, updateBlogPost } = useProject();
@@ -14,6 +15,7 @@ const BlogForm = ({ blogPost, onClose }) => {
     imageUrl: '',
     summary: '',
     date: new Date().toISOString().split('T')[0],
+    blocks: [],
   });
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
@@ -28,6 +30,7 @@ const BlogForm = ({ blogPost, onClose }) => {
         imageUrl: blogPost.imageUrl || '',
         summary: blogPost.summary || blogPost.description || '',
         date: blogPost.date || (blogPost.createdAt ? new Date(blogPost.createdAt.seconds * 1000).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]),
+        blocks: blogPost.blocks || [],
       });
     }
   }, [blogPost]);
@@ -150,16 +153,32 @@ const BlogForm = ({ blogPost, onClose }) => {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-              İçerik *
+              Kısa İçerik (Eski Sistem - Opsiyonel)
             </label>
             <textarea
               name="content"
               value={formData.content}
               onChange={handleInputChange}
-              required
-              rows="10"
+              rows="3"
+              placeholder="Geriye dönük uyumluluk için"
               className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-slate-700 text-slate-900 dark:text-white"
             />
+          </div>
+
+          {/* Block Editor */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+              Detaylı İçerik (Bloklar) *
+            </label>
+            <div className="border border-slate-300 dark:border-slate-600 rounded-lg p-4 bg-slate-50 dark:bg-slate-900/30">
+              <BlockEditor
+                value={formData.blocks}
+                onChange={(blocks) => setFormData(prev => ({ ...prev, blocks }))}
+              />
+            </div>
+            <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+              Zengin içerik oluşturmak için bloklar kullanın
+            </p>
           </div>
 
           <div>

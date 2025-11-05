@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { X, Upload } from 'lucide-react';
 import { InspirationService, FileService } from '../firebase/services';
 import LoadingSpinner from '../components/LoadingSpinner';
+import BlockEditor from './BlockEditor/BlockEditor';
 
 const InspirationForm = ({ inspiration, onClose, onSuccess }) => {
   const [loading, setLoading] = useState(false);
@@ -14,6 +15,7 @@ const InspirationForm = ({ inspiration, onClose, onSuccess }) => {
     description: '',
     category: 'featured',
     imageUrl: '',
+    blocks: [], // Block editor içeriği
   });
 
   useEffect(() => {
@@ -24,6 +26,7 @@ const InspirationForm = ({ inspiration, onClose, onSuccess }) => {
         description: inspiration.description || '',
         category: inspiration.category || 'featured',
         imageUrl: inspiration.imageUrl || '',
+        blocks: inspiration.blocks || [],
       });
     }
   }, [inspiration]);
@@ -160,14 +163,15 @@ const InspirationForm = ({ inspiration, onClose, onSuccess }) => {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Açıklama *
+              Kısa Açıklama *
             </label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleInputChange}
-              rows={4}
+              rows={2}
               className="input-field"
+              placeholder="Kısa özet (listelemede görünür)"
               required
             />
           </div>
@@ -203,6 +207,22 @@ const InspirationForm = ({ inspiration, onClose, onSuccess }) => {
                 />
               </div>
             )}
+          </div>
+
+          {/* Block Editor */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              Detaylı İçerik (Bloklar)
+            </label>
+            <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900/30">
+              <BlockEditor
+                value={formData.blocks}
+                onChange={(blocks) => setFormData(prev => ({ ...prev, blocks }))}
+              />
+            </div>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              Metin, görsel, galeri, alıntı ve daha fazlasını ekleyerek zengin içerik oluşturun
+            </p>
           </div>
 
           <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">

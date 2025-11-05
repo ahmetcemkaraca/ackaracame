@@ -1,0 +1,117 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dış gradyan çember -->
+  <defs>
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1D4ED8;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60A5FA;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Ana daire arka plan -->
+  <circle cx="100" cy="100" r="95" fill="url(#mainGradient)" filter="url(#shadow)"/>
+  
+  <!-- Mimari çizgiler - Blueprint tarzı -->
+  <g opacity="0.15" stroke="white" stroke-width="1">
+    <line x1="30" y1="60" x2="170" y2="60"/>
+    <line x1="30" y1="80" x2="170" y2="80"/>
+    <line x1="30" y1="100" x2="170" y2="100"/>
+    <line x1="30" y1="120" x2="170" y2="120"/>
+    <line x1="30" y1="140" x2="170" y2="140"/>
+    <line x1="60" y1="30" x2="60" y2="170"/>
+    <line x1="80" y1="30" x2="80" y2="170"/>
+    <line x1="100" y1="30" x2="100" y2="170"/>
+    <line x1="120" y1="30" x2="120" y2="170"/>
+    <line x1="140" y1="30" x2="140" y2="170"/>
+  </g>
+  
+  <!-- Mimari bina silüeti - arka planda -->
+  <g opacity="0.2" fill="white">
+    <!-- Sol bina -->
+    <rect x="35" y="110" width="25" height="55" rx="2"/>
+    <rect x="38" y="115" width="4" height="4"/>
+    <rect x="45" y="115" width="4" height="4"/>
+    <rect x="52" y="115" width="4" height="4"/>
+    <rect x="38" y="122" width="4" height="4"/>
+    <rect x="45" y="122" width="4" height="4"/>
+    <rect x="52" y="122" width="4" height="4"/>
+    <rect x="38" y="129" width="4" height="4"/>
+    <rect x="45" y="129" width="4" height="4"/>
+    <rect x="52" y="129" width="4" height="4"/>
+    
+    <!-- Orta bina (yüksek) -->
+    <rect x="65" y="90" width="30" height="75" rx="2"/>
+    <rect x="70" y="95" width="5" height="5"/>
+    <rect x="78" y="95" width="5" height="5"/>
+    <rect x="86" y="95" width="5" height="5"/>
+    <rect x="70" y="103" width="5" height="5"/>
+    <rect x="78" y="103" width="5" height="5"/>
+    <rect x="86" y="103" width="5" height="5"/>
+    <rect x="70" y="111" width="5" height="5"/>
+    <rect x="78" y="111" width="5" height="5"/>
+    <rect x="86" y="111" width="5" height="5"/>
+    
+    <!-- Sağ bina -->
+    <rect x="140" y="105" width="25" height="60" rx="2"/>
+    <rect x="143" y="110" width="4" height="4"/>
+    <rect x="150" y="110" width="4" height="4"/>
+    <rect x="157" y="110" width="4" height="4"/>
+    <rect x="143" y="117" width="4" height="4"/>
+    <rect x="150" y="117" width="4" height="4"/>
+    <rect x="157" y="117" width="4" height="4"/>
+  </g>
+  
+  <!-- Ana harfler: A, C ve K - Ortalanmış -->
+  <g fill="white" font-family="Arial, sans-serif" font-weight="bold">
+    <!-- A harfi - Sol tarafta -->
+    <path d="M 50 130 L 68 75 L 86 130 L 77 130 L 74 120 L 62 120 L 59 130 Z M 64 112 L 72 112 L 68 92 Z" 
+          fill="white" 
+          stroke="white" 
+          stroke-width="1"
+          filter="url(#shadow)"/>
+    
+    <!-- C harfi - Ortada -->
+    <path d="M 115 75 Q 95 75 85 90 Q 75 105 85 120 Q 95 130 115 130 L 115 122 Q 100 122 93 112 Q 86 105 93 95 Q 100 83 115 83 Z" 
+          fill="white" 
+          stroke="white" 
+          stroke-width="1"
+          filter="url(#shadow)"/>
+    
+    <!-- K harfi - Sağ tarafta -->
+    <path d="M 125 75 L 135 75 L 135 97 L 150 75 L 162 75 L 147 97 L 165 130 L 153 130 L 140 107 L 135 112 L 135 130 L 125 130 Z" 
+          fill="white" 
+          stroke="white" 
+          stroke-width="1"
+          filter="url(#shadow)"/>
+  </g>
+  
+  <!-- Dekoratif mimari detaylar -->
+  <g stroke="white" stroke-width="2" fill="none" opacity="0.3">
+    <!-- Pergel çizgisi -->
+    <circle cx="100" cy="100" r="75"/>
+    <circle cx="100" cy="100" r="70"/>
+  </g>
+  
+  <!-- Köşe işaretleri - Blueprint tarzı -->
+  <g stroke="white" stroke-width="2" opacity="0.4">
+    <line x1="20" y1="20" x2="35" y2="20"/>
+    <line x1="20" y1="20" x2="20" y2="35"/>
+    
+    <line x1="180" y1="20" x2="165" y2="20"/>
+    <line x1="180" y1="20" x2="180" y2="35"/>
+    
+    <line x1="20" y1="180" x2="35" y2="180"/>
+    <line x1="20" y1="180" x2="20" y2="165"/>
+    
+    <line x1="180" y1="180" x2="165" y2="180"/>
+    <line x1="180" y1="180" x2="180" y2="165"/>
+  </g>
+</svg>

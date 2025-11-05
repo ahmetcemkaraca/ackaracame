@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
+import BlockRenderer from '../components/BlockEditor/BlockRenderer';
 
 // Mock Data - This will be removed
 // const blogPosts = [ ... ];
@@ -56,9 +57,17 @@ const BlogPostPage = () => {
                       <img className="w-full h-auto max-h-[500px] object-cover rounded-lg shadow-lg mb-8" src={post.imageUrl} alt={post.title} />
                     )}
                     
-                    <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
-                        {post.content || post.description}
-                    </div>
+                    {/* Block İçeriği */}
+                    {post.blocks && post.blocks.length > 0 ? (
+                      <div className="prose dark:prose-invert max-w-none">
+                        <BlockRenderer blocks={post.blocks} />
+                      </div>
+                    ) : (
+                      /* Eski sistem içeriği */
+                      <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                          {post.content || post.description}
+                      </div>
+                    )}
                 </article>
             </motion.div>
         </main>

@@ -14,12 +14,10 @@ import PortfolioPage from './pages/PortfolioPage'; // Import the new page
 import ArchivedWorksPage from './pages/ArchivedWorksPage';
 import ExperimentsPage from './pages/ExperimentsPage'; // Import the new page
 import InspirationGalleryPage from './pages/InspirationGalleryPage';
+import InspirationDetailPage from './pages/InspirationDetailPage';
 import SemesterProjectsPage from './pages/SemesterProjectsPage'; // Import the new page
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
-import ServicesPage from './pages/ServicesPage'; // Import the new page
-
-
 // Bileşenler
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -125,6 +123,20 @@ function App() {
                 />
 
                 <Route 
+                  path="/inspiration/:id" 
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <InspirationDetailPage />
+                    </motion.div>
+                  } 
+                />
+
+                <Route 
                   path="/semester-projects" 
                   element={
                     <motion.div
@@ -166,20 +178,6 @@ function App() {
                   } 
                 />
 
-                <Route 
-                  path="/services" 
-                  element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ServicesPage />
-                    </motion.div>
-                  } 
-                />
-                
                 <Route 
                   path="/project/:id" 
                   element={

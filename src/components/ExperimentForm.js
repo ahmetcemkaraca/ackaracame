@@ -14,6 +14,7 @@ const ExperimentForm = ({ experiment, onClose }) => {
     featured: false,
     date: new Date().toISOString().split('T')[0],
     lesson: '',
+    blocks: []
   });
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');

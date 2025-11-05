@@ -3,14 +3,14 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { getAuth } from 'firebase/auth';
 
-// Firebase konfigürasyonu
+// Firebase konfigürasyonu - Ortam değişkenlerinden yüklenir
 const firebaseConfig = {
-  apiKey: "AIzaSyDR0YjeL84RPNCsM1egVCu8wYIl-D3W4no",
-  authDomain: "ackaraca-siteler.firebaseapp.com",
-  projectId: "ackaraca-siteler",
-  storageBucket: "ackaraca-siteler.firebasestorage.app",
-  messagingSenderId: "1019043453541",
-  appId: "1:1019043453541:web:344d7b17b135ea292d048c"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID
 };
 
 // Firebase'i başlat

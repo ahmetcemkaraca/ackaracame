@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+// import { motion } from 'framer-motion'; // Not used currently
+// import { Link } from 'react-router-dom'; // Not used currently
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -55,8 +55,8 @@ const ExperimentsPage = () => {
           {digitalExplorations.map(exp => (
                <div key={exp.id} className="group relative cursor-pointer overflow-hidden rounded-lg">
                     <div className="bg-cover bg-center flex flex-col justify-end p-4 aspect-[3/4] transition-transform duration-300 group-hover:scale-105" style={{ backgroundImage: `url("${exp.imageUrl || '/placeholder.jpg'}")`}}></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <p className="absolute bottom-4 left-4 text-white text-base font-bold leading-tight w-4/5 line-clamp-3">{exp.title}</p>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <p className="absolute bottom-4 left-4 text-white text-sm font-bold leading-tight w-4/5 line-clamp-2">{exp.title}</p>
                 </div>
           ))}
       </div>

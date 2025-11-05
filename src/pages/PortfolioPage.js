@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { Tag, Search } from 'lucide-react';
+// import { Tag, Search } from 'lucide-react'; // Not used currently
 
 // You might need to create this new component
 // import PortfolioCard from '../components/PortfolioCard'; 
@@ -56,7 +56,7 @@ const PortfolioPage = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className="text-black dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">Uygulamalar & Kod</h1>
+        <h1 className="text-black dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">Projeler/Uygulamalar & Kod</h1>
         <p className="text-gray-500 dark:text-gray-400 text-base font-normal leading-normal max-w-2xl mx-auto">Mimari, tasarım ve teknolojinin kesişim noktasını kod aracılığıyla keşfetmek.</p>
       </motion.div>
 

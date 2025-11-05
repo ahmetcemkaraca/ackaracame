@@ -1,28 +1,51 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Admin kontrolü
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'admin@ackaraca.me';
+    }
+
     // Projeler - herkes okuyabilir, sadece admin yazabilir
-    match /projects/{document} {
+    match /projects/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.email == 'admin@ackaraca.me';
+      allow write: if isAdmin();
     }
     
     // Paftalar - herkes okuyabilir, sadece admin yazabilir
-    match /paftas/{document} {
+    match /paftas/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.email == 'admin@ackaraca.me';
+      allow write: if isAdmin();
+    }
+    
+    // Blog Postları - herkes okuyabilir, sadece admin yazabilir
+    match /blogPosts/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Deneyler - herkes okuyabilir, sadece admin yazabilir
+    match /experiments/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // İlhamlar - herkes okuyabilir, sadece admin yazabilir
+    match /inspirations/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
     
     // Mesajlar - herkes yazabilir, sadece admin okuyabilir
-    match /messages/{document} {
-      allow read: if request.auth != null && request.auth.token.email == 'admin@ackaraca.me';
+    match /messages/{document=**} {
+      allow read: if isAdmin();
       allow create: if true;
     }
     
     // Site ayarları - herkes okuyabilir, sadece admin yazabilir
-    match /siteSettings/{document} {
+    match /siteSettings/{document=**} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.email == 'admin@ackaraca.me';
+      allow write: if isAdmin();
     }
   }
 }

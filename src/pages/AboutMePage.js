@@ -10,7 +10,7 @@ const AboutMePage = () => {
         contact: {
           location: "Antalya/Kepez",
           email: "ahmcemkaraca@gmail.com",
-          website: "https://www.ackaraca.blog"
+          website: "https://ackaraca.me"
         },
         education: [
           {
@@ -93,25 +93,27 @@ const AboutMePage = () => {
         <main className="flex flex-col gap-10 sm:gap-16 p-4 sm:p-6 md:p-8 max-w-7xl mx-auto">
             {/* Profile Header */}
             <div className="flex w-full flex-col gap-6 @container md:flex-row md:items-center">
-                <div className="flex-shrink-0 mx-auto md:mx-0">
-                    <div 
-                        className="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-40 w-40 md:h-48 md:w-48 border-4 border-card-light dark:border-card-dark shadow-lg"
-                        style={{ backgroundImage: `url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7hIrm-__4k_JRyjlO5vC8Wltc0qrDeHOlG3shCEg3dKZ13pJjimjMdsEEJ6YHvmvPwfjmQq1zTgWqVF9quAwz8tWeTwLMSa2UH7C4PQuSM5lai34lEPucqrNfYvMymU1LZoG3-8fdN8j4CWoyWG4myVyyDNhOa2lVHLOxnNmdhHP_aFP29dRg6R6ntSd9OvyYX04ytVdo7WC43SffDS28_MIQ0tE120VNFQOCDyo9PLfrTKvnT6YRLA0YiN4avzsCnOLM2MH1w2mq")` }}
-                        aria-label="Professional headshot of S. Ahmet Cem Karaca"
-                    ></div>
+                <div className="flex-shrink-0 flex justify-center md:justify-start">
+                    <img 
+                        src="/logo.svg" 
+                        alt="AK Logo" 
+                        className="w-32 h-32 md:w-40 md:h-40 drop-shadow-2xl hover:scale-105 transition-transform duration-300"
+                    />
                 </div>
                 <div className="flex flex-col gap-4 text-center md:text-left">
                     <h1 className="text-text-light dark:text-text-dark text-4xl font-bold leading-tight tracking-tighter">{aboutMeData.name}</h1>
-                    <p className="text-muted-light dark:text-muted-dark text-lg font-semibold">{aboutMeData.title}</p>
+                    <div className="text-muted-light dark:text-muted-dark text-lg font-semibold">
+                        <p>Mimar | <a href="https://ackaraca.me" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors">ackaraca.me</a></p>
+                    </div>
                     <p className="text-muted-light dark:text-muted-dark text-base font-normal leading-relaxed max-w-xl">
                         {aboutMeData.bio}
                     </p>
                     <div className="flex w-full items-center justify-center md:justify-start gap-3 pt-2">
-                        <a href="/ACK.pdf" download="S_Ahmet_Cem_Karaca_CV.pdf" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-colors">
-                            <span className="truncate">CV'mi İndir</span>
-                        </a>
-                        <a href={`mailto:${aboutMeData.contact.email}`} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark border border-border-light dark:border-border-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                        <a href={`mailto:${aboutMeData.contact.email}`} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-colors">
                             <span className="truncate">İletişime Geç</span>
+                        </a>
+                        <a href={aboutMeData.contact.website} target="_blank" rel="noopener noreferrer" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark border border-border-light dark:border-border-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                            <span className="truncate">Web Sitesi</span>
                         </a>
                     </div>
                 </div>

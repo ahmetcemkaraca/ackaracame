@@ -27,11 +27,13 @@ const Footer = () => {
         <div className="py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
-              <Link to="/" className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-primary-600 to-primary-800 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">AK</span>
-                </div>
-                <span className="text-xl font-bold">Ahmet Karaca</span>
+              <Link to="/" className="flex items-center space-x-3 mb-4">
+                <img 
+                  src="/logo.svg" 
+                  alt="ACK Logo" 
+                  className="w-10 h-10 transition-all duration-300 hover:scale-110"
+                />
+                <span className="text-xl font-bold">Ahmet Cem Karaca</span>
               </Link>
               <p className="text-secondary-300 mb-6 max-w-md">
                 {t('footer.description')}

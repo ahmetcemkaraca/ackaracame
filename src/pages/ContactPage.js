@@ -46,7 +46,7 @@ const ContactPage = () => {
     {
       icon: MapPin,
       title: 'Konum',
-      value: 'İstanbul, Türkiye',
+      value: 'Antalya, Türkiye',
       link: 'https://maps.app.goo.gl/fewk9JMcgUdpB5Ny5'
     }
   ];
@@ -78,7 +78,12 @@ const ContactPage = () => {
                     </a>
                 )
             })}
-             <div className="mt-4 p-6 bg-gray-100 dark:bg-gray-900/50 rounded-lg border border-border-light dark:border-border-dark">
+             <a 
+              href="https://find-and-update.company-information.service.gov.uk/company/14560445" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="mt-4 p-6 bg-gray-100 dark:bg-gray-900/50 rounded-lg border border-border-light dark:border-border-dark hover:shadow-lg hover:border-primary/50 transition-all duration-200 block"
+            >
               <h3 className="text-lg font-bold mb-3 text-text-light dark:text-text-dark">
                 ACKARACA LIMITED ŞİRKETİ
               </h3>
@@ -87,7 +92,7 @@ const ContactPage = () => {
                 <p>Registered office address: Piccadilly Business Centre, Aldow Enterprise Park,</p>
                 <p>Manchester, England, M12 6AE</p>
               </div>
-            </div>
+            </a>
         </div>
 
         {/* İletişim Formu */}

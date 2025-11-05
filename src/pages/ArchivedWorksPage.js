@@ -42,7 +42,7 @@ const ArchivedWorksPage = () => {
                 <div className="flex w-full flex-col items-center gap-3">
                     <p className="text-black dark:text-white text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">Yolculuk</p>
                     <p className="text-gray-600 dark:text-[#9398c8] text-base font-normal leading-normal max-w-xl">
-                        Geçmiş projelerden oluşan bir koleksiyon, katmanlı bir arşiv aracılığıyla mimarideki büyüme ve keşif yolunun izini sürüyor.
+                        Mimari yolculuğumdaki gelişimi gösteren geçmiş projelerin arşivi.
                     </p>
                 </div>
             </div>
@@ -86,10 +86,10 @@ const ArchivedWorksPage = () => {
             )}
            
             <div className="mt-24 mb-16 px-4">
-                <h2 className="text-black dark:text-white text-[28px] sm:text-[32px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 text-center">Büyüme Üzerine Bir Yansıma</h2>
+                <h2 className="text-black dark:text-white text-[28px] sm:text-[32px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-5 text-center">Gelişim</h2>
                 <div className="max-w-3xl mx-auto text-center">
                     <p className="text-gray-700 dark:text-gray-300 text-base font-normal leading-relaxed pb-3 pt-4">
-                        Bu arşiv, geçmiş projelerin bir koleksiyonundan daha fazlasını temsil ediyor; mimari yolculuğumun görsel bir günlüğü. En eski kavramsal eskizlerden daha karmaşık yapısal çalışmalara kadar her giriş, gelişimimde önemli bir adımı işaret ediyor.
+                        İlk çizimlerden yapısal çalışmalara, her proje bir adım.
                     </p>
                 </div>
             </div>

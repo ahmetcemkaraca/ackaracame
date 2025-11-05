@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X, Upload, Plus, Trash2 } from 'lucide-react';
+import { X, Upload, Plus } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import { FileService } from '../firebase/services';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -20,7 +20,8 @@ const ProjectForm = ({ project, onClose }) => {
     semester: '',
     featured: false,
     order: 0,
-    status: 'active'
+    status: 'active',
+    blocks: []
   });
 
   const [newTech, setNewTech] = useState('');

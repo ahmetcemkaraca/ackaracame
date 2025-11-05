@@ -13,12 +13,30 @@
 
 # misc
 .DS_Store
+
+# Ortam değişkenleri - ASLA GIT'E COMMIT ETME
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# Firebase ve güvenlik dosyaları
+users.json
+firebase-credentials.json
+.firebase/
+.firebaserc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+Thumbs.db
+
+# Log dosyaları
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

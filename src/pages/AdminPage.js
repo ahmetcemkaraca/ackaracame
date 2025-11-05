@@ -5,10 +5,10 @@ import {
   Edit, 
   Trash2, 
   Eye, 
-  Upload, 
+  // Upload, // Not used currently
   Settings,
   BarChart3,
-  Users,
+  // Users, // Not used currently
   FileText,
   QrCode,
   BookOpen,

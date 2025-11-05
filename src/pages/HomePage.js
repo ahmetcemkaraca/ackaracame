@@ -57,13 +57,13 @@ const HomePage = () => {
                 className="text-5xl font-black leading-tight tracking-[-0.033em] text-white sm:text-6xl md:text-8xl"
                 variants={itemVariants}
               >
-                Ahmet Karaca
+                Ahmet Cem Karaca
               </motion.h1>
               <motion.h2 
                 className="font-serif text-xl font-normal leading-relaxed text-white sm:text-2xl md:text-3xl"
                 variants={itemVariants}
               >
-                Vizyoner bir mimar ve yenilikçi bir geliştirici olarak, ilham veren mekanlar ve güç veren araçlar yaratıyorum. Tasarım ve kod arasında küratörlüğünü yaptığım bir yolculuğu keşfedin.
+                Sadeliği takdir eden bir mimar ve geliştirici. Karmaşıklık yerine özü bularak, anlamlı mekanlar ve kullanışlı araçlar yaratıyorum.
               </motion.h2>
             </div>
             <motion.a 
