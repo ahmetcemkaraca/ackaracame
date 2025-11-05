@@ -1,0 +1,11 @@
+{"users": [
+{
+  "localId": "H0Um96g1stRNIYTet9fqPMujPNB3",
+  "email": "admin@ackaraca.me",
+  "emailVerified": false,
+  "passwordHash": "cDsjGbo8v/0dj4krIl+UO5SvkvUpb2emvVxoQd+hOjiIdQkqUvFMm1xqZJbdakxTWt+JyQKnMwFTHgi7vs98gg==",
+  "salt": "JPRIGzhaq1V6CA==",
+  "createdAt": "1759692727371",
+  "disabled": false,
+  "providerUserInfo": []
+}]}

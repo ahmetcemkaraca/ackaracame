@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Architecture Portfolio - The Courtyard Residence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1152d4",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101622",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-b-[#232f48] px-4 md:px-10 lg:px-20 py-3 sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm z-50">
+<div class="flex items-center gap-4 text-slate-800 dark:text-white">
+<div class="size-6">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z"></path><path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path></svg>
+</div>
+<h2 class="text-slate-800 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Architecture Portfolio</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white text-sm font-medium leading-normal" href="#">Home</a>
+<a class="text-slate-900 dark:text-white text-sm font-bold leading-normal" href="#">Projects</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white text-sm font-medium leading-normal" href="#">About</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white text-sm font-medium leading-normal" href="#">Contact</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Resume</span>
+</button>
+</div>
+<button class="md:hidden text-slate-800 dark:text-white">
+<span class="material-symbols-outlined text-3xl">menu</span>
+</button>
+</header>
+<main class="flex-1 px-4 md:px-10 lg:px-20 py-5">
+<div class="max-w-7xl mx-auto">
+<!-- Breadcrumbs -->
+<div class="flex flex-wrap gap-2 p-4">
+<a class="text-slate-500 dark:text-[#92a4c9] text-sm font-medium leading-normal hover:text-primary dark:hover:text-white" href="#">Home</a>
+<span class="text-slate-500 dark:text-[#92a4c9] text-sm font-medium leading-normal">/</span>
+<a class="text-slate-500 dark:text-[#92a4c9] text-sm font-medium leading-normal hover:text-primary dark:hover:text-white" href="#">Projects</a>
+<span class="text-slate-500 dark:text-[#92a4c9] text-sm font-medium leading-normal">/</span>
+<span class="text-slate-800 dark:text-white text-sm font-medium leading-normal">The Courtyard Residence</span>
+</div>
+<div class="flex flex-col lg:flex-row gap-8 xl:gap-16 mt-4">
+<!-- Sticky SideNavBar -->
+<aside class="w-full lg:w-64 lg:sticky top-28 self-start">
+<div class="flex flex-col gap-4 bg-slate-100 dark:bg-[#111722] p-4 rounded-lg">
+<div class="flex items-center gap-3">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10" data-alt="Portrait of Ada Yildirim" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD-aRHqzet4N0IIYqVeuDvgFIPxW2aoBf9KBUuHPrNw6mraITLI3uQDYUO4X9uCLP4J6WfjXPdzbjTGiP90CB6oxPfWiRPcniT1MNC0-XH4fmqhGqWbovaeqs1DA2_N1Z7BBjoB2iI6-td86Kl3mLZYOBJzxb5K8vrUw8F8Q37NLNRNH7DOCXxHLJ1vGuzs1kBT1RVqv4JzgYYSCUpvX_zJnr7GL3iHClL3rfQHw6zIZb2dl09X5VHFUWHFRfrGqR1eTKZK6bELvWfi");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-medium leading-normal">Ada Yıldırım</h1>
+<p class="text-slate-500 dark:text-[#92a4c9] text-sm font-normal leading-normal">Architecture Student</p>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 my-2"></div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/20 dark:bg-[#232f48]" href="#overview">
+<span class="material-symbols-outlined text-primary dark:text-white text-xl">grid_view</span>
+<p class="text-primary dark:text-white text-sm font-semibold leading-normal">Overview</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700/50" href="#background">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-xl">apartment</span>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal">Background</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700/50" href="#concept">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-xl">lightbulb</span>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal">Concept</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700/50" href="#technical">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-xl">straighten</span>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal">Technical Details</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700/50" href="#outcome">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-xl">imagesmode</span>
+<p class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal">Final Outcome</p>
+</a>
+</nav>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="flex-1 min-w-0">
+<!-- Hero Section -->
+<section id="overview">
+<div class="bg-cover bg-center flex flex-col justify-end overflow-hidden rounded-xl min-h-[400px] md:min-h-[500px]" data-alt="A modern residence with a central courtyard, viewed at dusk." style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 40%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAUp9g1BLkYdFPxfcefKceuh4pi99uNg6QV7qtHvRBLt4MD4z2c70o6vrDFGU8QePoYxPmW3i9uxd8w3LHtYpmzBumhWV_eQNrWIU2XeG2Tdgod4vAHuXXyDcyWQk8rzeDTTD3NjW3s-CI-XQXHlmfY8BKqRD0-FKNfFs4OhLgwu2B-poDUVGesyW86bunQycH54du3wk5S7wzTyCFn4o93Meqjd0r-cbmgfs8mmfrzYcOHsIWp8V8Cn01AhU4xDjRGMwpJvocKwiPM");'>
+<div class="p-6 md:p-8">
+<h1 class="text-white text-3xl md:text-5xl font-bold leading-tight tracking-tight">The Courtyard Residence</h1>
+<p class="text-slate-300 dark:text-[#92a4c9] text-sm font-normal leading-normal mt-2">Residential | Concept | 2023</p>
+</div>
+</div>
+<div class="py-8">
+<p class="text-slate-600 dark:text-slate-300 text-base md:text-lg leading-relaxed">
+                                   The Courtyard Residence is a conceptual project that explores the integration of private living spaces with communal nature. Designed for a suburban context, the project challenges traditional notions of domesticity by centering the home around a vibrant, open-air courtyard. This serves as the social and ecological heart of the residence, blurring the boundaries between inside and outside and fostering a connection with the natural environment.
+                               </p>
+</div>
+</section>
+<!-- Sections -->
+<div class="flex flex-col gap-16">
+<section id="background">
+<h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">Background &amp; Context</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="space-y-4">
+<p class="text-slate-600 dark:text-slate-300 leading-relaxed">The project brief called for a single-family home on a challenging, narrow plot. A key objective was to maximize natural light and create a sense of spaciousness despite the physical constraints. Site analysis revealed a need to mitigate noise from an adjacent street while opening up views to a small park at the rear of the property. The design responds to these conditions by creating an inward-facing sanctuary.</p>
+</div>
+<img class="rounded-lg w-full h-auto object-cover" data-alt="Site analysis diagram showing sun paths and wind direction." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1zioNdk3gdKJz_FWz0IKSWerWLOofUyf1IepqeRvOQbCI_cvolX2i9_NtVpdES6zwG-9mfcdqgXkaJMoFTNMDEcJjxM9dGOQuBXt1uhqolltg_tOtBSG1-k2us4q3o_AkAzNvQd3h7P9OSOoCLgfoC_E2yVAZi7VkXhZRkNXFMix4gbELpq3gHZ9RYNQOgi3KF_3Bo1sNS9fOtW-F-J-8r0-441DxZnINJRGjcJClPXd-XvDjnSKqtzZdaFzPZPhiLJFFMhCJipN-"/>
+</div>
+</section>
+<section id="concept">
+<h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">Conceptual Development</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<img class="rounded-lg w-full h-auto object-cover order-last md:order-first" data-alt="Early concept sketch of the courtyard space in charcoal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDeWP-hqdL7nEhE2HJvK1UhtIMe1Hdc7WIho35id6Aqg87o67GMoFIEmfKns1xma7vJGN4jx6UQFb-w3jK-ERvhqnvJW-9e2Z4tujSMlKWC7PwLbTdT1Qo6CGJbiluq8G-ToZ1Ixv-OlCtY3TN6tZfcLLvdWPhfoFQ9tmAtzFcr5f8xTpgy_tJhaqMsNlso7NrGkGX8fDCXgor_j7lkZACfTH4POH3HZnHQOH3WL5Yu5nvzHjT7R348CR7UYcpZQpYrulfCeAS3vmyK"/>
+<div class="space-y-4">
+<p class="text-slate-600 dark:text-slate-300 leading-relaxed">The core concept draws inspiration from the Roman domus and traditional Japanese courtyard houses. The central courtyard acts as a 'green lung,' facilitating cross-ventilation and allowing sunlight to penetrate deep into the floor plan. Programmatic spaces are arranged around this void, creating a continuous circulatory path that encourages interaction and visual connection across different areas of the home.</p>
+</div>
+</div>
+</section>
+<section id="technical">
+<h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">Technical Details</h2>
+<div class="space-y-8">
+<p class="text-slate-600 dark:text-slate-300 leading-relaxed">The structure employs a minimalist palette of exposed concrete, natural wood, and extensive glazing. Floor-to-ceiling sliding glass doors connect the living areas directly to the courtyard. The floor plans below illustrate the spatial organization, separating public zones on the ground floor from private bedrooms on the upper level, all while maintaining a visual link to the central green space.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<figure class="bg-white dark:bg-slate-800/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+<img class="w-full h-auto object-contain rounded" data-alt="Ground floor plan of the residence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVxAV7K9Ph9N-F08qQ96Dy41T7UtbuHWA5yfjJIQdLVhmBalPsCyyDpyT1K1viCR4x_cRt4oOYvbh8EeB71RGSQBN2HGKWXpccuo3HAiN5FspKEbviDb-piLobyJ-pv6vB1oLx3CgLL6-i3oJZHkVItuHATEEY6AzeY4Mb2ceUBrGAuP8enc_r55kRU6WQuJJqj3dtm_SDgjvr3G8OMA-oHydY1Ir44PikFabCQFQgIDAhRiCuWxkg1Dt6t_rkUm9DiSkfuXJ-R_CD"/>
+<figcaption class="text-center text-sm text-slate-500 dark:text-slate-400 mt-2">Ground Floor Plan</figcaption>
+</figure>
+<figure class="bg-white dark:bg-slate-800/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+<img class="w-full h-auto object-contain rounded" data-alt="First floor plan of the residence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB01WF7kgn3TADd-YBmKsF4xFigq7OZfcinUW-1bHkTksk4OiO_I3tYrXu15yYgz39-o01yDrMutPeIzH8OVg6FanAMTMt3RhuKbZ7tpGCEs7NL2dUH_Krolhq4pwpJipKVxO2i4z_7Iqt4y5RQBm4mZQqBk0Em2o-9YlmGEjq4TvosboCMlkTsY6PMpGS-vsO1FQ8CIOEjSStC4QU5TXaNhKMaIek8HpmYretxw5MHY1Nvo9fc-fzuJD6B7sXplZHA_O_v-O-hX6U"/>
+<figcaption class="text-center text-sm text-slate-500 dark:text-slate-400 mt-2">First Floor Plan</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="outcome">
+<h2 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3 mb-6">Final Outcome</h2>
+<p class="text-slate-600 dark:text-slate-300 leading-relaxed mb-6">The final renders showcase a serene and light-filled home that achieves a harmonious balance between privacy and openness. The material palette creates a warm, tactile environment, while the strategic placement of openings frames views of the sky and garden, making nature an integral part of the daily living experience.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<img class="rounded-lg w-full h-auto object-cover aspect-[4/3]" data-alt="Render of the living room opening to the courtyard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3adgQkVCIMrQY_Kae9opQtBxczMeIyXuIJ7wS-nRv2nzNBB4VhkT-SQY0gurk6Jm03L50Gb_xwG0RLeUrZ4f3vKdAb79od9dATCK_C_zROsQeiCr7p-egZ47W8yUeAZbU3ljAEIFa2PPOICN2L-n4VWiMCAIkGmMSz3nMecJacsV0N7ZEDZSzQvafESwxwtbuxtPY-oB3bEQxtNhTcPkPDLsc0DV5SNH5ILDHGq-Pb-zFX-JuoQ2XLi4EtN9cGtyXScAdiW5g25OY"/>
+<img class="rounded-lg w-full h-auto object-cover aspect-[4/3]" data-alt="Render of the interior kitchen and dining area." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAU_pbZES5TlEWIMrmITpVgxEeCfL4rSV9XuArCDAV3rLw2U_PV-_nzVW_bW7n9Bo8BdMsSZRp_LJTuEq65UlRqf52DfiAvLKwkltjy2pfjo6iNX135mCJk2OZfJrJAdQKjz1dmcTObPHJDlz7x33CIq9aZfVIZqYJkgIl4D2F-tJ89x4gFqmZ-lZk9MDZOkEwPcslRoe6960M7M-rPX3Wa7y6OPRhKWbwEmZnsI6fl1YrSB6-nvcVk8FCGqJPiQa1TVa8ATmlW-zR"/>
+<img class="rounded-lg w-full h-auto object-cover aspect-[4/3]" data-alt="Exterior render showing the facade and entrance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfkqSrnueoxD5OLor96ssUK5R2ACvZjOBc_bjtXBFpafgmj-vNwPfMzjKQpVC4_R8QOMG1GQz9eYHazhkMo5ofLxhfDax_MDnaUKNW3LmZhHP7iUBD0o0KEh4EdJGTtZphapVXtU6z2wvCzvv8Pxhq5ZCIokSNasjdLHZfr9JPtzF9XHh_4SYFx_FlEbpEmWgpKkUnlTsJpV-Rxv9DzAVYK5IUBb6Lw1A1JLoCvpNMrV_Jt0_hgDxa_DhBt9nWehWKmvJ29kzHHB6q"/>
+<img class="rounded-lg w-full h-auto object-cover aspect-[4/3]" data-alt="Detail shot of material textures within the courtyard." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb0ur9XvaQwK1nAyKDIoNUrXJY1AyNTVoiW-a6DF2CfqjJvz6T9171JzwAly3NrmCv9ujKPa60x4221uy1ch_DZk70oN8K4Nmlw_Mb9b_SIsWlxvXLfCClfVM1pAXxvFJ0wtCs9t0MRTmBN8To6yPTafMWPEddMKsYQrbmEHw2rnBGNwhKhMjf5hodjFyqM5qKvqXGuui23BTz5VMoDIN787RqYh_TJtbZoFUJge8NwftJz3OhFeqR-DmMer4rSw4F-6egHCgZ8QDd"/>
+</div>
+</section>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Case Study - Modernist Villa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1152d4",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101622",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Sticky TopNavBar -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 dark:border-b-[#232f48] bg-background-light/80 dark:bg-background-dark/80 px-4 sm:px-10 py-3 backdrop-blur-sm">
+<div class="flex items-center gap-4 text-gray-800 dark:text-white">
+<div class="size-5">
+<svg class="text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-gray-800 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Modernist Villa</h2>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Back to Projects</span>
+</button>
+</header>
+<main class="flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5">
+<div class="flex flex-col max-w-[960px] flex-1 px-4 sm:px-0">
+<!-- HeaderImage -->
+<div class="w-full">
+<div class="bg-cover bg-center flex flex-col justify-end overflow-hidden min-h-[60vh] rounded-xl" data-alt="A striking exterior shot of a modernist villa at dusk, with warm interior lights glowing." style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 40%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuA7lApIhAE0fntkhRSZH4jW-D9eK8TePZQk0Z-Nh7WrvM-_gJ4ZvifEDpnHnf_XEjORZEaI6NyKtStJOhEwVOJbWdRwIvOgeOarLVrrLqhP5-a4Mkmqy1CUp-knx9mUL9CxDisDUkXm6FG0bRtH3Jvn4zOnTuLX0UpcdhDNOk2MGBAL6J88cCtnJTwoB4UaFpSzq5bJ0O-4vz3ztiOP5cyQmU0YxqgfineWsNPHpIz_ZuG8-Zf9YAlCwQEhD8QaKWrs9Zqqznphm6JN");'>
+<div class="flex p-6 md:p-10">
+<h1 class="text-white tracking-tight text-4xl md:text-5xl font-black leading-tight">Modernist Villa</h1>
+</div>
+</div>
+</div>
+<!-- DescriptionList -->
+<div class="py-10 grid grid-cols-2 md:grid-cols-4 border-b border-gray-200 dark:border-b-[#232f48]">
+<div class="flex flex-col gap-1 p-4">
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal">Location</p>
+<p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Coastal Region, CA</p>
+</div>
+<div class="flex flex-col gap-1 p-4">
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal">Client</p>
+<p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Private Commission</p>
+</div>
+<div class="flex flex-col gap-1 p-4">
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal">Year</p>
+<p class="text-gray-800 dark:text-white text-base font-medium leading-normal">2023</p>
+</div>
+<div class="flex flex-col gap-1 p-4">
+<p class="text-gray-500 dark:text-[#92a4c9] text-sm font-normal leading-normal">Typology</p>
+<p class="text-gray-800 dark:text-white text-base font-medium leading-normal">Residential</p>
+</div>
+</div>
+<!-- Section: Concept & Introduction -->
+<section class="py-10 md:py-16">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="md:col-span-1">
+<h2 class="text-gray-800 dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">Concept &amp; Introduction</h2>
+</div>
+<div class="md:col-span-2">
+<p class="text-gray-600 dark:text-gray-300 text-base font-normal leading-relaxed">
+                                    A detailed paragraph describing the project's core concept, the initial brief from the client, and the primary challenges that were addressed during the design and construction phases. This section sets the stage for the project's narrative, focusing on the integration of minimalist aesthetics with the surrounding natural landscape. The goal was to create a sanctuary that blurs the lines between indoor and outdoor living.
+                                </p>
+</div>
+</div>
+</section>
+<!-- Full-Width Image Slider -->
+<section class="py-10">
+<div class="relative w-full overflow-hidden rounded-lg">
+<div class="flex">
+<img class="w-full h-auto object-cover" data-alt="Interior view of the villa's living room with large windows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIRmpEpQ8SwwGkJ9BjMdtRAUXHs2w5iCUTf9hz7NBWzf-AclKxlUI7ZalocjhN4CsEAEMipwUF4EDMeT9f--Hz1GFf2-_ANGbwskpC39JMUaVsGPY1MuQPUZPORh3aY-S3p9vQN9XVIsJnIYRt3iV4flzVEZmnY3N3w9R6c4e2bF_ZL_qZPZ_w8hxLWjEFg1ynnLAcnqOk1nt1WebilTO6qRNO1UC00SJl5OGx4ZH24B1V9Qfyb6kSixn9_C0tWjrw07Sp6rM9OK1s"/>
+</div>
+<div class="absolute bottom-4 right-4 flex items-center gap-2">
+<button class="size-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/75 transition-colors">
+<span class="material-symbols-outlined text-xl">arrow_back</span>
+</button>
+<button class="size-10 flex items-center justify-center rounded-full bg-black/50 text-white hover:bg-black/75 transition-colors">
+<span class="material-symbols-outlined text-xl">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Section: Design Process -->
+<section class="py-10 md:py-16 border-t border-gray-200 dark:border-t-[#232f48]">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="md:col-span-1">
+<h2 class="text-gray-800 dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">Design Process</h2>
+</div>
+<div class="md:col-span-2">
+<p class="text-gray-600 dark:text-gray-300 text-base font-normal leading-relaxed mb-8">
+                                    The design process was iterative, starting with hand-drawn sketches to explore spatial relationships and massing. We utilized 3D modeling early on to test solar paths and views, ensuring the final form was both aesthetically pleasing and performant. The client was heavily involved, providing feedback that shaped the material palette and interior flow.
+                                </p>
+<div class="grid grid-cols-2 gap-4">
+<img class="rounded-lg object-cover w-full h-full" data-alt="An architectural sketch of the villa's floor plan." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbcCdxUfwwfEcIKpdTxuU6DHsJYEGx9DrbkZC4V6c1J7sNaEczdO5OnRjc1cqoIW-G14CjfqRrlA6GH4LKOw2aJEgrdiL7LZva8GmP6Z5jL1r7T-wFh2exSIzy0dR9MuWMQng28nwmXw23nWaIEfKBYNnc5aXqulSvbWBkpJ2TM-aPpfEcw93S5HabyN81MBj403dJYaG7C4aFnOr0IiDd9wMG4Ziay1_xIBYXD0XPMiHygKQ0TWBRJdPxcmSry7hjvo8rpU6AqzmS"/>
+<img class="rounded-lg object-cover w-full h-full" data-alt="A photograph of construction materials and blueprints on a table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRUA57KTBsxZKapTQ9rjQAy71ZQ_MGKQWQtQqwki-WDKOMocVh3KkBU86wWnoOOG1C50gxp971uBw-J6U_B_L202VKheX5OSEC9eQl4hNyFN-Mdpo1m3ro4J0GBE5rc3cTshcKbHDLu9z3AULKQsk3Utrin1NOhQKurjFWKjO0456VExA-EDw0gZk-bz2cRFAy68_aNMmpwYdN4Nnegm7bFKpX43VA8hF_447vu589DIlP-9A9xM3LtVOyPV8mdojfMWPPtQHQQjd4"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Quote Block -->
+<section class="py-10">
+<div class="bg-gray-100 dark:bg-primary/10 p-8 md:p-12 rounded-xl text-center">
+<p class="text-primary dark:text-blue-300 text-2xl md:text-3xl font-medium leading-snug tracking-tight">
+                                "The architecture seeks to be a quiet backdrop for the life within and the nature without."
+                            </p>
+</div>
+</section>
+<!-- Section: 3D Visualization & Materials -->
+<section class="py-10 md:py-16 border-t border-gray-200 dark:border-t-[#232f48]">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+<div class="md:col-span-1">
+<h2 class="text-gray-800 dark:text-white text-2xl font-bold leading-tight tracking-[-0.015em]">3D Visualization &amp; Materials</h2>
+<p class="text-gray-600 dark:text-gray-300 text-base font-normal leading-relaxed mt-4">
+                                    An embedded 3D model allows for interactive exploration of the project's form. The material palette was chosen for its durability and harmony with the coastal environment, featuring exposed concrete, warm woods, and expansive glazing.
+                                </p>
+</div>
+<div class="md:col-span-2">
+<div class="aspect-video w-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+<p class="text-gray-500">Embedded 3D Model Viewer (e.g., Sketchfab)</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Project Navigation Footer -->
+<footer class="mt-16 py-8 border-t border-gray-200 dark:border-t-[#232f48] flex justify-between items-center">
+<a class="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+<span class="hidden sm:inline">Previous Project</span>
+</a>
+<a class="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-white transition-colors" href="#">
+<span class="hidden sm:inline">Next Project</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</footer>
+</div>
+</div>
+</main>
+</div>
+</body></html>

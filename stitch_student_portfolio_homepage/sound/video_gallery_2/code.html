@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Architecture Portfolio - Video Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1152d4",
+              "background-light": "#f6f6f8",
+              "background-dark": "#101622",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 sm:px-10 md:px-20 lg:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[1200px] flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-b-[#232f48] px-4 md:px-10 py-3">
+<div class="flex items-center gap-4 text-slate-800 dark:text-white">
+<div class="size-4">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.8261 30.5736C16.7203 29.8826 20.2244 29.4783 24 29.4783C27.7756 29.4783 31.2797 29.8826 34.1739 30.5736C36.9144 31.2278 39.9967 32.7669 41.3563 33.8352L24.8486 7.36089C24.4571 6.73303 23.5429 6.73303 23.1514 7.36089L6.64374 33.8352C8.00331 32.7669 11.0856 31.2278 13.8261 30.5736Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M39.998 35.764C39.9944 35.7463 39.9875 35.7155 39.9748 35.6706C39.9436 35.5601 39.8949 35.4259 39.8346 35.2825C39.8168 35.2403 39.7989 35.1993 39.7813 35.1602C38.5103 34.2887 35.9788 33.0607 33.7095 32.5189C30.9875 31.8691 27.6413 31.4783 24 31.4783C20.3587 31.4783 17.0125 31.8691 14.2905 32.5189C12.0012 33.0654 9.44505 34.3104 8.18538 35.1832C8.17384 35.2075 8.16216 35.233 8.15052 35.2592C8.09919 35.3751 8.05721 35.4886 8.02977 35.589C8.00356 35.6848 8.00039 35.7333 8.00004 35.7388C8.00004 35.739 8 35.7393 8.00004 35.7388C8.00004 35.7641 8.0104 36.0767 8.68485 36.6314C9.34546 37.1746 10.4222 37.7531 11.9291 38.2772C14.9242 39.319 19.1919 40 24 40C28.8081 40 33.0758 39.319 36.0709 38.2772C37.5778 37.7531 38.6545 37.1746 39.3151 36.6314C39.9006 36.1499 39.9857 35.8511 39.998 35.764ZM4.95178 32.7688L21.4543 6.30267C22.6288 4.4191 25.3712 4.41909 26.5457 6.30267L43.0534 32.777C43.0709 32.8052 43.0878 32.8338 43.104 32.8629L41.3563 33.8352C43.104 32.8629 43.1038 32.8626 43.104 32.8629L43.1051 32.865L43.1065 32.8675L43.1101 32.8739L43.1199 32.8918C43.1276 32.906 43.1377 32.9246 43.1497 32.9473C43.1738 32.9925 43.2062 33.0545 43.244 33.1299C43.319 33.2792 43.4196 33.489 43.5217 33.7317C43.6901 34.1321 44 34.9311 44 35.7391C44 37.4427 43.003 38.7775 41.8558 39.7209C40.6947 40.6757 39.1354 41.4464 37.385 42.0552C33.8654 43.2794 29.133 44 24 44C18.867 44 14.1346 43.2794 10.615 42.0552C8.86463 41.4464 7.30529 40.6757 6.14419 39.7209C4.99695 38.7775 3.99999 37.4427 3.99999 35.7391C3.99999 34.8725 4.29264 34.0922 4.49321 33.6393C4.60375 33.3898 4.71348 33.1804 4.79687 33.0311C4.83898 32.9556 4.87547 32.8935 4.9035 32.8471C4.91754 32.8238 4.92954 32.8043 4.93916 32.7889L4.94662 32.777L4.95178 32.7688ZM35.9868 29.004L24 9.77997L12.0131 29.004C12.4661 28.8609 12.9179 28.7342 13.3617 28.6282C16.4281 27.8961 20.0901 27.4783 24 27.4783C27.9099 27.4783 31.5719 27.8961 34.6383 28.6282C35.082 28.7342 35.5339 28.8609 35.9868 29.004Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-slate-800 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Architecture Portfolio</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-white text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-slate-600 dark:text-white text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">Projects</a>
+<a class="text-primary dark:text-primary text-sm font-medium leading-normal" href="#">Video Gallery</a>
+<a class="text-slate-600 dark:text-white text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">About</a>
+<a class="text-slate-600 dark:text-white text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary transition-colors" href="#">Contact</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Get In Touch</span>
+</button>
+</div>
+</header>
+<main class="flex-1">
+<div class="flex flex-wrap justify-between gap-3 p-4 md:p-10">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Design in Motion</p>
+<p class="text-slate-500 dark:text-[#92a4c9] text-base font-normal leading-normal">A look into the design process, from initial sketches to final renders.</p>
+</div>
+</div>
+<div class="p-4 md:p-10">
+<div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+<div class="group relative block w-full break-inside-avoid-column cursor-pointer overflow-hidden rounded-lg">
+<img class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Overhead view of an architect's desk with blueprints and a laptop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbhE5dMPldQL5jo41685_n4SthApz6Uigki1JV-A1RNVtQsuE2CSRHrqZ7_uKHMGC4rTOSqM5_Ox9Mp1v_Yzy3xyhVSYHqWVIgvkwU7qmkM4KufJcYOQBBpqkRMOc_s64EKjiqX-Q4VMu6yaz5OXgLwwJje075vsTfluqqOi3qgX_pmicQwSfNqrmjGT9j9gPWGPq9pxUp-88ywInjBbCLG7xfYBitD_QnEc1rbPvJAZ13U6frXfMK11kwbmC69gLuqENTFeOl_JVH"/>
+<div class="absolute inset-0 bg-black/20 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/60 to-transparent">
+<div class="flex items-center justify-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+<p class="text-white text-base font-bold leading-tight w-full line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Concept Sketching: Museum of Light</p>
+</div>
+</div>
+<div class="group relative block w-full break-inside-avoid-column cursor-pointer overflow-hidden rounded-lg">
+<img class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Close-up of a 3D printer creating a white architectural model." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA617K-kRaY1fDEgJs78IjC0BFZ5bemAi6dztmqoFbwbST1Q0PD38VtGF9O01qoGbXjwKRQZaMF-Nj9lqlmP7wHmm6wABL1eDG2Bn6v3tswHRJi2lToAF2qpACkG8C_NO-fcGVXs6zI-XGRfTtLjGABqykH7jsmnnQhQdVGmG9zyRpTlHK7xNk0NlDm3_V_CT7-LhD59041BktgTsAcliRLig4hs5FbC0xGGQh82U-BdWbglfp7YgY8Gx3D5s3L9O30pa_Q5Hdmi7Zu"/>
+<div class="absolute inset-0 bg-black/20 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/60 to-transparent">
+<div class="flex items-center justify-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+<p class="text-white text-base font-bold leading-tight w-full line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">3D Modeling Timelapse: Residential Tower</p>
+</div>
+</div>
+<div class="group relative block w-full break-inside-avoid-column cursor-pointer overflow-hidden rounded-lg">
+<img class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Construction site with workers reviewing blueprints." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWthM0QTt6AnYglPLRMXB7tHZ41vY6sEjXv_eRgzxos27QCdtImQmADrzBrxWcLUzUfAeL9JnLxUZw1uhl-sd7xfsybGZAkVgCFKo8PuMgCd_N94tSsihumlOUGaZ9t_qQAXQZZTkRFp5-ffxOaFxH0eJUZPEl6U2iGdOyr0ECBGo8d33zQXlKASeV4uclMd9VJyKPvgCOLhI6_o4DA8KoahYKZAiZutEz9oPmECUudILhvE1OM_Ctnsda_RCkSRRSivKAegApuBOU"/>
+<div class="absolute inset-0 bg-black/20 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/60 to-transparent">
+<div class="flex items-center justify-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+<p class="text-white text-base font-bold leading-tight w-full line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Fabrication Process: Pavilion Model</p>
+</div>
+</div>
+<div class="group relative block w-full break-inside-avoid-column cursor-pointer overflow-hidden rounded-lg">
+<img class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Architectural render of a modern house in a forest." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdHHSVyZf-GabCkprHlZ-w9TtRFBm4rwKOyOf-pKlBvEjuPFtzcxXk2i6UdTnTKP0Tt9FpOQ6zatGqWb3srvR_3OYCD7B02x7KRMBLFjHU33zj8KtkS15E3sxhA8b7FuJGJmIYHCyWgX684Kaq06DlrgjeSB-EgFQ3Q2WfjRtDPxU4Y9T-9mFREZ9kyGgPeEaSAJ7IV1sgkTsggDn2RtuxbHA1G-W5RmkzJa68taTrz47JipvR59n7IyQSqZ7kXNdmSxCF6aV2Z-Wq"/>
+<div class="absolute inset-0 bg-black/20 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/60 to-transparent">
+<div class="flex items-center justify-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+<p class="text-white text-base font-bold leading-tight w-full line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Render Pass Compilation</p>
+</div>
+</div>
+<div class="group relative block w-full break-inside-avoid-column cursor-pointer overflow-hidden rounded-lg">
+<img class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Modern building interior with large windows and clean lines." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtUG0D90icIS90HXwXhUMGhl5kZ_2Rj5ZD4dujZt45wWVBcfJcNExzJts6YIDA6ZtFNWN7JW1L8-wIqMIuuIfMAF4kBxbApoOFDf5yWc5CKCLhmOFfs71wzgFzCbYc_PdH51aoa7Ck7m1S48tg5xGp8C8erQfebpASRT6qlMxJSMmJ_Smz0mtaCRWj7buG3Qw_JTYkrF6S8HmuStyeQHzmtauK18Cj3IoJKW8A2OI0AEtvoCkazDWb5NyNn5xl2vMjSKtwtM0b7i04"/>
+<div class="absolute inset-0 bg-black/20 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/60 to-transparent">
+<div class="flex items-center justify-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+<p class="text-white text-base font-bold leading-tight w-full line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Interior Design Fly-through</p>
+</div>
+</div>
+<div class="group relative block w-full break-inside-avoid-column cursor-pointer overflow-hidden rounded-lg">
+<img class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Exterior of a contemporary house with a complex geometric facade." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHvrjfso2rQoac1omC9C2Pg7rg-ErVE7oT6yu4ax8sJSd-kPNTLNV6DWkV61DUVS5920OGy1u1d4CeSq41d1Vhuhx0xN6pCb6D7YnI4zdKOcB5KmGVqVzIPiO-488aVmHKc5jlvXjykPk6PikyeW9R2isGQLZ4iQBKzw9Ck4QFmBHF20x37q8jI-cOqw9b3NKXr2mW6Fd5kvLlYlIHntz3j0fHPnnpkBXhCLbt1mv_-6OEBm14BJU8cbyazP7bjwdlVdEBtXeivyQG"/>
+<div class="absolute inset-0 bg-black/20 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/60 to-transparent">
+<div class="flex items-center justify-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+<p class="text-white text-base font-bold leading-tight w-full line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Parametric Facade Study</p>
+</div>
+</div>
+<div class="group relative block w-full break-inside-avoid-column cursor-pointer overflow-hidden rounded-lg">
+<img class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105" data-alt="Interior of a modern living room with stylish furniture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1l4HBjV3eMBiK_VLA-MveStrQ6jdYvjbgRJw4tMXbIQ9jAczBQudCItWn-qX5Z6dSffZHBjVf5gkGMIW7MfsRl9ZsX6UGZI1w4PamuWfBlTVZ3adgA2e1M1azPiewKZvMHwAQplUtskWlgcM2zp8KQ9wP90LdsaE0iBVVjdj371D-6sx0QlcKCN36m4uxyjU5u5j6NVzBdlxax2-KWB-1x_7OA6afGppXElGqi1eyjR8kWGQx9QFJVpafwmNVcc4HMSzY7RGpf2nL"/>
+<div class="absolute inset-0 bg-black/20 transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+<div class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/60 to-transparent">
+<div class="flex items-center justify-center absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+<span class="material-symbols-outlined text-white text-6xl">play_circle</span>
+</div>
+<p class="text-white text-base font-bold leading-tight w-full line-clamp-2 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Site Analysis Animation</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="flex flex-col gap-6 px-5 py-10 text-center @container border-t border-slate-200 dark:border-t-[#232f48]">
+<div class="flex flex-wrap items-center justify-center gap-6 @[480px]:flex-row @[480px]:justify-around">
+<a class="text-slate-500 dark:text-[#92a4c9] text-base font-normal leading-normal min-w-40 hover:text-primary dark:hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-slate-500 dark:text-[#92a4c9] text-base font-normal leading-normal min-w-40 hover:text-primary dark:hover:text-primary transition-colors" href="#">Projects</a>
+<a class="text-slate-500 dark:text-[#92a4c9] text-base font-normal leading-normal min-w-40 hover:text-primary dark:hover:text-primary transition-colors" href="#">About</a>
+<a class="text-slate-500 dark:text-[#92a4c9] text-base font-normal leading-normal min-w-40 hover:text-primary dark:hover:text-primary transition-colors" href="#">Contact</a>
+<a class="text-slate-500 dark:text-[#92a4c9] text-base font-normal leading-normal min-w-40 hover:text-primary dark:hover:text-primary transition-colors" href="#">Privacy Policy</a>
+</div>
+<div class="flex flex-wrap justify-center gap-4">
+<a class="text-slate-500 dark:text-[#92a4c9] hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-slate-500 dark:text-[#92a4c9] hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.07 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-slate-500 dark:text-[#92a4c9] hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M24 9.324c-1.341-.758-2.138-.853-3.036-.912.285-.92.83-2.67.283-3.653-.685-1.23-2.333-1.042-2.924-.962-3.334.462-4.576 3.424-4.576 3.424s-1.36-1.746-3.878-1.746c-3.321 0-5.867 3.327-5.867 7.016 0 3.212 2.94 6.131 5.468 6.131.9 0 1.954-.424 2.518-1.005.47-.484.733-1.125.592-1.782-.132-.609-.598-2.382-.598-2.382s.373-.746 1.134-.746c1.328 0 2.29.981 2.29 2.825 0 2.064-1.187 4.31-3.328 4.31-2.484 0-4.045-2.585-3.51-4.954.698-3.138 2.658-5.342 5.34-5.342 1.5 0 2.662.623 2.662 2.084 0 1.23-.332 2.548-.823 3.527-.615 1.21.345 2.335 1.564 2.335 1.83 0 2.891-2.335 3.344-4.053.285-1.066.089-2.227-.539-3.087z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+<p class="text-slate-500 dark:text-[#92a4c9] text-base font-normal leading-normal">© 2024 [Student Name]. All Rights Reserved.</p>
+</footer>
+</div>
+</div>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Q&amp;A - Architecture Student Portfolio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                colors: {
+                    "primary": "#34568B",
+                    "background-light": "#F8F8F8",
+                    "background-dark": "#111318",
+                    "text-light": "#222222",
+                    "text-dark": "#ffffff",
+                    "muted-light": "#666666",
+                    "muted-dark": "#9da6b9",
+                    "border-light": "#e5e7eb",
+                    "border-dark": "#282e39",
+                    "card-light": "#ffffff",
+                    "card-dark": "#1a1d23"
+                },
+                fontFamily: {
+                    "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {
+                    "DEFAULT": "0.5rem",
+                    "lg": "0.75rem",
+                    "xl": "1rem",
+                    "full": "9999px"
+                },
+            },
+        },
+    }
+    </script>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        font-size: 24px;}
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5 md:px-10 lg:px-20">
+<div class="layout-content-container flex flex-col w-full max-w-7xl flex-1">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark px-4 sm:px-10 py-3">
+<div class="flex items-center gap-4">
+<div class="size-6 text-text-light dark:text-text-dark">
+<span class="material-symbols-outlined !text-2xl">
+                                architecture
+                            </span>
+</div>
+<h2 class="text-text-light dark:text-text-dark text-lg font-bold leading-tight tracking-[-0.015em]">Olivia Chen</h2>
+</div>
+<div class="hidden sm:flex flex-1 justify-center gap-8">
+<div class="flex items-center gap-9">
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="#">Projects</a>
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="#">About Me</a>
+<a class="text-primary text-sm font-bold leading-normal" href="#">Q&amp;A / AMA</a>
+<a class="text-text-light dark:text-text-dark text-sm font-medium leading-normal hover:text-primary dark:hover:text-primary" href="#">Contact</a>
+</div>
+</div>
+</header>
+<main class="flex flex-col gap-8 sm:gap-12 p-4 sm:p-6 md:p-8">
+<div class="flex flex-col items-center gap-4 text-center">
+<h1 class="text-text-light dark:text-text-dark text-4xl font-bold leading-tight tracking-tighter">Soru-Cevap / AMA</h1>
+<p class="text-muted-light dark:text-muted-dark text-base font-normal leading-relaxed max-w-2xl">
+                    Ask me anything about architecture, design, tools, or career paths. Let's start a conversation and learn from each other.
+                </p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-colors gap-2">
+<span class="material-symbols-outlined !text-xl">add_comment</span>
+<span class="truncate">Ask a New Question</span>
+</button>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 justify-between items-center border-b border-border-light dark:border-border-dark pb-6">
+<div class="flex items-center gap-2 flex-wrap">
+<span class="text-sm font-semibold text-muted-light dark:text-muted-dark mr-2">Filter by tag:</span>
+<button class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors">AI Tools</button>
+<button class="px-3 py-1 text-sm bg-gray-100 dark:bg-card-dark border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Design Process</button>
+<button class="px-3 py-1 text-sm bg-gray-100 dark:bg-card-dark border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Career Advice</button>
+<button class="px-3 py-1 text-sm bg-gray-100 dark:bg-card-dark border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Portfolio</button>
+</div>
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-muted-light dark:text-muted-dark !text-xl">search</span>
+<input class="w-full h-10 pl-10 pr-4 rounded-lg bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark focus:ring-primary focus:border-primary" placeholder="Search questions..." type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 flex flex-col gap-6">
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl">
+<div class="p-5 sm:p-6">
+<div class="flex items-start gap-4">
+<img alt="User avatar" class="h-10 w-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZtEXeVJWMqktuyiCRjfrACbah2kOfbchEPcaTQr1792DjXLTBz7sgkEYq9fczO54UNwVViC48HhTvY-RClwfegQ2n1izJucfv3HDWyM7mKp3BuuV_N9O-tTsIrMnD0ge61MxmQPEgi1qOqaZJzrv0SjXbvKDT_aj7i6mFnPBj5rsrLsmL9K39CuE2VmLGscg-poKfVIugeALa6vjURcDYqxzR5-03wTNW9EcHg3eg_PcbPc0TytoAl91iLROTs90cGqOC7R6n4Bxz"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-semibold text-text-light dark:text-text-dark">David Lee</p>
+<p class="text-xs text-muted-light dark:text-muted-dark">2 days ago</p>
+</div>
+<h3 class="text-lg font-bold mt-1 text-text-light dark:text-text-dark">What are the best AI tools for conceptual design in architecture?</h3>
+<p class="text-sm leading-relaxed text-muted-light dark:text-muted-dark mt-2">I'm looking to integrate AI into my early-stage design process. What tools like Midjourney, Stable Diffusion, or others have you found most effective for generating unique architectural concepts and forms?</p>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="px-2 py-0.5 text-xs bg-primary/10 text-primary rounded-full">AI Tools</span>
+<span class="px-2 py-0.5 text-xs bg-gray-100 dark:bg-card-dark border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark rounded-full">Design Process</span>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-border-light dark:border-border-dark px-5 sm:px-6 py-4 flex items-center justify-between text-sm">
+<div class="flex items-center gap-4 text-muted-light dark:text-muted-dark">
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-primary">
+<span class="material-symbols-outlined !text-xl">thumb_up</span>
+<span>12</span>
+</div>
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-primary">
+<span class="material-symbols-outlined !text-xl">chat_bubble</span>
+<span>3 Answers</span>
+</div>
+</div>
+<button class="font-semibold text-primary hover:underline">View Answers</button>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl">
+<div class="p-5 sm:p-6">
+<div class="flex items-start gap-4">
+<img alt="User avatar" class="h-10 w-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApskBY4bxYZdLVDX0wUm5nasWtDlgAJpy3dAKJhfgC1kpEpG91ohVE7Xjvv5ptvdIZgX5QbNgu_hNTZ5WeWeEFZE_1XQFtXftyOsT7CT95bLldaPkcNTeAFaylh341QmHN04YxmGpUtTRFTxODpnjXqdXlCHhQqNEOal8vdoy0Vibv721gn6AABfCGiRs7ymW0J4sRCyexieq3Df0Q3o27d_wJBqioBCL78glDcG9u8ulGAz9uT0GC6V7tx2TsGJrvk4pS64PPHeDH"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-semibold text-text-light dark:text-text-dark">Maria Garcia</p>
+<p class="text-xs text-muted-light dark:text-muted-dark">5 days ago</p>
+</div>
+<h3 class="text-lg font-bold mt-1 text-text-light dark:text-text-dark">How do you balance creative vision with client budgets and practical constraints?</h3>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="px-2 py-0.5 text-xs bg-primary/10 text-primary rounded-full">Career Advice</span>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-border-light dark:border-border-dark">
+<div class="flex items-start gap-4">
+<img alt="Olivia Chen avatar" class="h-10 w-10 rounded-full border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7hIrm-__4k_JRyjlO5vC8Wltc0qrDeHOlG3shCEg3dKZ13pJjimjMdsEEJ6YHvmvPwfjmQq1zTgWqVF9quAwz8tWeTwLMSa2UH7C4PQuSM5lai34lEPucqrNfYvMymU1LZoG3-8fdN8j4CWoyWG4myVyyDNhOa2lVHLOxnNmdhHP_aFP29dRg6R6ntSd9OvyYX04ytVdo7WC43SffDS28_MIQ0tE120VNFQOCDyo9PLfrTKvnT6YRLA0YiN4avzsCnOLM2MH1w2mq"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<div>
+<p class="text-sm font-semibold text-text-light dark:text-text-dark">Olivia Chen</p>
+<p class="text-xs text-muted-light dark:text-muted-dark">4 days ago</p>
+</div>
+<span class="flex items-center gap-1.5 text-xs font-semibold text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/50 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined !text-sm">verified</span>
+<span>Top Answer</span>
+</span>
+</div>
+<p class="text-sm leading-relaxed text-muted-light dark:text-muted-dark mt-2">Great question, Maria! It's a classic challenge. I focus on modular design and material efficiency from the start. Presenting clients with 'good, better, best' options helps align their vision with their budget. It's all about clear communication and finding creative solutions within the given framework...</p>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-border-light dark:border-border-dark px-5 sm:px-6 py-4 flex items-center justify-between text-sm">
+<div class="flex items-center gap-4 text-muted-light dark:text-muted-dark">
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-primary">
+<span class="material-symbols-outlined !text-xl">thumb_up</span>
+<span>28</span>
+</div>
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-primary">
+<span class="material-symbols-outlined !text-xl">chat_bubble</span>
+<span>5 Answers</span>
+</div>
+</div>
+<button class="font-semibold text-primary hover:underline">View All Answers</button>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl">
+<div class="p-5 sm:p-6">
+<div class="flex items-start gap-4">
+<img alt="User avatar" class="h-10 w-10 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDyB9jkiDYVueIUZHID1ZhXf0yo6_HPb3X6yapre5_TIMmW3tGzMiHaEsnUwxexCZdsKFJg-J5pFJq5GUHssqIj96kkhYtV704vGSjHy-uucmAhStSF_HbHn6EVPl9cfkpDHP-1OaGzGV5nlYSFon_vYK2kttAg42W1bttYIx-usHLgs3vHz2EOmBBrW6incpUNAu8xWZ_31lPhZH5DGr4gLdD59ox0RwIeTENdHZQt44yiyc9SWAUpm1txQqh68gduoPfO4LDNiSO"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-semibold text-text-light dark:text-text-dark">Chen Wei</p>
+<p class="text-xs text-muted-light dark:text-muted-dark">1 week ago</p>
+</div>
+<h3 class="text-lg font-bold mt-1 text-text-light dark:text-text-dark">What's one unconventional material you'd love to use in a project?</h3>
+<p class="text-sm leading-relaxed text-muted-light dark:text-muted-dark mt-2">Beyond concrete, steel, and glass, what's a material that excites you and why? Thinking about things like mycelium bricks, rammed earth, or translucent concrete.</p>
+<div class="flex flex-wrap gap-2 mt-4">
+<span class="px-2 py-0.5 text-xs bg-gray-100 dark:bg-card-dark border border-border-light dark:border-border-dark text-muted-light dark:text-muted-dark rounded-full">Design Process</span>
+</div>
+</div>
+</div>
+</div>
+<div class="border-t border-border-light dark:border-border-dark px-5 sm:px-6 py-4 flex items-center justify-between text-sm">
+<div class="flex items-center gap-4 text-muted-light dark:text-muted-dark">
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-primary">
+<span class="material-symbols-outlined !text-xl">thumb_up</span>
+<span>8</span>
+</div>
+<div class="flex items-center gap-1.5 cursor-pointer hover:text-primary">
+<span class="material-symbols-outlined !text-xl">chat_bubble</span>
+<span>2 Answers</span>
+</div>
+</div>
+<button class="font-semibold text-primary hover:underline">View Answers</button>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 flex flex-col gap-8">
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl p-6">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined !text-xl text-primary">star</span>
+<span>Featured Questions</span>
+</h3>
+<ul class="space-y-4">
+<li>
+<a class="group" href="#">
+<p class="text-sm font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">How do you approach sustainability in a high-density urban project?</p>
+<p class="text-xs text-muted-light dark:text-muted-dark mt-1">15 answers • 42 upvotes</p>
+</a>
+</li>
+<li>
+<a class="group" href="#">
+<p class="text-sm font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">What's the most valuable skill for an architecture student to learn outside of class?</p>
+<p class="text-xs text-muted-light dark:text-muted-dark mt-1">11 answers • 35 upvotes</p>
+</a>
+</li>
+<li>
+<a class="group" href="#">
+<p class="text-sm font-semibold text-text-light dark:text-text-dark group-hover:text-primary transition-colors">Critique my portfolio: What am I missing for top firm applications?</p>
+<p class="text-xs text-muted-light dark:text-muted-dark mt-1">21 answers • 29 upvotes</p>
+</a>
+</li>
+</ul>
+</div>
+<div class="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl p-6">
+<h3 class="text-lg font-bold text-text-light dark:text-text-dark mb-4">Popular Tags</h3>
+<div class="flex flex-wrap gap-2">
+<a class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors" href="#">Career Advice</a>
+<a class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors" href="#">Design Process</a>
+<a class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors" href="#">AI Tools</a>
+<a class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors" href="#">Portfolio</a>
+<a class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors" href="#">Software</a>
+<a class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors" href="#">Academia</a>
+<a class="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors" href="#">Sustainability</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</div>
+
+</body></html>

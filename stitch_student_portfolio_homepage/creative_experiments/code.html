@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Student Architect Portfolio - Experiments</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#4b14b8",
+            "background-light": "#f6f6f8",
+            "background-dark": "#161121",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="px-4 sm:px-8 md:px-16 lg:px-24 xl:px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col w-full max-w-[960px] flex-1">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200/10 dark:border-white/10 px-4 md:px-10 py-3">
+<div class="flex items-center gap-4 text-black dark:text-white">
+<div class="size-4 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-black dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Student Architect Portfolio</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-end gap-8">
+<div class="flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary dark:hover:text-white transition-colors" href="#">Home</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary dark:hover:text-white transition-colors" href="#">Projects</a>
+<a class="text-primary dark:text-white text-sm font-bold leading-normal" href="#">Experiments</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary dark:hover:text-white transition-colors" href="#">About</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium leading-normal hover:text-primary dark:hover:text-white transition-colors" href="#">Contact</a>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-primary/90 transition-colors">
+<span class="truncate">Resume</span>
+</button>
+</div>
+<div class="md:hidden">
+<button class="text-slate-800 dark:text-slate-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<main class="flex flex-col gap-10 md:gap-16 mt-8 md:mt-12">
+<!-- PageHeading -->
+<div class="flex flex-wrap justify-between gap-3 px-4">
+<div class="flex min-w-72 flex-col gap-3">
+<p class="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Yaratıcı Deneyler / Eksperimentler</p>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal">
+                  A visual journal of creative explorations, including non-commercial, abstract, or artistic endeavors.
+                </p>
+</div>
+</div>
+<!-- Carousel -->
+<div class="flex flex-col">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-3">Featured Experiments</h3>
+<div class="flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+<div class="flex items-stretch p-4 gap-4">
+<div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col" data-alt="Abstract 3D render with flowing shapes and vibrant colors" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDkVoYLh82lhk-KfrsRXWg8vuMpFJuA3WBVpjsoAladY7afYq-mMLQhPit7mEX82xpVWOtM2G5uRGZ4gqM-ZGLTJBKOwKZaPm1xxTHwWMIsLRg0tdDoQ1R7d-XyDuUtwev_vko9KSOZymXlNZ3ewvy1CkSnfu66kMbgV1ri5nbRyR-63ZrKlttnSorsjys-RasTPiZgtRWUga7ElFWRRk01k40Dd1pwjjVbQutQtBNldfO-g833EcklwvpVbBPJRzWqG5AVPOsz-aEO");'></div>
+<div>
+<p class="text-slate-800 dark:text-white text-base font-medium leading-normal">AI Daily #12</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Oct 26, 2023</p>
+</div>
+</div>
+<div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col" data-alt="Close-up shot of a textured concrete wall with interesting shadows" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC6EOQ_bi4BGvQTAS5wPeoUI8vte6d_eZrlM4TPZjs9jRPv3qulIUhyQqFQRHhlMfKhVq5R5TuuqH33Ou7c7tvqhR_iq-Rpl2L3OP1KQrcZoIKc42lN1x56TF-dT8fQqKYQifCxTlsaDqsRUm5Uuy-S9lQDbyEr5bz0-gF4PtgDoR0Y6RWbK0F-bFz_DmkJRm4wD03GGYkQ_KO6QzY5vYp5yirJN9KdJaDunvIlCqLJdwcpLD0D1wDEB38C2yi-OBApu6FLWKbugHYh");'></div>
+<div>
+<p class="text-slate-800 dark:text-white text-base font-medium leading-normal">Concrete Texture Study</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Oct 24, 2023</p>
+</div>
+</div>
+<div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col" data-alt="Futuristic architectural concept of a city floating in the clouds" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD0JqPIS65tWGgBm-O_ytzytkqf3STpuouvS4nDCFvunl9BYKMuXbW68P2R-iDl-PhdOBd9vpi3WrOcq7wHeIitW2AOHbdHzPbEKo3pWoCBCOiFFk7EvN8huQEckFEWadFemlNte0ImvN50H_c5WudUEYesf0hnZ9s7SZyntuMDvf3SHFNv48lw4U2bWxQuLEkcaLnm53V15OMYiePc-yFpX3tk9NFqKvBoNNuGjDd5WoKI40x6FE5uvL-BURuiqs96Fcq4FN-7QIo3");'></div>
+<div>
+<p class="text-slate-800 dark:text-white text-base font-medium leading-normal">Floating City Concept</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Oct 22, 2023</p>
+</div>
+</div>
+<div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col" data-alt="A computer-generated image of a building with a complex, parametric facade" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAVUN7K23awvFW02V8ylZ-Dt93trwpiXR1IfLDRLUirDEkyuOCoYPckriUw3AlGFs97irqOXLWc9I2zj4qrXTvzkQBFEYwob3b0KK-CRw40YNUpfFSOvYYsXP-AilDgmntt9VYzYxYq5o1QVxseYYdPnOcX4hECaEiVgm1Sruz5IPAENgeDxZZ_iiPx_zYoEF_c46JYisy37Gh_R67rJQis65i0_9Lkd0MaWV84dwyjV4xo7_Xvklae4qqDAaQLVZrc_uxnj1PEv5wm");'></div>
+<div>
+<p class="text-slate-800 dark:text-white text-base font-medium leading-normal">Parametric Facade</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Oct 20, 2023</p>
+</div>
+</div>
+<div class="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg flex flex-col" data-alt="Photograph of a detailed wooden joint, showing craftsmanship" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBkgJrCRWjU-e-iyXJESVp_1OvF4plAtm1DhMQXpN9k4dgMmE-q6KRpHjeV0ts87pRzayphFutN2085xc6Wjc3UCh9dx3xOyo5Az5IAzxseAlKm_Q2M4U3eMIvzC4bWwsCGzbzIZCV8sTL_5OuDgYm3hgfF54vIRP-WRnHlejK-JE3Y2MhVNAJ0uhWnzgQtrGwgvkEnryUpTQBJgdSEfDdF-qY7cqdYIYuVOaB0G0G0R7C78BfaYm5UQd99JtGQeghs7YZlwVFqu2a2");'></div>
+<div>
+<p class="text-slate-800 dark:text-white text-base font-medium leading-normal">Wood Joint Experiment</p>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">Oct 18, 2023</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SectionHeader -->
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-t border-slate-200/10 dark:border-white/10">Digital Explorations</h2>
+<!-- ImageGrid -->
+<div class="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-4 px-4">
+<div class="group relative cursor-pointer overflow-hidden rounded-lg">
+<div class="bg-cover bg-center flex flex-col justify-end p-4 aspect-[3/4] transition-transform duration-300 group-hover:scale-105" data-alt="3D model generated with Rhino and Grasshopper script" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCvkESDjoZrcUQcDrhaoSAo-xQ5WNMH_1VBywRj9SMNJOHptIIkjKu9trnl8VHkVd59JBkoPQmQICw3ZdLQp8MUk2qvLRJKu71Ny6OxyfMpjdCfZfNCEXgtdRvhO4pIQRCORIlD7EnMehhfGiYDwB9TdXALP7TIuFgB4dC7HNdvtNOwN8pQg2dvTfnP6R4ItOEGJW1VoHJgoP-CXKVW5VAzSIPao-LQqS8ci-e2Dt0Wp_dcLMXHJnEOAv0JZG2YOKpb6m3DKD3Bk6-K");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<p class="absolute bottom-4 left-4 text-white text-base font-bold leading-tight w-4/5 line-clamp-3">Rhino Grasshopper Script</p>
+</div>
+<div class="group relative cursor-pointer overflow-hidden rounded-lg">
+<div class="bg-cover bg-center flex flex-col justify-end p-4 aspect-[3/4] transition-transform duration-300 group-hover:scale-105" data-alt="Futuristic cityscape generated with Midjourney AI" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCoqc88jTaqewignP4VeYwkmTu4KBtC7LAU0NQfKE2khoNfy4clNoYaEPXnmPA5UwbFQFHpn6FiSahvUOqTB7O1z5Vd1DuOKd9v8xL-qzOqqRMK2pY_0Z5eLgRp_m-OMDHnZ506Hd8yd6_M1RO38pEthvsfbRdMtpVg4tKSJfxaFyL8zsQQ7425t-Oev6uByFgil5k-3g-2MxaE1sSN1VoYcG_PzPaat_fdKqwYWQBrvX9zkPlJFW_b3c3C0pXGLlE2ImT6Y8yNfl9f");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<p class="absolute bottom-4 left-4 text-white text-base font-bold leading-tight w-4/5 line-clamp-3">Midjourney Cityscape</p>
+</div>
+<div class="group relative cursor-pointer overflow-hidden rounded-lg">
+<div class="bg-cover bg-center flex flex-col justify-end p-4 aspect-[3/4] transition-transform duration-300 group-hover:scale-105" data-alt="Abstract fluid simulation created in Blender" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA3o_4m9fybCNZMOK5QK7TGKOI0Pb0tYibDNIMtAuzj1e2hWKUhWCuCbxCvdeDVss6YfKCztN9fq6n8zbLOKf1Vo6WROlkAUI_w-5NbRjyk_rT4hmoLAQXwEXaGamlFBbLqiCOfAc4LcioWJl494f_Cv44qtZVHxGt_2JEADlkiIMWtymz3OmCGd6ykyQpuphToUxhsbr3xebyFNc047Dwbem6NsQPJ1z9xdeRo0CirLTlVbXbLtCH4iL2qaFZqcbsFz_-O09SJ-4Xu");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<p class="absolute bottom-4 left-4 text-white text-base font-bold leading-tight w-4/5 line-clamp-3">Blender Fluid Simulation</p>
+</div>
+<div class="group relative cursor-pointer overflow-hidden rounded-lg">
+<div class="bg-cover bg-center flex flex-col justify-end p-4 aspect-[3/4] transition-transform duration-300 group-hover:scale-105" data-alt="Lush, realistic natural environment created in Unreal Engine 5" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCEx-6YAVO3sRO4g89U1xwKqwMCWXMDe6_sTuhozhZODSF6QRe-EsTJSZsUiXN2JfNzzaf6RboKWeypGtdVWHZy0AEsVHCrWu1MdlhLtZhZNO9BuZq9xCcfpPYz_5XC6po0kDTFFvLwX_tBHi5_VlO1r4i8l1gtKPjT1R9C9g0NEBu65Yt9dpW8Tu0VfybsaI0FFNTSjeLTCMdr-0ST2QF03h53-FPCGzB_Y4QoISAscCWywSNNlFn2bRCC1rIhoYmo5g3r5Pihr-FT");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<p class="absolute bottom-4 left-4 text-white text-base font-bold leading-tight w-4/5 line-clamp-3">Unreal Engine 5 Environment</p>
+</div>
+<div class="group relative cursor-pointer overflow-hidden rounded-lg">
+<div class="bg-cover bg-center flex flex-col justify-end p-4 aspect-[3/4] transition-transform duration-300 group-hover:scale-105" data-alt="Organic architectural form generated by an AI algorithm" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC3Zd_vElFt4v2OTclD-x9pctArONGF4Y9bytQJh7s3lNIzZdxD0BnUwZSp-RYMNXWrjVW1bi6gGnl1v8wCAZO_73LacEeThhQbtD-QohnIHHmWN7LgJKU1c9GFXIYUZUySNF0lRfCdHXEGgyjLWiposlBjD0vY2vje254sf2lcDVigzew2YJltvq-DaXkzly9qwH5Y2ADP1qOARF87hbHwcdhhDx3eNMkrJYiDS5lIXB6UmDI6usweixMOTiyJjzZLGQrEE-JD2fwc");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<p class="absolute bottom-4 left-4 text-white text-base font-bold leading-tight w-4/5 line-clamp-3">AI-Powered Form Finding</p>
+</div>
+</div>
+<!-- Failed Projects Section -->
+<div class="flex flex-col gap-6">
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-t border-slate-200/10 dark:border-white/10">Başarısız Projeler &amp; Lessons Learned</h2>
+<div class="grid md:grid-cols-2 gap-8 px-4">
+<div class="flex flex-col gap-4">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="A 3D printed model that has clearly failed, with spaghetti-like plastic strands" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBgnOHTcF4joy9y8Mfr6gaA8a8BjFhvIy0Ro0FkmYLOM8Bkv8dD3pO-O16ct3Vg_LybZsYPQxa8Cn9qL706MWcuOFaPxj7nZQQ8vOsVCn8mr2OPs6aa5oGEZg2pLJYNt_zYsgFtJH4lzNgza5vtmK_EKY-BshPcKMEjAKqQ3tM8jRSrVtwx4RGAl910zcyV_cJKTwbHwE-GlzhQabXyfFvFaducxSh4m6pTckHtisHk1itDcKIwwPoAe20OZ2nr_wzq0nOIhppoDIeY");'></div>
+<h4 class="text-slate-800 dark:text-white text-lg font-bold">Overly Ambitious 3D Print</h4>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800/20 p-6 rounded-lg flex flex-col justify-center">
+<h5 class="text-primary text-sm font-bold tracking-wider uppercase mb-2">Lesson Learned</h5>
+<p class="text-slate-600 dark:text-slate-300">The attempt to print a highly complex, single-piece model exceeded the printer's support capabilities. This failure emphasized the importance of designing for manufacturing (DFM) principles, even in rapid prototyping. Future iterations will involve breaking down complex geometries into smaller, manageable parts and optimizing print orientation.</p>
+</div>
+</div>
+<div class="grid md:grid-cols-2 gap-8 px-4">
+<div class="flex flex-col gap-4 md:order-2">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" data-alt="A computer screen showing a simulation that has crashed or produced a glitchy, chaotic result" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCKHnJvu1DZtHzd0ortLPsBZaJTl4nnffH9AMhJ6SfsDPpnzAC6zPl8ACQmAwm5EX9v90gIqzsBnPXwVzcevNoESTZpcclGPrF-BrY28P__lJOCDdQyyP1gYZ3CU_otoq4edXL6cngPVqIhbOuRk7N7aIt_4gH-OJEFEoMR1srm8_Ew_owu1vZ20GLou4c_h64E-gDEecD4-s2pPfS7CK0XpsVPN4h_OgRd3FTjvb9-SqlVksmlosxFr1vOLbtXxyzHgro-y6gIn1-P");'></div>
+<h4 class="text-slate-800 dark:text-white text-lg font-bold">Unstable Parametric Script</h4>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800/20 p-6 rounded-lg flex flex-col justify-center md:order-1">
+<h5 class="text-primary text-sm font-bold tracking-wider uppercase mb-2">Lesson Learned</h5>
+<p class="text-slate-600 dark:text-slate-300">An error in the Grasshopper script's logic led to an infinite loop, crashing the program. This highlighted the necessity of rigorous testing and parameter clamping. The key takeaway was to build scripts modularly and test each component individually before integrating them into a larger, complex definition.</p>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</div>
+</body></html>
