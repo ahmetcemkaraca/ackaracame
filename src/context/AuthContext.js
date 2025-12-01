@@ -84,15 +84,21 @@ export const AuthProvider = ({ children }) => {
 
   // Auth state değişikliklerini dinle
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch({ type: 'SET_USER', payload: user });
-      } else {
-        dispatch({ type: 'LOGOUT' });
-      }
-    });
+    if (auth && typeof auth.onAuthStateChanged === 'function') {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+            dispatch({ type: 'SET_USER', payload: user });
+        } else {
+            dispatch({ type: 'LOGOUT' });
+        }
+        });
 
-    return () => unsubscribe();
+        return () => unsubscribe();
+    } else {
+        console.warn('Firebase Auth not initialized correctly, skipping onAuthStateChanged');
+        dispatch({ type: 'LOGOUT' }); // Set default state
+        return () => {};
+    }
   }, []);
 
   const value = {

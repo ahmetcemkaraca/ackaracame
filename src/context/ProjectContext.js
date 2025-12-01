@@ -155,7 +155,9 @@ export const ProjectProvider = ({ children }) => {
       const projects = await ProjectService.getAll();
       dispatch({ type: 'SET_PROJECTS', payload: projects });
     } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
+      console.error('Error loading projects:', error);
+      dispatch({ type: 'SET_PROJECTS', payload: [] }); // Set empty array on error
+      // dispatch({ type: 'SET_ERROR', payload: error.message });
     }
   }, []);
 
@@ -166,7 +168,9 @@ export const ProjectProvider = ({ children }) => {
       const projects = await ProjectService.getFeatured();
       dispatch({ type: 'SET_FEATURED_PROJECTS', payload: projects });
     } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
+      console.error('Error loading featured projects:', error);
+      dispatch({ type: 'SET_FEATURED_PROJECTS', payload: [] }); // Set empty array on error
+      // dispatch({ type: 'SET_ERROR', payload: error.message });
     }
   }, []);
 
@@ -200,7 +204,9 @@ export const ProjectProvider = ({ children }) => {
       const paftas = await PaftaService.getAll();
       dispatch({ type: 'SET_PAFTAS', payload: paftas });
     } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
+      console.error('Error loading paftas:', error);
+      dispatch({ type: 'SET_PAFTAS', payload: [] }); // Set empty array on error
+      // dispatch({ type: 'SET_ERROR', payload: error.message });
     }
   }, []);
 

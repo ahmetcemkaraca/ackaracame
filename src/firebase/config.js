@@ -14,10 +14,25 @@ const firebaseConfig = {
 };
 
 // Firebase'i başlat
-const app = initializeApp(firebaseConfig);
+let app;
+let db;
+let storage;
+let auth;
+
+try {
+  app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+  storage = getStorage(app);
+  auth = getAuth(app);
+} catch (error) {
+  console.error("Firebase initialization failed:", error);
+  // Mock objects or leave them undefined to be handled by services
+  app = {};
+  db = {};
+  storage = {};
+  auth = {};
+}
 
 // Firebase servislerini dışa aktar
-export const db = getFirestore(app);
-export const storage = getStorage(app);
-export const auth = getAuth(app);
+export { db, storage, auth };
 export default app;

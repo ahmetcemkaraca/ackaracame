@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ExternalLink } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ImageCard from '../components/ImageCard'; // Import the new component
@@ -66,14 +66,26 @@ const HomePage = () => {
                 Sadeliği takdir eden bir mimar ve geliştirici. Karmaşıklık yerine özü bularak, anlamlı mekanlar ve kullanışlı araçlar yaratıyorum.
               </motion.h2>
             </div>
-            <motion.a 
-              href="#projects"
-              className="flex w-fit min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 text-base font-bold leading-normal tracking-[0.015em] bg-primary text-white hover:bg-primary/90 mt-4 sm:h-14 sm:px-8 sm:text-lg"
-              variants={itemVariants}
-            >
-              <span className="truncate">Yolculuğa Başla</span>
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </motion.a>
+            <div className="flex flex-wrap gap-4 mt-4">
+              <motion.a
+                href="#projects"
+                className="flex w-fit min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 text-base font-bold leading-normal tracking-[0.015em] bg-primary text-white hover:bg-primary/90 sm:h-14 sm:px-8 sm:text-lg"
+                variants={itemVariants}
+              >
+                <span className="truncate">Yolculuğa Başla</span>
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </motion.a>
+              <motion.a
+                href="https://portfolio-ahmet-cem-karaca.vercel.app/index.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-fit min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 text-base font-bold leading-normal tracking-[0.015em] bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 sm:h-14 sm:px-8 sm:text-lg border border-white/50"
+                variants={itemVariants}
+              >
+                <span className="truncate">Eski Portfolyo</span>
+                <ExternalLink className="ml-2 w-5 h-5" />
+              </motion.a>
+            </div>
           </div>
         </div>
       </motion.section>
