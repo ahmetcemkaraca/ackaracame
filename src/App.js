@@ -11,6 +11,7 @@ import ContactPage from './pages/ContactPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AboutMePage from './pages/AboutMePage';
 import PortfolioPage from './pages/PortfolioPage'; // Import the new page
+import PortfolioPageV2 from './pages/PortfolioPageV2'; // Import the V2 page
 import ArchivedWorksPage from './pages/ArchivedWorksPage';
 import ExperimentsPage from './pages/ExperimentsPage'; // Import the new page
 import InspirationGalleryPage from './pages/InspirationGalleryPage';
@@ -78,6 +79,20 @@ function App() {
                       <PortfolioPage />
                     </motion.div>
                   } 
+                />
+
+                <Route
+                  path="/portfolio-v2"
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <PortfolioPageV2 />
+                    </motion.div>
+                  }
                 />
                 
                 <Route 
