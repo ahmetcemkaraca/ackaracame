@@ -110,20 +110,20 @@ const ContactPage = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-muted-light dark:text-muted-dark mb-2">Ad Soyad *</label>
-                            <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="input-field" required />
+                            <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="input-field" required maxLength={100} />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-muted-light dark:text-muted-dark mb-2">E-posta *</label>
-                            <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="input-field" required />
+                            <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="input-field" required maxLength={100} />
                         </div>
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-muted-light dark:text-muted-dark mb-2">Konu *</label>
-                        <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} className="input-field" required />
+                        <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} className="input-field" required maxLength={200} />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-muted-light dark:text-muted-dark mb-2">Mesajınız *</label>
-                        <textarea name="message" value={formData.message} onChange={handleInputChange} rows={5} className="input-field" required placeholder="Projenizden bahsedin..."></textarea>
+                        <textarea name="message" value={formData.message} onChange={handleInputChange} rows={5} className="input-field" required placeholder="Projenizden bahsedin..." maxLength={5000}></textarea>
                     </div>
                     {error && <p className="text-red-500 text-sm">{error}</p>}
                     <button type="submit" className="btn-primary w-full flex items-center justify-center gap-2" disabled={loading}>
