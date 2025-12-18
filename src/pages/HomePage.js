@@ -38,6 +38,19 @@ const HomePage = () => {
 
   return (
     <main className="flex-1">
+      {/* Button under header */}
+      <div className="w-full px-4 sm:px-6 md:px-10">
+        <div className="max-w-7xl mx-auto py-4 flex justify-center">
+          <a
+            href="https://portfolio-ahmet-cem-karaca.vercel.app/index.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-white font-semibold hover:bg-primary/90 shadow-md"
+          >
+            Portfolyo Sayfası
+          </a>
+        </div>
+      </div>
       {/* Hero Section */}
       <motion.section
         className="relative @container"
