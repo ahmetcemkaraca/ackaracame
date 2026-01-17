@@ -8,6 +8,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage';
 import PaftaPage from './pages/PaftaPage';
 import AdminPage from './pages/AdminPage';
 import ContactPage from './pages/ContactPage';
+import AccountDeletionPage from './pages/AccountDeletionPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AboutMePage from './pages/AboutMePage';
 import PortfolioPage from './pages/PortfolioPage'; // Import the new page
@@ -230,6 +231,20 @@ function App() {
                       transition={{ duration: 0.3 }}
                     >
                       <ContactPage />
+                    </motion.div>
+                  } 
+                />
+
+                <Route 
+                  path="/account-delete" 
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <AccountDeletionPage />
                     </motion.div>
                   } 
                 />
