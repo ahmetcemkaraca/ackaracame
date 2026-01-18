@@ -19,6 +19,7 @@ import InspirationDetailPage from './pages/InspirationDetailPage';
 import SemesterProjectsPage from './pages/SemesterProjectsPage'; // Import the new page
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
+import ApplicationsPage from './pages/ApplicationsPage';
 // Bileşenler
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -77,6 +78,20 @@ function App() {
                       transition={{ duration: 0.3 }}
                     >
                       <PortfolioPage />
+                    </motion.div>
+                  } 
+                />
+                
+                <Route 
+                  path="/applications" 
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <ApplicationsPage />
                     </motion.div>
                   } 
                 />

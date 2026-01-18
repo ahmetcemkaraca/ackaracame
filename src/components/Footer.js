@@ -16,6 +16,7 @@ const Footer = () => {
   const navigation = [
     { name: t('common.home'), href: '/' },
     { name: t('common.portfolio'), href: '/portfolio' },
+    { name: t('common.applications'), href: '/applications' },
     { name: t('common.blog'), href: '/blog' },
     { name: t('common.about'), href: '/about' },
     { name: t('common.contact'), href: '/contact' },
