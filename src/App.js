@@ -20,6 +20,8 @@ import SemesterProjectsPage from './pages/SemesterProjectsPage'; // Import the n
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import ApplicationsPage from './pages/ApplicationsPage';
+import DuaPrivacyPage from './pages/DuaPrivacyPage';
+import DuaTermsPage from './pages/DuaTermsPage';
 // Bileşenler
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -260,6 +262,34 @@ function App() {
                       transition={{ duration: 0.3 }}
                     >
                       <AccountDeletionPage />
+                    </motion.div>
+                  } 
+                />
+
+                <Route 
+                  path="/dua/privacy" 
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <DuaPrivacyPage />
+                    </motion.div>
+                  } 
+                />
+
+                <Route 
+                  path="/dua/terms" 
+                  element={
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <DuaTermsPage />
                     </motion.div>
                   } 
                 />

@@ -17,6 +17,8 @@ const Footer = () => {
     { name: t('common.home'), href: '/' },
     { name: t('common.portfolio'), href: '/portfolio' },
     { name: t('common.applications'), href: '/applications' },
+    { name: t('common.privacyPolicy'), href: '/dua/privacy' },
+    { name: t('common.terms'), href: '/dua/terms' },
     { name: t('common.blog'), href: '/blog' },
     { name: t('common.about'), href: '/about' },
     { name: t('common.contact'), href: '/contact' },
