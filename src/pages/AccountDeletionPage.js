@@ -15,7 +15,7 @@ const AccountDeletionPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!confirmed) {
-        setError('Please confirm that you understand the consequences.');
+        setError(t('accountDelete.error.confirmConsequences'));
         return;
     }
     setLoading(true);
