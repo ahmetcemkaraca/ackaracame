@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 const AccountDeletionPage = () => {
   const [email, setEmail] = useState('');
   const [reason, setReason] = useState('');
-  const [password, setPassword] = useState('');
   const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
@@ -15,7 +14,7 @@ const AccountDeletionPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!confirmed) {
-        setError(t('accountDelete.error.confirmConsequences'));
+        setError('Please confirm that you understand the consequences.');
         return;
     }
     setLoading(true);
@@ -24,14 +23,13 @@ const AccountDeletionPage = () => {
       await ContactService.sendMessage({
         name: 'Account Deletion Request',
         email: email || 'Not Provided',
-        subject: 'DuaApp - Account Deletion',
-        message: `Deletion Request.\nReason: ${reason}\nEmail: ${email}`,
+        subject: 'DuaApp - Account Deletion Request',
+        message: `DELETION REQUEST - MANUAL VERIFICATION REQUIRED.\n\nUser Email: ${email}\nReason: ${reason}\n\nNote: This is a request. Please verify user identity via email correspondence before taking action.`,
         createdAt: new Date()
       });
       setSent(true);
       setEmail('');
       setReason('');
-      setPassword('');
     } catch (err) {
       console.error('Error sending request:', err);
       setError('An error occurred. Please try again later.');
@@ -146,25 +144,6 @@ const AccountDeletionPage = () => {
                       </div>
                     </div>
 
-                    {/* Password Confirmation */}
-                    <div className="space-y-2">
-                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="password">
-                        Şifrenizi onaylayın
-                      </label>
-                      <div className="relative rounded-md shadow-sm">
-                        <input
-                            className="focus:ring-primary focus:border-primary block w-full px-4 sm:text-sm border border-slate-300 dark:border-slate-700 rounded-lg py-2.5 bg-white dark:bg-background-dark text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-                            id="password"
-                            name="password"
-                            type="password"
-                            placeholder="Onaylamak için şifrenizi girin"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                      </div>
-                      <p className="text-xs text-slate-500 dark:text-slate-500">Güvenlik için lütfen kimliğinizi doğrulayın.</p>
-                    </div>
-
                     {/* Verify Checkbox */}
                     <div className="flex items-start gap-3 pt-2">
                       <div className="flex items-center h-5">
@@ -179,7 +158,7 @@ const AccountDeletionPage = () => {
                       </div>
                       <div className="text-sm">
                         <label className="font-medium text-slate-700 dark:text-slate-300 cursor-pointer" htmlFor="confirm-delete">Sonuçları anlıyorum</label>
-                        <p className="text-slate-500 dark:text-slate-500">Hesabımı kalıcı olarak silmek istediğimi onaylıyorum.</p>
+                        <p className="text-slate-500 dark:text-slate-500">Hesap silme talebi göndermek istediğimi onaylıyorum. Yönetici onayı için e-posta ile iletişime geçileceğini anlıyorum.</p>
                       </div>
                     </div>
 
@@ -198,11 +177,11 @@ const AccountDeletionPage = () => {
                       >
                         {loading ? (
                             <>
-                                <Loader className="w-4 h-4 animate-spin mr-2" /> Siliniyor...
+                                <Loader className="w-4 h-4 animate-spin mr-2" /> Gönderiliyor...
                             </>
                         ) : (
                             <>
-                                <span className="mr-2">Sil</span>
+                                <span className="mr-2">Talep Gönder</span>
                                 <Trash2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
                             </>
                         )}

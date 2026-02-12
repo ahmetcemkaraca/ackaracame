@@ -88,7 +88,7 @@ const HomePage = () => {
         <div className="hidden md:block text-xs font-mono text-slate-500">
           <p>LAT: 36.8969° N</p>
           <p>LON: 30.7133° E</p>
-          <p className="mt-2 text-slate-400">BASED IN ANTALYA</p>
+          <p class="mt-2 text-slate-400">BASED IN ANTALYA</p>
         </div>
 
         {/* Scroll Indicator */}

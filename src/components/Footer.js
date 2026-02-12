@@ -10,7 +10,7 @@ const Footer = () => {
   const socialLinks = [
     { name: 'GitHub', icon: Github, href: 'https://github.com/ahmetcemkaraca' },
     { name: 'LinkedIn', icon: Linkedin, href: 'https://www.linkedin.com/in/ahmet-cem-karaca/' },
-    { name: 'Instagram', icon: Instagram, href: '#' },
+    // { name: 'Instagram', icon: Instagram, href: '#' }, // Removed placeholder link
     { name: 'Email', icon: Mail, href: 'mailto:info@ackaraca.me' },
   ];
 
@@ -64,7 +64,7 @@ const Footer = () => {
               <li><Link to="/about" className="hover:text-primary transition-colors">{t('common.about') || "About"}</Link></li>
               <li><Link to="/blog" className="hover:text-primary transition-colors">{t('common.blog') || "Journal"}</Link></li>
               <li><Link to="/contact" className="hover:text-primary transition-colors">{t('common.contact') || "Contact"}</Link></li>
-              <li><Link to="/services" className="hover:text-primary transition-colors">Services</Link></li>
+              <li><Link to="/services" className="hover:text-primary transition-colors">{t('common.services') || "Services"}</Link></li>
             </ul>
           </div>
 
@@ -74,7 +74,7 @@ const Footer = () => {
             <ul className="space-y-3 text-sm text-slate-600 dark:text-slate-400">
               <li><Link to="/dua/privacy" className="hover:text-primary transition-colors">{t('common.privacyPolicy') || "Privacy Policy"}</Link></li>
               <li><Link to="/dua/terms" className="hover:text-primary transition-colors">{t('common.terms') || "Terms of Service"}</Link></li>
-              <li><Link to="/account-delete" className="hover:text-red-500 transition-colors">Hesap Silme</Link></li>
+              <li><Link to="/account-delete" className="hover:text-red-500 transition-colors">{t('common.deleteAccount') || "Hesap Silme"}</Link></li>
             </ul>
           </div>
         </div>
