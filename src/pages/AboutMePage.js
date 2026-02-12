@@ -1,5 +1,6 @@
 import React from 'react';
-import { Mail, Globe, Compass, Info } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Mail, MapPin, Globe, GraduationCap } from 'lucide-react';
 
 const AboutMePage = () => {
     
@@ -17,226 +18,228 @@ const AboutMePage = () => {
             degree: 'Lisans, Mimarlık',
             institution: 'Akdeniz Üniversitesi',
             years: '2022 - 2026',
+            desc: 'Mimari tasarım ve teknoloji odaklı eğitim.'
           },
           {
             degree: 'Lise',
             institution: 'Muratpaşa Türktelekom Anadolu Lisesi',
             years: '2015 - 2019',
-          }
-        ],
-        experience: [
-          {
-            role: 'Stajyer Mimar (Ofis Stajı)',
-            company: 'Betemu Mimarlık',
-            duration: 'Temmuz 2025 – Eylül 2025',
-            description: 'Mimar gözetiminde ofis ortamında mimari tasarım ve projelendirme süreçlerinin takip edilmesi. Avan proje taslaklarının hazırlanması, ruhsat projesi çizimlerinde görev alma, belediye–mimar ilişkilerinin gözlemlenmesi.',
-          },
-          {
-            role: 'Stajyer Mimar (Şantiye Stajı)',
-            company: 'Alperen Türkmen İnşaat',
-            duration: 'Temmuz 2024 – Ağustos 2024',
-            description: 'İnşaat mühendisi gözetiminde kaba ve ince yapı imalatlarının incelenmesi. Şantiyede aplikasyon, yapısal imalat, malzeme kullanımı ve iş programı süreçlerinin gözlemlenmesi.',
-          },
-          {
-            role: 'Stajyer Mimar (Alan Araştırması Stajı)',
-            company: 'Cenk Doğan Mimarlık',
-            duration: 'Temmuz 2023 – Ağustos 2023',
-            description: 'Birinci sınıfta edinilen mimarlık kavramlarının sahada incelenmesi ve raporlanması. Geleneksel ve çağdaş yapıların gözlemlenmesi, ölçümlendirilmesi ve mimari çizimlerle ilişkilendirilmesi.',
-          },
-          {
-            role: 'Kurucu / CEO',
-            company: 'ACKARACA LIMITED (UK)',
-            duration: 'Aralık 2022 - Devam',
-            description: 'Perakende Satış, Yazılım Geliştirme ve Mimari Çizim alanlarında faaliyet gösteren şirketin yönetimi.',
+            desc: 'Fen Bilimleri alanı.'
           }
         ],
         skills: {
-            architecturalSoftware: [
-                { name: 'AutoCAD', speed: 6, proficiency: 6 },
-                { name: 'Revit', speed: 7, proficiency: 8 },
-                { name: 'ArchiCAD', speed: 5, proficiency: 4 },
-                { name: 'Photoshop', speed: 4, proficiency: 6 },
-                { name: 'Twinmotion', speed: 9, proficiency: 10 },
-                { name: 'Lumion', speed: 6, proficiency: 6 },
-                { name: 'QGIS', speed: 4, proficiency: 3 },
-                { name: 'Office365 Programları', proficiencyText: "İleri Seviye (2009'dan beri)" }
+            // Mapping for the progress bars in design
+            tools: [
+                { name: 'Revit', percentage: 80 },
+                { name: 'AutoCAD', percentage: 60 },
+                { name: 'Rhino 3D', percentage: 40 },
+                { name: 'Twinmotion', percentage: 90 },
             ],
-            programming: [
-                { name: 'Unreal Engine', speed: 6, proficiency: 2, proficiencyText: "Blueprint (Orta), C++ (Temel)" },
-                { name: 'Visual Studio Code', proficiencyText: "Aktif Kullanıcı" },
-                { name: 'Cursor', proficiencyText: "Aktif Kullanıcı" },
-                { name: 'Python', proficiencyText: 'Temel Seviye' },
-                { name: 'JavaScript', proficiencyText: 'Temel Seviye' },
-                { name: 'React.js', proficiencyText: 'Temel Seviye' },
-                { name: 'Node.js', proficiencyText: 'Temel Seviye' },
-                { name: 'HTML & CSS', proficiencyText: 'Temel Seviye' },
-                { name: 'C#', proficiencyText: 'Temel Seviye' },
-                { name: 'C++', proficiencyText: 'Temel Seviye' },
-                { name: 'SQL', proficiencyText: 'Temel Seviye' },
-                { name: 'Firebase', proficiencyText: 'Orta Seviye' },
-                { name: 'Google Cloud', proficiencyText: 'Temel-Orta Seviye' },
-            ],
-            languages: [
-                { name: 'Türkçe', proficiencyText: 'Ana Dil' },
-                { name: 'İngilizce', proficiencyText: 'B1-B2' }
-            ],
-        },
-        competencies: [
-            "Yeni bilgileri hızla öğrenme ve kısa sürede uyum sağlama.",
-            "Takım çalışmasına yatkınlık ve disiplinli çalışma.",
-            "Liderlik ve proje yönetimi (MOLA Kuruculuğu, ACKaraca Limited Yönetimi).",
-            "Disiplinler arası işbirliği ve mesleki ağ oluşturma."
-        ]
+            others: ["Photoshop", "Unreal Engine", "React.js", "Python", "Firebase", "Node.js"]
+        }
       };
 
     return (
-        <main className="flex flex-col gap-10 sm:gap-16 p-4 sm:p-6 md:p-8 max-w-7xl mx-auto">
-            {/* Profile Header */}
-            <div className="flex w-full flex-col gap-6 @container md:flex-row md:items-center">
-                <div className="flex-shrink-0 flex justify-center md:justify-start">
-                    <img 
-                        src="/logo.svg" 
-                        alt="AK Logo" 
-                        className="w-32 h-32 md:w-40 md:h-40 drop-shadow-2xl hover:scale-105 transition-transform duration-300"
-                    />
-                </div>
-                <div className="flex flex-col gap-4 text-center md:text-left">
-                    <h1 className="text-text-light dark:text-text-dark text-4xl font-bold leading-tight tracking-tighter">{aboutMeData.name}</h1>
-                    <div className="text-muted-light dark:text-muted-dark text-lg font-semibold">
-                        <p>Mimar | <a href="https://ackaraca.me" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors">ackaraca.me</a></p>
-                    </div>
-                    <p className="text-muted-light dark:text-muted-dark text-base font-normal leading-relaxed max-w-xl">
-                        {aboutMeData.bio}
-                    </p>
-                    <div className="flex w-full items-center justify-center md:justify-start gap-3 pt-2">
-                        <a href={`mailto:${aboutMeData.contact.email}`} className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-90 transition-colors">
-                            <span className="truncate">İletişime Geç</span>
-                        </a>
-                        <a href={aboutMeData.contact.website} target="_blank" rel="noopener noreferrer" className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-card-light dark:bg-card-dark text-text-light dark:text-text-dark border border-border-light dark:border-border-dark text-sm font-bold leading-normal tracking-[0.015em] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                            <span className="truncate">Web Sitesi</span>
-                        </a>
-                    </div>
-                </div>
+        <main className="min-h-screen relative bg-background-light dark:bg-background-dark pt-20">
+            {/* Background Grid Pattern */}
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] opacity-5 pointer-events-none"></div>
+
+            {/* Architectural Lines Decoration */}
+            <div className="absolute inset-0 pointer-events-none hidden lg:block max-w-7xl mx-auto px-6 border-x border-gray-200 dark:border-slate-800 opacity-30">
+                <div className="absolute top-0 bottom-0 left-1/3 w-px bg-gray-200 dark:bg-slate-800"></div>
+                <div className="absolute top-0 bottom-0 right-1/3 w-px bg-gray-200 dark:bg-slate-800"></div>
             </div>
 
-            {/* Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Left Column: Education & Experience */}
-                <div className="lg:col-span-2 flex flex-col gap-10">
-                    {/* Experience Section */}
-                    <div>
-                        <h2 className="text-text-light dark:text-text-dark text-[22px] font-bold leading-tight tracking-[-0.015em] pb-4">Deneyim</h2>
-                        <div className="relative">
-                            <div className="absolute left-3 top-0 h-full w-0.5 bg-border-light dark:bg-border-dark"></div>
-                            {aboutMeData.experience.map((item, index) => (
-                                <div key={index} className="pl-10 pb-8 relative">
-                                    <div className="absolute left-0 top-0 -ml-1.5 mt-0.5 w-4 h-4 rounded-full bg-primary ring-4 ring-background-light dark:ring-background-dark"></div>
-                                    <p className="text-text-light dark:text-text-dark text-base font-medium leading-normal">{item.role}</p>
-                                    <p className="text-muted-light dark:text-muted-dark text-sm font-normal leading-normal">{item.company}, {item.duration}</p>
-                                    <p className="text-muted-light dark:text-muted-dark text-sm font-normal leading-relaxed mt-2">{item.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+            <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24 relative z-10">
+                {/* Header Section */}
+                <header className="mb-16 lg:mb-24 lg:w-2/3">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="text-5xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight text-slate-900 dark:text-white"
+                    >
+                        Form ve mekan yoluyla <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400">anlatı kurmak.</span>
+                    </motion.h1>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed"
+                    >
+                        Merhaba, ben <span className="text-slate-900 dark:text-white font-semibold">{aboutMeData.name}</span>. {aboutMeData.bio}
+                    </motion.p>
+                </header>
 
-                    {/* Education Section */}
-                    <div>
-                        <h2 className="text-text-light dark:text-text-dark text-[22px] font-bold leading-tight tracking-[-0.015em] pb-4">Eğitim</h2>
-                        <div className="relative">
-                            <div className="absolute left-3 top-0 h-full w-0.5 bg-border-light dark:bg-border-dark"></div>
-                            {aboutMeData.education.map((item, index) => (
-                                <div key={index} className="pl-10 pb-8 relative">
-                                    <div className="absolute left-0 top-0 -ml-1.5 mt-0.5 w-4 h-4 rounded-full bg-primary ring-4 ring-background-light dark:ring-background-dark"></div>
-                                    <p className="text-text-light dark:text-text-dark text-base font-medium leading-normal">{item.degree}</p>
-                                    <p className="text-muted-light dark:text-muted-dark text-sm font-normal leading-normal">{item.institution}, {item.years}</p>
+                {/* Split Layout Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                    {/* Left Column: Portrait & Stats */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
+                        className="lg:col-span-5 relative group"
+                    >
+                        {/* Image Card */}
+                        <div className="relative rounded-xl overflow-hidden aspect-[3/4] shadow-2xl shadow-black/20 border border-gray-200 dark:border-slate-800 bg-slate-100 dark:bg-surface-dark">
+                            <div className="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent z-10"></div>
+                            <img
+                                alt="Portrait"
+                                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 ease-out transform group-hover:scale-105"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2bMbrDkxRfXIPfZaU6itecr6bmRafgu6ouysMWGGBb7o8yjFcNEG8tHAbXDakEJFFCN0tufF1igodftzBCIj8DrIFB3RniqEKfFAq6FuE5JNNogvVkvyBAXNAmDapB13SJIuaFnssbh4qMU1UL8xPELSyHGeg3oPawrIu1ykOuBPyqh8leVeTA2bWVJhzdssCj0sExHbe7HD1npjBKn7P7BJEKjmYK7bK4MLtIECFEhLjojWhcNOewzd9Fb5EAuRiJQoZsWi7z1s"
+                            />
+                            {/* Overlay Text on Image */}
+                            <div className="absolute bottom-6 left-6 z-20">
+                                <div className="text-xs font-mono text-primary mb-1 uppercase tracking-widest">Status</div>
+                                <div className="text-white font-medium flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                                    İş birliğine açık
                                 </div>
-                            ))}
+                            </div>
                         </div>
+
+                        {/* Location Badge */}
+                        <div className="mt-6 p-4 rounded-lg bg-white dark:bg-surface-dark border border-gray-200 dark:border-slate-800 flex items-center justify-between shadow-sm">
+                            <div className="flex items-center gap-3">
+                                <span className="p-2 rounded-md bg-primary/10 text-primary">
+                                    <MapPin size={20} />
+                                </span>
+                                <div>
+                                    <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Konum</div>
+                                    <div className="font-semibold text-slate-900 dark:text-white">{aboutMeData.contact.location}</div>
+                                </div>
+                            </div>
+                            <div className="h-8 w-px bg-gray-200 dark:bg-slate-700 mx-2"></div>
+                            <div className="flex items-center gap-3">
+                                <span className="p-2 rounded-md bg-primary/10 text-primary">
+                                    <GraduationCap size={20} />
+                                </span>
+                                <div>
+                                    <div className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wide">Okul</div>
+                                    <div className="font-semibold text-slate-900 dark:text-white">Akdeniz Üni.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Right Column: Philosophy, Education, Skills */}
+                    <div className="lg:col-span-7 space-y-12 lg:pl-8">
+                        {/* Philosophy Section */}
+                        <motion.section
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="h-px bg-primary w-12"></div>
+                                <h2 className="text-xl font-bold uppercase tracking-widest text-slate-900 dark:text-white">Felsefe</h2>
+                            </div>
+                            <p className="text-slate-600 dark:text-slate-300 leading-loose text-lg font-light">
+                                Mimarlık sadece barınmaktan ibaret değildir; toplumsal değerlerimizin fiziksel tezahürüdür. Yaklaşımım, çevreye saygılı yapılar tasarlarken modern işlevselliğin sınırlarını zorlayan <span className="text-primary font-normal">bağlamsal duyarlılığa</span> dayanmaktadır. Izgaranın hassasiyetine ve onu dolduran yaşamın organik kaosuna inanıyorum.
+                            </p>
+                        </motion.section>
+
+                        <div className="w-full h-px bg-gray-200 dark:bg-slate-800"></div>
+
+                        {/* Education Section */}
+                        <motion.section
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="h-px bg-primary w-12"></div>
+                                <h2 className="text-xl font-bold uppercase tracking-widest text-slate-900 dark:text-white">Eğitim</h2>
+                            </div>
+                            <div className="space-y-8 relative border-l border-gray-200 dark:border-slate-800 ml-3 pl-8 pb-2">
+                                {aboutMeData.education.map((edu, idx) => (
+                                    <div key={idx} className="relative">
+                                        <span className={`absolute -left-[39px] top-1 h-5 w-5 rounded-full border-4 border-white dark:border-background-dark shadow-sm ${idx === 0 ? 'bg-primary' : 'bg-gray-300 dark:bg-gray-600'}`}></span>
+                                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline mb-2">
+                                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">{edu.degree}</h3>
+                                            <span className="text-sm font-mono text-slate-500 dark:text-slate-400">{edu.years}</span>
+                                        </div>
+                                        <p className="text-primary font-medium mb-2">{edu.institution}</p>
+                                        <p className="text-sm text-slate-600 dark:text-slate-400">{edu.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </motion.section>
+
+                        <div className="w-full h-px bg-gray-200 dark:bg-slate-800"></div>
+
+                        {/* Skills & Toolset */}
+                        <motion.section
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="h-px bg-primary w-12"></div>
+                                <h2 className="text-xl font-bold uppercase tracking-widest text-slate-900 dark:text-white">Dijital Araçlar</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-4">
+                                    <h4 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase">Yazılımlar</h4>
+                                    <div className="space-y-3">
+                                        {aboutMeData.skills.tools.map((tool) => (
+                                            <div key={tool.name}>
+                                                <div className="flex justify-between text-sm mb-1 text-slate-700 dark:text-slate-300">
+                                                    <span>{tool.name}</span>
+                                                    <span className="text-primary font-mono">{tool.percentage}%</span>
+                                                </div>
+                                                <div className="h-1.5 w-full bg-gray-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                                                    <div className="h-full bg-primary rounded-full" style={{ width: `${tool.percentage}%` }}></div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Tag Cloud for others */}
+                            <div className="mt-8 flex flex-wrap gap-2">
+                                {aboutMeData.skills.others.map((skill) => (
+                                    <span key={skill} className="px-3 py-1 bg-gray-200 dark:bg-surface-dark text-xs font-medium uppercase tracking-wide text-slate-600 dark:text-slate-300 rounded border border-transparent hover:border-primary transition-colors cursor-default">
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </motion.section>
+
+                        <div className="w-full h-px bg-gray-200 dark:bg-slate-800"></div>
+
+                        {/* Action Area */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pt-2"
+                        >
+                            <a href={`mailto:${aboutMeData.contact.email}`} className="flex items-center gap-3 bg-primary hover:bg-primary-hover text-white px-8 py-3 rounded-lg shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 group">
+                                <Mail className="w-5 h-5 group-hover:animate-bounce" />
+                                <span className="font-medium tracking-wide">İletişime Geç</span>
+                            </a>
+                            <div className="flex items-center gap-4">
+                                <a href={aboutMeData.contact.website} target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-surface-dark text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-all">
+                                    <Globe size={18} />
+                                </a>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
 
-                {/* Right Column: Skills & Info */}
-                <div className="lg:col-span-1 flex flex-col gap-8">
-                    <div className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl p-6">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-bold text-text-light dark:text-text-dark">Yetenekler</h3>
-                            <div className="flex items-center gap-1 text-xs text-muted-light dark:text-muted-dark animate-pulse">
-                                <Info size={14} />
-                                <span>Detaylar için üzerine gelin</span>
-                            </div>
-                        </div>
-                        <div className="flex flex-col gap-4">
-                            <div>
-                                <h4 className="text-sm font-semibold text-muted-light dark:text-muted-dark mb-2">Mimari Yazılımlar</h4>
-                                <div className="flex flex-wrap gap-2">
-                                    {aboutMeData.skills.architecturalSoftware.map(skill => (
-                                        <div key={skill.name} className="relative group">
-                                            <span className="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full cursor-pointer">{skill.name}</span>
-                                            <div className="absolute bottom-full mb-2 w-max left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-3 z-10 whitespace-nowrap">
-                                                {skill.proficiencyText ? (
-                                                    skill.proficiencyText
-                                                ) : (
-                                                    <>
-                                                        <span>Hız: {skill.speed}/10</span>, <span>Yetkinlik: {skill.proficiency}/10</span>
-                                                    </>
-                                                )}
-                                                <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-gray-800"></div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div>
-                                <h4 className="text-sm font-semibold text-muted-light dark:text-muted-dark mb-2">Programlama & Geliştirme</h4>
-                                <div className="flex flex-wrap gap-2">
-                                    {aboutMeData.skills.programming.map(skill => (
-                                       <div key={skill.name} className="relative group">
-                                            <span className="px-3 py-1 text-sm bg-blue-500/10 text-blue-500 rounded-full cursor-pointer">{skill.name}</span>
-                                            <div className="absolute bottom-full mb-2 w-max left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-3 z-10 whitespace-nowrap">
-                                                {skill.proficiencyText ? (
-                                                    skill.proficiencyText
-                                                ) : (
-                                                    <>
-                                                        <span>Hız: {skill.speed}/10</span>, <span>Yetkinlik: {skill.proficiency}/10</span>
-                                                    </>
-                                                )}
-                                                <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-gray-800"></div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div>
-                                <h4 className="text-sm font-semibold text-muted-light dark:text-muted-dark mb-2">Diller</h4>
-                                <div className="flex flex-wrap gap-2">
-                                    {aboutMeData.skills.languages.map(skill => (
-                                        <div key={skill.name} className="relative group">
-                                            <span className="px-3 py-1 text-sm bg-green-500/10 text-green-500 rounded-full cursor-pointer">{skill.name}</span>
-                                             <div className="absolute bottom-full mb-2 w-max left-1/2 -translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-3 z-10 whitespace-nowrap">
-                                                {skill.proficiencyText}
-                                                <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-gray-800"></div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl p-6">
-                        <h3 className="text-lg font-bold text-text-light dark:text-text-dark mb-4">Yetkinlikler</h3>
-                        <ul className="space-y-3 text-sm text-muted-light dark:text-muted-dark list-disc list-inside">
-                            {aboutMeData.competencies.map((item, index) => (
-                                <li key={index}>{item}</li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl p-6">
-                        <h3 className="text-lg font-bold text-text-light dark:text-text-dark mb-4">İletişim</h3>
-                        <ul className="space-y-3 text-sm text-muted-light dark:text-muted-dark">
-                            <li className="flex items-center gap-3"><Compass size={18} /><span>{aboutMeData.contact.location}</span></li>
-                            <li className="flex items-center gap-3"><Mail size={18} /><a className="hover:text-primary" href={`mailto:${aboutMeData.contact.email}`}>{aboutMeData.contact.email}</a></li>
-                            <li className="flex items-center gap-3"><Globe size={18} /><a className="hover:text-primary" href={aboutMeData.contact.website} target="_blank" rel="noopener noreferrer">{aboutMeData.contact.website.replace('https://', '')}</a></li>
-                        </ul>
+                {/* Quote Block */}
+                <div className="bg-primary/5 border-t border-gray-200 dark:border-slate-800 mt-24 rounded-2xl">
+                    <div className="px-6 py-12 text-center">
+                        <blockquote className="text-xl md:text-2xl font-light italic text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+                            "Tanrı detaylarda gizlidir."
+                        </blockquote>
+                        <cite className="block mt-4 text-sm font-bold uppercase tracking-widest text-primary">— Ludwig Mies van der Rohe</cite>
                     </div>
                 </div>
             </div>
@@ -245,4 +248,3 @@ const AboutMePage = () => {
 };
 
 export default AboutMePage;
-

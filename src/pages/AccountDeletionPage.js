@@ -1,100 +1,226 @@
 import React, { useState } from 'react';
-import { CheckCircle, Loader } from 'lucide-react';
+import { CheckCircle, Loader, AlertTriangle, ArrowLeft, Trash2, Undo } from 'lucide-react';
 import { ContactService } from '../firebase/services';
+import { Link } from 'react-router-dom';
 
 const AccountDeletionPage = () => {
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [reason, setReason] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmed, setConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!confirmed) {
+        setError('Please confirm that you understand the consequences.');
+        return;
+    }
     setLoading(true);
     setError('');
     try {
       await ContactService.sendMessage({
-        name: 'Account Deletion Request / Hesap Silme Talebi',
-        email: email || 'Not Provided / Belirtilmedi',
-        subject: 'DuaApp - Account Deletion / Hesap Silme',
-        message: message || `Account deletion request. Registered email: ${email || 'Not Provided / Belirtilmedi'}`,
+        name: 'Account Deletion Request',
+        email: email || 'Not Provided',
+        subject: 'DuaApp - Account Deletion',
+        message: `Deletion Request.\nReason: ${reason}\nEmail: ${email}`,
         createdAt: new Date()
       });
       setSent(true);
       setEmail('');
-      setMessage('');
+      setReason('');
+      setPassword('');
     } catch (err) {
-      console.error('Account deletion request error / Hesap silme talebi gönderme hatası:', err);
-      setError('An error occurred while sending your request. Please try again later. / Talep gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+      console.error('Error sending request:', err);
+      setError('An error occurred. Please try again later.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <main className="flex flex-col gap-10 p-4 sm:p-6 md:p-8 max-w-4xl mx-auto">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">DuaApp — Account & Data Deletion / Hesap Silme</h1>
-        <p className="text-muted-light dark:text-muted-dark max-w-2xl mx-auto">
-          <strong>EN:</strong> This page allows DuaApp (ACKARACA LIMITED) users to request account and data deletion. Please follow one of the steps below.<br />
-          <strong>TR:</strong> Bu sayfa DuaApp (ACKARACA LIMITED) kullanıcılarının hesap ve veri silme talebi göndermeleri için hazırlanmıştır. Aşağıdaki adımlardan birini seçebilirsiniz.
-        </p>
-      </div>
+    <div className="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-display antialiased transition-colors duration-300 pt-20">
 
-      <section className="bg-card-light dark:bg-card-dark border border-border-light dark:border-border-dark rounded-xl p-6 md:p-8">
-        <h2 className="text-xl font-semibold mb-4">How to Delete Your Account? / Hesabımı Nasıl Silerim?</h2>
-        <ol className="list-decimal list-inside space-y-3 text-muted-light dark:text-muted-dark">
-          <li>
-            <strong>In-app / Uygulama içinden:</strong> (If available) App {'>'} Settings {'>'} Data {'>'} <em>Delete My Account / Hesabımı Sil</em> option.
-          </li>
-          <li>
-            <strong>Web form / Web formu ile:</strong> Fill out the form below to request account deletion. Your request will be reviewed and your account will be deleted once approved.<br />
-            Aşağıdaki formu doldurarak hesap silme talebi gönderebilirsiniz. Talebiniz incelenecek ve onaylandığında hesabınız silinecektir.
-          </li>
-          <li>
-            <strong>Email / E-posta:</strong> Send an email to info@ackaraca.me with the subject "DuaApp - Account Deletion Request / Hesap Silme Talebi" and include your registered email address.<br />
-            info@ackaraca.me adresine "DuaApp - Hesap Silme Talebi" konu başlığıyla kayıtlı e-posta adresinizi ekleyerek talep gönderebilirsiniz.
-          </li>
-        </ol>
+      {/* Main Content Area */}
+      <main className="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <div className="w-full max-w-lg mx-auto">
+          {/* Breadcrumb / Back Link */}
+          <div className="mb-6">
+            <Link to="/" className="inline-flex items-center text-sm text-slate-500 dark:text-slate-400 hover:text-primary transition-colors group">
+              <ArrowLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
+              Ana Sayfaya Dön
+            </Link>
+          </div>
 
-        <div className="mt-6">
-          <h3 className="font-semibold mb-2">Send Request via Form / Form ile Talep Gönder</h3>
-          {sent ? (
-            <div className="text-center">
-              <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-lg font-bold">Your request has been received! / Talebiniz alındı!</h3>
-              <p className="text-muted-light dark:text-muted-dark">We will process your request as soon as possible. / Talebinizi en kısa sürede işleme alacağız.</p>
+          {/* Main Deletion Card */}
+          <div className="bg-white dark:bg-[#1a2632] rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden relative">
+            {/* Subtle Top Accent (Red for Danger) */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-500 to-red-600"></div>
+
+            <div className="p-8">
+              {sent ? (
+                 <div className="text-center py-8">
+                    <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                    <h3 className="text-xl font-bold mb-2">Talep Alındı</h3>
+                    <p className="text-slate-500 dark:text-slate-400">Hesap silme talebiniz başarıyla iletildi. İşleminiz en kısa sürede gerçekleştirilecektir.</p>
+                    <Link to="/" className="btn-primary mt-6 inline-block">Ana Sayfaya Dön</Link>
+                 </div>
+              ) : (
+                <>
+                  {/* Header Section */}
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                      <AlertTriangle className="text-red-600 dark:text-red-500 text-2xl" />
+                    </div>
+                    <div>
+                      <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-1">Hesabı Sil</h1>
+                      <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                        Hesabınızı kalıcı olarak silmek üzeresiniz. Bu işlem geri alınamaz.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Impact Warning Box */}
+                  <div className="bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-lg p-4 mb-8">
+                    <h3 className="text-red-800 dark:text-red-400 font-semibold text-sm mb-2 flex items-center gap-2">
+                      <span className="material-icons text-base">info</span>
+                      Silme işlemi sonucunda:
+                    </h3>
+                    <ul className="space-y-2 text-sm text-red-700 dark:text-red-300 ml-1">
+                      <li className="flex items-start gap-2">
+                        <span className="block w-1 h-1 rounded-full bg-red-400 mt-2"></span>
+                        <span>Profiliniz ve tüm kişisel verileriniz sistemden kaldırılacaktır.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="block w-1 h-1 rounded-full bg-red-400 mt-2"></span>
+                        <span>Kaydettiğiniz projeler ve favoriler kalıcı olarak silinecektir.</span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="block w-1 h-1 rounded-full bg-red-400 mt-2"></span>
+                        <span>Abonelik geçmişiniz temizlenecektir.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Deletion Form */}
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Email Input */}
+                    <div className="space-y-2">
+                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="email">
+                            E-posta Adresi
+                        </label>
+                        <input
+                            type="email"
+                            className="block w-full px-4 py-2.5 text-base border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-background-dark text-slate-900 dark:text-white shadow-sm transition-shadow"
+                            id="email"
+                            name="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="ornek@email.com"
+                            required
+                        />
+                    </div>
+
+                    {/* Reason Select */}
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="reason">
+                        Neden ayrılıyorsunuz? <span className="text-slate-400 font-normal">(Opsiyonel)</span>
+                      </label>
+                      <div className="relative">
+                        <select
+                            className="block w-full px-3 py-2.5 text-base border border-slate-300 dark:border-slate-700 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-lg bg-white dark:bg-background-dark text-slate-900 dark:text-white shadow-sm transition-shadow"
+                            id="reason"
+                            name="reason"
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                        >
+                          <option disabled value="">Bir neden seçin...</option>
+                          <option>Artık ihtiyacım yok</option>
+                          <option>Başka bir platform buldum</option>
+                          <option>Teknik sorunlar</option>
+                          <option>Gizlilik endişeleri</option>
+                          <option>Diğer</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Password Confirmation */}
+                    <div className="space-y-2">
+                      <label className="block text-sm font-medium text-slate-700 dark:text-slate-300" htmlFor="password">
+                        Şifrenizi onaylayın
+                      </label>
+                      <div className="relative rounded-md shadow-sm">
+                        <input
+                            className="focus:ring-primary focus:border-primary block w-full px-4 sm:text-sm border border-slate-300 dark:border-slate-700 rounded-lg py-2.5 bg-white dark:bg-background-dark text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Onaylamak için şifrenizi girin"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                      </div>
+                      <p className="text-xs text-slate-500 dark:text-slate-500">Güvenlik için lütfen kimliğinizi doğrulayın.</p>
+                    </div>
+
+                    {/* Verify Checkbox */}
+                    <div className="flex items-start gap-3 pt-2">
+                      <div className="flex items-center h-5">
+                        <input
+                            className="focus:ring-red-500 h-4 w-4 text-red-600 border-slate-300 dark:border-slate-700 rounded bg-slate-50 dark:bg-background-dark cursor-pointer"
+                            id="confirm-delete"
+                            name="confirm-delete"
+                            type="checkbox"
+                            checked={confirmed}
+                            onChange={(e) => setConfirmed(e.target.checked)}
+                        />
+                      </div>
+                      <div className="text-sm">
+                        <label className="font-medium text-slate-700 dark:text-slate-300 cursor-pointer" htmlFor="confirm-delete">Sonuçları anlıyorum</label>
+                        <p className="text-slate-500 dark:text-slate-500">Hesabımı kalıcı olarak silmek istediğimi onaylıyorum.</p>
+                      </div>
+                    </div>
+
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+                      <Link to="/" className="w-full sm:w-2/3 inline-flex justify-center items-center px-4 py-3 border border-transparent shadow-sm text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-surface-dark transition-all">
+                        <Undo className="w-4 h-4 mr-2" />
+                        İptal ve Geri Dön
+                      </Link>
+                      <button
+                        type="submit"
+                        disabled={loading || !confirmed}
+                        className="w-full sm:w-1/3 inline-flex justify-center items-center px-4 py-3 border border-transparent shadow-sm text-sm font-medium rounded-lg text-red-700 bg-red-100 hover:bg-red-200 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-surface-dark transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {loading ? (
+                            <>
+                                <Loader className="w-4 h-4 animate-spin mr-2" /> Siliniyor...
+                            </>
+                        ) : (
+                            <>
+                                <span className="mr-2">Sil</span>
+                                <Trash2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                            </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                </>
+              )}
             </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-muted-light dark:text-muted-dark mb-2">Email (required) / E-posta (zorunlu)</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="input-field" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-muted-light dark:text-muted-dark mb-2">Request or explanation (optional) / İsteğiniz veya açıklama (opsiyonel)</label>
-                <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={4} className="input-field"></textarea>
-              </div>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              <button type="submit" className="btn-primary w-full flex items-center justify-center gap-2" disabled={loading}>
-                {loading ? <><Loader className="animate-spin" size={20} /><span>Sending... / Gönderiliyor...</span></> : <span>Send Request / Talebi Gönder</span>}
-              </button>
-            </form>
-          )}
-        </div>
+          </div>
 
-        <div className="mt-6 text-sm text-muted-light dark:text-muted-dark">
-          <h4 className="font-semibold mb-2">Which data will be deleted or retained? / Hangi veriler silinecek veya saklanabilir?</h4>
-          <ul className="list-disc list-inside space-y-1">
-            <li><strong>Will be deleted / Silinecek:</strong> Account info (email, username), profile info, in-app content (prayer history, posts, comments), favorites, messages, notification preferences.<br />Hesap bilgileri (e-posta, kullanıcı adı), profil bilgileri, uygulama içi içerikler (dua geçmişi, gönderiler, yorumlar), favoriler, mesajlar, bildirim tercihleri.</li>
-            <li><strong>May be retained / Saklanabilecek:</strong> Some records may be retained for backup or legal reasons for up to 30 days. Payment/subscription records may be held by third-party payment providers and are subject to their retention policies.<br />Yedekleme ve hukuki zorunluluklar nedeniyle bazı kayıtlar kısa süreli (en fazla 30 gün) saklanabilir. Ödeme/abonelik kayıtları üçüncü taraf ödeme sağlayıcılarında tutuluyor olabilir ve onların saklama politikalarına tabi olabilir.</li>
-          </ul>
-          <p className="mt-4">For questions or objections, contact <a href="mailto:info@ackaraca.me" className="text-primary">info@ackaraca.me</a>.<br />Soru veya itirazlar için <a href="mailto:info@ackaraca.me" className="text-primary">info@ackaraca.me</a> adresine yazabilirsiniz.</p>
+          {/* Footer Help Link */}
+          <p className="text-center mt-8 text-sm text-slate-500 dark:text-slate-400">
+            Yardıma mı ihtiyacınız var? <Link to="/contact" className="text-primary hover:underline">Destek ile İletişime Geçin</Link>
+          </p>
         </div>
-      </section>
-      <div className="text-center text-sm text-muted-light dark:text-muted-dark">Developer: <strong>ACKARACA LIMITED</strong> — <a href="https://ackaraca.me" target="_blank" rel="noopener noreferrer" className="text-primary">https://ackaraca.me</a></div>
-    </main>
+      </main>
+    </div>
   );
 }
 

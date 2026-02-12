@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ExternalLink, Github } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, Grid, MapPin } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -17,120 +17,175 @@ const ProjectDetailPage = () => {
 
   if (loading || !currentProject) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark">
         <LoadingSpinner text="Proje yükleniyor..." />
       </div>
     );
   }
-  
+
   const {
     title,
     description,
-    images,
+    images = [],
     category,
     year,
-    semester,
-    technologies,
-    projectUrl,
-    githubUrl
+    location,
+    technologies = []
   } = currentProject;
 
-
   return (
-    <main className="w-full flex flex-1 justify-center py-5 bg-background-light dark:bg-background-dark">
-      <div className="flex flex-col max-w-7xl flex-1 px-4 sm:px-6 lg:px-8">
-        <div className="pt-4 pb-8">
-            <Link to="/portfolio" className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-primary transition-colors">
-                <ArrowLeft size={18} />
-                <span>Tüm Projelere Geri Dön</span>
-            </Link>
+    <div className="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display antialiased min-h-screen flex flex-col pt-20">
+
+      {/* Hero Section */}
+      <header className="relative w-full h-[60vh] min-h-[400px] flex items-end pb-12 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            alt={title}
+            className="w-full h-full object-cover"
+            src={images[0] || "https://placehold.co/1920x1080"}
+          />
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent"></div>
         </div>
 
-        {/* Hero Image Gallery */}
-        {images && images.length > 0 && (
-            <div className="w-full mb-12">
-                <div className="relative w-full aspect-[16/9] bg-gray-200 dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
-                    <div className="w-full h-full bg-center bg-no-repeat bg-cover" style={{ backgroundImage: `url("${images[0]}")` }}></div>
-                </div>
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-3xl"
+          >
+            <div className="flex items-center space-x-4 mb-4">
+              <span className="px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary border border-primary/30 bg-primary/10 rounded">{year || '2023'}</span>
+              <span className="text-xs font-mono uppercase tracking-widest text-slate-400">{category || 'Academic'}</span>
             </div>
-        )}
-
-        <div className="flex flex-wrap justify-between gap-3 mb-12">
-            <div className="flex min-w-72 flex-col gap-2">
-                <h1 className="text-gray-900 dark:text-white text-4xl md:text-5xl font-black leading-tight tracking-tighter">{title}</h1>
-                <p className="text-gray-500 dark:text-gray-400 text-lg font-normal leading-normal italic">{description.split('.')[0]}.</p>
-            </div>
+            <h1 className="text-4xl md:text-6xl font-light text-white tracking-tight mb-4">
+              {title}
+            </h1>
+            <p className="text-lg md:text-xl text-slate-300 font-light max-w-2xl leading-relaxed line-clamp-2">
+              {description}
+            </p>
+          </motion.div>
         </div>
+      </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-16">
-            {/* Left Column */}
-            <div className="lg:col-span-2">
-                <div className="mb-10">
-                    <h2 className="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-tight mb-4">Proje Hakkında</h2>
-                    <p className="text-gray-600 dark:text-gray-300 text-base font-normal leading-relaxed whitespace-pre-line">
-                        {description}
-                    </p>
-                </div>
+      {/* Main Content Grid */}
+      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+
+          {/* Sticky Sidebar / Navigation (Left Column on Desktop) */}
+          <aside className="hidden lg:block lg:col-span-3">
+            <div className="sticky top-32 space-y-8">
+              <div className="border-l-2 border-slate-200 dark:border-slate-800 pl-6 space-y-4">
+                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6">İçerik</h3>
+                <a href="#metadata" className="block text-sm text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors">Proje Verileri</a>
+                <a href="#concept" className="block text-sm text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors">Konsept</a>
+                <a href="#gallery" className="block text-sm text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors">Galeri</a>
+              </div>
+
+              <div className="pt-8">
+                <button className="inline-flex items-center space-x-2 text-xs font-mono uppercase tracking-wide text-slate-500 hover:text-primary transition-colors group">
+                  <Download className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+                  <span>PDF Özeti İndir</span>
+                </button>
+              </div>
             </div>
+          </aside>
 
-            {/* Right Column */}
-            <div className="mt-10 lg:mt-0">
-                <div className="sticky top-28 bg-gray-100 dark:bg-gray-900/50 p-6 rounded-lg border border-gray-200 dark:border-gray-800">
-                    <h3 className="text-gray-900 dark:text-white text-lg font-bold mb-4">Proje Detayları</h3>
-                    <div className="space-y-4">
-                        {category && <div className="flex justify-between text-sm"><span className="font-medium text-gray-500 dark:text-gray-400">Kategori</span><span className="font-normal text-gray-800 dark:text-gray-200 capitalize">{category}</span></div>}
-                        {year && <div className="flex justify-between text-sm"><span className="font-medium text-gray-500 dark:text-gray-400">Yıl</span><span className="font-normal text-gray-800 dark:text-gray-200">{year}</span></div>}
-                        {semester && <div className="flex justify-between text-sm"><span className="font-medium text-gray-500 dark:text-gray-400">Dönem</span><span className="font-normal text-gray-800 dark:text-gray-200">{semester}</span></div>}
-                    </div>
-                    
-                    {technologies && technologies.length > 0 && (
+          {/* Main Content Area (Right Column on Desktop) */}
+          <div className="lg:col-span-9 space-y-24">
+
+            {/* Metadata Grid */}
+            <section id="metadata" className="border-y border-slate-200 dark:border-slate-800 py-8">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                  <h4 className="text-xs font-mono uppercase text-slate-500 mb-2">Konum</h4>
+                  <p className="text-sm font-medium text-slate-900 dark:text-white flex items-center gap-1">
+                    <MapPin className="w-3 h-3 text-primary" /> {location || 'Antalya, TR'}
+                  </p>
+                </div>
+                <div>
+                  <h4 className="text-xs font-mono uppercase text-slate-500 mb-2">Tip</h4>
+                  <p className="text-sm font-medium text-slate-900 dark:text-white">{category || 'Project'}</p>
+                </div>
+                <div>
+                  <h4 className="text-xs font-mono uppercase text-slate-500 mb-2">Yıl</h4>
+                  <p className="text-sm font-medium text-slate-900 dark:text-white">{year || '2023'}</p>
+                </div>
+                <div>
+                  <h4 className="text-xs font-mono uppercase text-slate-500 mb-2">Araçlar</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {technologies.length > 0 ? technologies.map(tech => (
+                        <span key={tech} className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded">{tech}</span>
+                    )) : (
                         <>
-                            <hr className="my-6 border-gray-200 dark:border-gray-700"/>
-                            <h3 className="text-gray-900 dark:text-white text-lg font-bold mb-4">Kullanılan Teknolojiler</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {technologies.map(tech => (
-                                    <span key={tech} className="bg-primary/20 text-primary text-xs font-semibold px-2.5 py-1 rounded-full">{tech}</span>
-                                ))}
-                            </div>
+                            <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded">Revit</span>
+                            <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded">Lumion</span>
                         </>
                     )}
-
-                    {(projectUrl || githubUrl) && (
-                         <>
-                            <hr className="my-6 border-gray-200 dark:border-gray-700"/>
-                             <div className="flex flex-col gap-3">
-                                {projectUrl && <a href={projectUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors"><ExternalLink size={16} /><span>Projeyi Görüntüle</span></a>}
-                                {githubUrl && <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-gray-700 text-white text-sm font-bold hover:bg-gray-800 transition-colors"><Github size={16} /><span>GitHub'da Görüntüle</span></a>}
-                            </div>
-                        </>
-                    )}
+                  </div>
                 </div>
+              </div>
+            </section>
+
+            {/* Concept Section */}
+            <section id="concept" className="scroll-mt-32">
+              <div className="flex flex-col md:flex-row gap-12 items-start">
+                <div className="md:w-1/2">
+                  <h2 className="text-3xl font-light text-slate-900 dark:text-white mb-6">Konsept</h2>
+                  <div className="prose prose-slate dark:prose-invert">
+                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-6 font-light">
+                      {description}
+                    </p>
+                  </div>
+                </div>
+                {images.length > 1 && (
+                    <div className="md:w-1/2 grid gap-4">
+                        <div className="group relative overflow-hidden rounded-lg">
+                            <img alt="Detail 1" className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700" src={images[1]} />
+                        </div>
+                    </div>
+                )}
+              </div>
+            </section>
+
+            {/* Gallery Section */}
+            {images.length > 2 && (
+                <section id="gallery" className="scroll-mt-32">
+                    <div className="flex items-end justify-between mb-8 border-b border-slate-200 dark:border-slate-800 pb-4">
+                        <h2 className="text-3xl font-light text-slate-900 dark:text-white">Proje Galerisi</h2>
+                        <span className="font-mono text-xs uppercase text-slate-500">Görseller</span>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        {images.slice(2).map((img, idx) => (
+                            <div key={idx} className="relative group rounded-xl overflow-hidden shadow-xl shadow-black/10 dark:shadow-black/30 cursor-pointer h-80">
+                                <img alt={`Project view ${idx}`} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" src={img} />
+                            </div>
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {/* Navigation Footer */}
+            <div className="border-t border-slate-200 dark:border-slate-800 pt-16 flex justify-between items-center">
+              <Link to="/portfolio" className="group flex flex-col items-start text-left">
+                <span className="text-xs font-mono uppercase text-slate-500 mb-1 group-hover:text-primary transition-colors">Portfolyoya Dön</span>
+                <span className="text-lg md:text-xl font-medium text-slate-800 dark:text-white group-hover:translate-x-1 transition-transform flex items-center gap-2">
+                    <ArrowLeft className="w-4 h-4" /> Tüm Projeler
+                </span>
+              </Link>
+
+              <Link to="/portfolio" className="w-12 h-12 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:border-primary hover:text-primary transition-all">
+                <Grid className="w-5 h-5" />
+              </Link>
             </div>
+
+          </div>
         </div>
-        
-        {/* Additional Images */}
-        {images && images.length > 1 && (
-             <div className="mt-16">
-                <h2 className="text-gray-900 dark:text-white text-2xl font-bold leading-tight tracking-tight mb-6">Proje Galerisi</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {images.slice(1).map((image, index) => (
-                        <motion.div
-                            key={index}
-                            className="relative overflow-hidden rounded-lg shadow-md"
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                        >
-                             <img src={image} alt={`${title} - Görüntü ${index + 2}`} className="w-full h-auto object-cover" />
-                        </motion.div>
-                    ))}
-                </div>
-            </div>
-        )}
-
-      </div>
-    </main>
+      </main>
+    </div>
   );
 };
 

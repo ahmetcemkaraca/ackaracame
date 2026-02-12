@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
-// import { motion } from 'framer-motion'; // Not used currently
-// import { Link } from 'react-router-dom'; // Not used currently
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { Grid, Box, Layers, Zap, Hexagon, Maximize2 } from 'lucide-react';
 
 const ExperimentsPage = () => {
   const { experiments, loadExperiments, loading } = useProject();
+  const [filter, setFilter] = useState('All');
 
   useEffect(() => {
     if (experiments.length === 0) {
@@ -13,79 +14,175 @@ const ExperimentsPage = () => {
     }
   }, [experiments.length, loadExperiments]);
 
+  // Mock data for visual fidelity if no real data
+  const mockExperiments = [
+    {
+      id: '1',
+      title: 'Voronoi twist',
+      code: 'GH-045',
+      description: 'Exploring structural integrity within randomized voronoi cells applied to a twisted vertical axis.',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBoszk5ZW0hTcY53wxzHxCu9HtaDb91i-kYvymoxHdvepG-H8PmnF8g15DswfA71gVa9ohEhv9SxcAp8CzTyKbsCaYL_i91RVbnfJLQogCCg2_sEy2-1nhVldWMcIBzIj5UdA2ph6-_RuErK_lg9SefCv2XN_p9ehEwKApxr6DYjyY396moMMBHZvqgcimE2AveGZ9AQImqALA68OY35GHHtWJpYzsvubmdFIwXsUG03-CXKhNnmBWxYf5FXTOZsis3JSn-mvV48cw',
+      category: 'Parametric',
+      type: 'tall'
+    },
+    {
+      id: '2',
+      title: 'Concrete Casting',
+      code: 'MAT-102',
+      description: 'Study of air pockets in rapid-set cement mixtures.',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCaUOSMt6DYEYwKmXxE2-oIIy8IHwwlrAQkbokR1IyXb7qGtVg2Jxrj9FfdRGrrqUe20wlTVv2xjqR6mMdmZtGdVM5zn0uQHmGAc14BecHwBsv4tROzcMnGwWBrVjS4DQgAUhSr-QNhG-x09Fn2M5ulATtwnOxhvPMkE9XmP3Kb9DgRrZoK0yJn6PSYHSXvAklwj4YAfduhUGgmSN_F7xN6wJ891LlERcOixPCc2jiNUlgDuctfvQAwKPNr38RBfnkNcyehJTh6ytM',
+      category: 'Materiality',
+      type: 'square',
+      icon: Grid
+    },
+    {
+      id: '3',
+      title: 'Negative Space',
+      code: 'TYP-008',
+      description: 'Analyzing void ratios in dense urban housing blocks.',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCXTHn6vZRml37S2_WdSpYisNTXHt54uqABDcZokzY_fszJ7JXUC5DEFNOwZuyy1sGrVAIag_ZoK2knSoKidGHmtzET6z-LALdG0utSv8KgyNfmI07i_KTz_lvvoZ-Mz6QOP2vJQXZDvMdXTxy0JySGt2RYZYxHp0F66k32K2DrkvJXmlEo5_LegIW-qg6e_2LbNTtWu-UAgpkeIjrNOkFy1TsYYWEqJUUR1woCvh7fwsXWiR_8oR6vDNY8bhe_hfa4PcUILxKsEbbiJG1aqHWntPHiCbDOS5V5YJoYTtuqXLytwZuWBVCg4u-cA',
+      category: 'Structural',
+      type: 'landscape'
+    },
+    {
+      id: '4',
+      title: 'Fluid Dynamics',
+      code: 'FLUID-09',
+      description: 'Simulating wind erosion on soft stone facades over 100 years.',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAjdvu-GjfyQzheVRPzuyCWaRWRf2_uhJxVo17vmatWJyCc0GQO0FcZahVSK6wsSicK7RKPcn8t_o_iOiIisR1kk2fONSKZjMr2ziM5WAXog-fB69_Ng16Ldr1uiWW1Oit59P9MPulgFKdA_0HQS55e-Pp1sTHIwpww67hk4punK1J8QPPhMiIDqSiWaWxbkSv5jEmxYaXyUNe_BkuyMyiG_nuhovwkXRKJFxU7bu_Mq82oCJENeVHAFqFE-s-uBmAA99lITSA_FbY',
+      category: 'Topology',
+      type: 'tall'
+    },
+    {
+      id: '5',
+      title: 'Load Bearing',
+      code: 'STRUC-221',
+      description: 'Cantilever stress tests using lightweight carbon fiber meshes.',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD7uJWyNkrYHrsfOU7dSlaN2ymwXVg824nZd0ytFf_YV6Bq_WnpWOIyCts6zvl0tBFHFmYuqsjV_-wmqvWbMjjmSnR_nX7pcofciEYUOc13NF3GreQEvJWFAMaVYJB16jomSlLseYdWjcOpFYR5Q9XyC2RYS_5hJNUe50KMYRB1gMTNHVULPCfsCjg6TZEbqHOAnfvWZFmTnQV2P2GQXon8JmquIL7zmCFVFUQDv2pK5_kjeKRXhUOxvPIpxP9oaEwL9ClM9IBmr5E',
+      category: 'Structural',
+      type: 'square',
+      icon: Box
+    },
+    {
+      id: '6',
+      title: 'Digital Terrain',
+      code: 'DIGI-88',
+      description: 'Algorithmic landscape generation for virtual habitats.',
+      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCekZXk1lLX1lkG9UZlsdWhZoibfI5qL_mEvA71VxHqPFEosM7wlvVZeltTA0DFZFHs3zOtMLfB31OsZW6WEqD_0DR7iawediAzDhRXI80RakJhUO-PasAzTS_sqhfvhRN1SJo_1Wn7reGNcqsCrRk5mGMT5TRei_yt-fZbuZNKvAjPDpsD236pqf1xXOFtAmFx4XDWeYL9PdfB0ksNgK_f1WJW4LtS6-yR9XWQ2KRH7m0SXtUg69tUk7WvjjlmQ74QX1BsDKG5EU8',
+      category: 'Parametric',
+      type: 'tall'
+    }
+  ];
+
+  const displayItems = experiments.length > 0 ? experiments : mockExperiments;
+
+  const filteredItems = filter === 'All'
+    ? displayItems
+    : displayItems.filter(item => item.category === filter);
+
   if (loading && experiments.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-center justify-center min-h-screen bg-background-light dark:bg-background-dark">
         <LoadingSpinner text="Deneyler yükleniyor..." />
       </div>
     );
   }
 
-  const featuredExperiments = experiments.filter(exp => exp.featured && exp.type === 'featured').slice(0, 4);
-  const digitalExplorations = experiments.filter(exp => exp.type === 'digital').slice(0, 4);
-  const failedExperiments = experiments.filter(exp => exp.type === 'failed');
   return (
-    <main className="flex flex-col gap-10 md:gap-16 mt-8 md:mt-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-3 text-center">
-        <h1 className="text-slate-900 dark:text-white text-4xl font-black leading-tight tracking-[-0.033em]">Yaratıcı Deneyler</h1>
-        <p className="text-slate-500 dark:text-slate-400 text-base font-normal leading-normal max-w-2xl mx-auto">
-          Ticari olmayan, soyut veya sanatsal çabaları içeren yaratıcı keşiflerin görsel bir günlüğü.
-        </p>
+    <div className="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex flex-col pt-20">
+      
+      {/* Background Grid */}
+      <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
       </div>
 
-      <div className="flex flex-col">
-        <h3 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-3">Öne Çıkan Deneyler</h3>
-        <div className="flex overflow-x-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="flex items-stretch p-4 gap-4">
-                {featuredExperiments.map(exp => (
-                    <div key={exp.id} className="flex h-full flex-1 flex-col gap-4 rounded-lg min-w-60">
-                        <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style={{ backgroundImage: `url("${exp.imageUrl || '/placeholder.jpg'}")`}}></div>
-                        <div>
-                            <p className="text-slate-800 dark:text-white text-base font-medium leading-normal">{exp.title}</p>
-                            <p className="text-slate-500 dark:text-slate-400 text-sm font-normal leading-normal">{exp.date || (exp.createdAt ? new Date(exp.createdAt.seconds * 1000).toLocaleDateString('tr-TR') : '')}</p>
-                        </div>
-                    </div>
+      <main className="flex-1 h-full relative z-10">
+        <div className="max-w-7xl mx-auto px-6 py-12 lg:px-12 lg:py-16">
+          {/* Page Title Section */}
+          <section className="mb-16">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div>
+                <h5 className="text-primary font-mono text-sm tracking-wider mb-2">LABORATORY / 001</h5>
+                <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white tracking-tight mb-4">
+                  Experimental<br/>
+                  <span className="text-slate-500">Studies</span>
+                </h1>
+                <p className="text-slate-500 dark:text-slate-400 max-w-xl text-lg font-light leading-relaxed">
+                  Standart mimari tipolojilere meydan okuyan parametrik hatalar, malzeme testleri ve kavramsal formların küratörlü bir koleksiyonu.
+                </p>
+              </div>
+
+              {/* Filter Pills */}
+              <div className="flex flex-wrap gap-2 md:justify-end">
+                {['All', 'Parametric', 'Materiality', 'Structural', 'Topology'].map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setFilter(cat)}
+                    className={`px-4 py-2 rounded-full border text-xs font-medium uppercase tracking-wide transition-all ${
+                      filter === cat
+                        ? 'bg-primary border-primary text-white'
+                        : 'border-slate-300 dark:border-slate-700 hover:border-slate-500 text-slate-500 dark:text-slate-400'
+                    }`}
+                  >
+                    {cat}
+                  </button>
                 ))}
-            </div>
-        </div>
-      </div>
-      
-      <h2 className="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-t border-slate-200/10 dark:border-white/10">Dijital Keşifler</h2>
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(158px,1fr))] gap-4 px-4">
-          {digitalExplorations.map(exp => (
-               <div key={exp.id} className="group relative cursor-pointer overflow-hidden rounded-lg">
-                    <div className="bg-cover bg-center flex flex-col justify-end p-4 aspect-[3/4] transition-transform duration-300 group-hover:scale-105" style={{ backgroundImage: `url("${exp.imageUrl || '/placeholder.jpg'}")`}}></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-                    <p className="absolute bottom-4 left-4 text-white text-sm font-bold leading-tight w-4/5 line-clamp-2">{exp.title}</p>
-                </div>
-          ))}
-      </div>
-      
-      {failedExperiments.length > 0 && (
-        <div className="flex flex-col gap-6">
-          <h2 className="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-t border-slate-200/10 dark:border-white/10">Başarısız Projeler & Alınan Dersler</h2>
-          {failedExperiments.map(exp => (
-            <div key={exp.id} className="grid md:grid-cols-2 gap-8 px-4">
-              <div className="flex flex-col gap-4">
-                <div className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg" style={{ backgroundImage: `url("${exp.imageUrl || '/placeholder.jpg'}")`}}></div>
-                <h4 className="text-slate-800 dark:text-white text-lg font-bold">{exp.title}</h4>
-              </div>
-              <div className="bg-slate-100 dark:bg-slate-800/20 p-6 rounded-lg flex flex-col justify-center">
-                <h5 className="text-primary text-sm font-bold tracking-wider uppercase mb-2">Alınan Ders</h5>
-                <p className="text-slate-600 dark:text-slate-300">{exp.lesson || exp.description}</p>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          </section>
 
-      {experiments.length === 0 && !loading && (
-        <div className="text-center py-20">
-          <p className="text-slate-500 dark:text-slate-400 text-lg">Henüz deney eklenmemiş.</p>
-        </div>
-      )}
+          {/* Masonry Gallery */}
+          <div className="masonry-grid">
+            {filteredItems.map((item, index) => {
+              const Icon = item.icon || Hexagon;
+              return (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="masonry-item group relative bg-white dark:bg-surface-dark rounded-xl overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 border border-slate-200 dark:border-slate-800"
+                >
+                  <div className={`relative overflow-hidden ${item.type === 'square' ? 'aspect-square' : ''}`}>
+                    <img
+                      alt={item.title}
+                      className="w-full h-auto object-cover opacity-90 group-hover:opacity-60 group-hover:scale-105 transition-all duration-500 ease-out grayscale-[20%] group-hover:grayscale-0"
+                      src={item.image || item.imageUrl || '/placeholder.jpg'}
+                    />
 
-    </main>
+                    {item.type === 'square' && (
+                      <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm p-2 rounded-full">
+                        <Icon className="text-white w-4 h-4 block" />
+                      </div>
+                    )}
+
+                    {/* Overlay Content */}
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-background-dark via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-primary font-mono text-xs mb-1">{item.code || `EXP-0${index}`}</span>
+                      <h3 className="text-white text-xl font-medium mb-1">{item.title}</h3>
+                      <p className="text-slate-300 text-sm font-light line-clamp-2">{item.description}</p>
+                    </div>
+                  </div>
+                  <div className="h-1 w-0 bg-primary group-hover:w-full transition-all duration-500"></div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Footer / Terminal Style (Page Specific Footer element) */}
+          <div className="mt-24 pt-8 border-t border-slate-200 dark:border-slate-800 text-slate-500 font-mono text-xs flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+              <span>System Status: Online</span>
+            </div>
+            <div className="flex gap-6">
+              <a className="hover:text-primary transition-colors" href="#">&gt; Instagram</a>
+              <a className="hover:text-primary transition-colors" href="#">&gt; LinkedIn</a>
+              <a className="hover:text-primary transition-colors" href="#">&gt; GitHub</a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 };
 
