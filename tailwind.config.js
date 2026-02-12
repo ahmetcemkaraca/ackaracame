@@ -3,63 +3,54 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-          DEFAULT: '#1152d4' // Added from new design
-        },
-        secondary: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-        },
-        'background-light': '#f6f6f8', // Added from new design
-        'background-dark': '#101622',   // Added from new design
-        'charcoal': '#101622',
-        'off-white': '#f6f6f8',
-        'architectural-blue': '#1152d4',
-        'ai-teal': '#20b2aa',
+        "primary": "#197fe6",
+        "primary-hover": "#156cbd",
+        "primary-dark": "#156cb8",
+        "background-light": "#f6f7f8",
+        "background-dark": "#111921",
+        "surface-dark": "#1a2632",
+        "surface-light": "#ffffff",
+        "line-dark": "#2c3b4b",
+        "card-dark": "#1a242f",
+        // Extended neutral palette from Screen 4
+        "neutral-800": "#151e29",
+        "neutral-700": "#1e2b3b",
+        "neutral-600": "#334155",
+        "neutral-400": "#94a3b8",
+        "neutral-200": "#e2e8f0",
       },
       fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
-        'display': ['Roboto', 'Poppins', 'system-ui', 'sans-serif'], // Added Roboto
-        'serif': ['Playfair Display', 'serif'], // Added Playfair Display
+        "display": ["Inter", "sans-serif"],
+        "serif": ["Playfair Display", "serif"],
+        "mono": ["Space Grotesk", "monospace"], // Using Space Grotesk as mono for that specific technical feel, or actual mono
+        "lexend": ["Lexend", "sans-serif"],
+        "noto": ["Noto Serif", "serif"],
+      },
+      borderRadius: {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "2xl": "1rem",
+        "full": "9999px"
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.5s ease-out',
-        'float': 'float 6s ease-in-out infinite',
+        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+        'fade-up': 'fadeUp 0.6s ease-out forwards',
+        'bounce': 'bounce 1s infinite',
+        'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+        fadeInUp: {
+          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
+        fadeUp: {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         }
       }
     },

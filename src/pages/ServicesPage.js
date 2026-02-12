@@ -1,107 +1,140 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, Loader, Send } from 'lucide-react';
-import { ContactService } from '../firebase/services'; // Assuming you'll use the same service
+import { Ruler, Box, FileText, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ServicesPage = () => {
-    const [formData, setFormData] = useState({ name: '', email: '', projectType: 'Residential', description: '' });
-    const [loading, setLoading] = useState(false);
-    const [submitted, setSubmitted] = useState(false);
-    const [error, setError] = useState('');
+  return (
+    <div className="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white min-h-screen flex flex-col pt-20">
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+      {/* Main Content */}
+      <main className="flex-grow flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-8 relative">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
+        <div className="absolute right-10 top-20 w-64 h-64 border border-primary/10 rounded-full opacity-50 pointer-events-none"></div>
+        <div className="absolute left-10 bottom-20 w-32 h-32 border border-primary/10 rounded-full opacity-50 pointer-events-none"></div>
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError('');
-        setSubmitted(false);
+        {/* Header Section */}
+        <div className="text-center max-w-3xl mx-auto mb-16 relative z-10 animate-fade-in-up">
+          <h2 className="text-primary font-medium tracking-widest text-sm uppercase mb-3">Professional Offerings</h2>
+          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">Küratörlü Mimari Hizmetler</h1>
+          <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed font-light">
+            Teknik hassasiyeti yaratıcı vizyonla birleştirerek. Titiz detaylarla mekansal kavramları gerçeğe dönüştürmek için tasarlanmış kapsamlı bir tasarım hizmetleri paketi sunuyorum.
+          </p>
+        </div>
 
-        try {
-            await ContactService.sendMessage({ 
-                ...formData, 
-                subject: `Özel Proje Teklifi: ${formData.projectType}`,
-                createdAt: new Date() 
-            });
-            setSubmitted(true);
-            setFormData({ name: '', email: '', projectType: 'Residential', description: '' });
-        } catch (err) {
-            console.error('Teklif gönderme hatası:', err);
-            setError('Teklif gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
-        } finally {
-            setLoading(false);
-        }
-    };
+        {/* Services Grid */}
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full relative z-10">
 
-    return (
-        <main className="flex-1 py-10">
-            <div className="flex flex-col max-w-5xl mx-auto gap-12 px-4 sm:px-6 lg:px-8">
-                <div className="w-full">
-                    <div className="flex min-h-[480px] flex-col gap-6 bg-cover bg-center bg-no-repeat rounded-lg items-center justify-center p-8 text-center" style={{ backgroundImage: `linear-gradient(rgba(16, 22, 34, 0.7) 0%, rgba(16, 22, 34, 0.9) 100%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAFF0nGMNoRcZbtY9uXInUoBQYBEigXyvmy6BeFuMAarjoKLl-8aAxLKOg-juWYeoVSQlEKCbVItFxZLuZhmLwaNSJOoQESWCnWyBFETujr0ovbN9uapnafwhsbZVWaabajP8f4_fdgIP-K7vR6WfGbQ4wIP1pYK0D8tCCZxFbCDCFQXf_7Fxs1uDHM37TAveI-Bg2qh5CjpG6d3eJd-Z0RSqmr2C2T3etuHELEnEQe833Yktfkv5cnPFvgqy3-tyhs_JcrSnX0qiTH")` }}>
-                        <div className="flex flex-col gap-4 max-w-3xl">
-                            <h1 className="text-white text-4xl font-black leading-tight tracking-[-0.033em] sm:text-5xl">Vizyonunuzu Tasarımla Hayata Geçiriyoruz</h1>
-                            <p className="text-gray-300 text-base font-normal leading-normal sm:text-lg">Konseptten tamamlanmaya kadar çeşitli müşteri ihtiyaçlarını karşılamak için 2D çizim, 3D modelleme, yüksek kaliteli render ve kapsamlı sunum tasarımı konularında uzmanlık.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="flex flex-col gap-6">
-                    <h2 className="text-gray-900 dark:text-white text-2xl sm:text-3xl font-bold leading-tight tracking-[-0.015em] text-center">Hizmet Paketleri</h2>
-                    {/* Service packages table can be implemented here based on the design */}
-                </div>
-
-                <div className="border-t border-gray-200 dark:border-white/10 pt-12">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        <div className="flex flex-col gap-4 text-center md:text-left">
-                            <h2 className="text-gray-900 dark:text-white text-2xl sm:text-3xl font-bold leading-tight tracking-[-0.015em]">Özel Bir Projeniz mi Var?</h2>
-                            <p className="text-gray-600 dark:text-gray-300">Projeniz yukarıdaki paketlere uymuyorsa, memnuniyetle özel bir teklif sunabilirim. Lütfen formu mümkün olduğunca ayrıntılı bir şekilde doldurun, vizyonunuzu görüşmek üzere size geri döneceğim.</p>
-                        </div>
-                        <div className="w-full bg-gray-50 dark:bg-white/5 p-8 rounded-lg border border-gray-200 dark:border-white/10">
-                            {submitted ? (
-                                <div className="text-center flex flex-col items-center justify-center h-full">
-                                    <CheckCircle className="w-16 h-16 text-green-500 mb-4" />
-                                    <h2 className="text-2xl font-bold mb-2">Teklif İsteğiniz Gönderildi!</h2>
-                                    <p className="text-muted-light dark:text-muted-dark">En kısa sürede size dönüş yapacağım.</p>
-                                </div>
-                            ) : (
-                                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                                    {/* Form fields */}
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="text-sm font-medium text-gray-800 dark:text-gray-200" htmlFor="name">Ad Soyad *</label>
-                                        <input className="input-field" id="name" name="name" value={formData.name} onChange={handleInputChange} required />
-                                    </div>
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="text-sm font-medium text-gray-800 dark:text-gray-200" htmlFor="email">E-posta *</label>
-                                        <input className="input-field" id="email" name="email" type="email" value={formData.email} onChange={handleInputChange} required />
-                                    </div>
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="text-sm font-medium text-gray-800 dark:text-gray-200" htmlFor="project-type">Proje Tipi</label>
-                                        <select className="input-field" id="project-type" name="project-type" value={formData.projectType} onChange={handleInputChange}>
-                                            <option>Konut</option>
-                                            <option>Ticari</option>
-                                            <option>Akademik</option>
-                                            <option>Diğer</option>
-                                        </select>
-                                    </div>
-                                    <div className="flex flex-col gap-1.5">
-                                        <label className="text-sm font-medium text-gray-800 dark:text-gray-200" htmlFor="description">Proje Açıklaması *</label>
-                                        <textarea className="input-field" id="description" name="description" value={formData.description} onChange={handleInputChange} rows="4" required></textarea>
-                                    </div>
-                                    {error && <p className="text-red-500 text-sm">{error}</p>}
-                                    <button type="submit" className="btn-primary w-full mt-2 flex items-center justify-center gap-2" disabled={loading}>
-                                        {loading ? <><Loader className="animate-spin" size={20} /><span>Gönderiliyor...</span></> : <><Send size={16} /><span>Teklif Al</span></>}
-                                    </button>
-                                </form>
-                            )}
-                        </div>
-                    </div>
-                </div>
+          {/* Service Card 1: Architectural Design */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="group relative bg-white dark:bg-[#1a242f] border border-slate-200 dark:border-slate-800 rounded-xl p-8 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/5 flex flex-col h-full"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-xl"></div>
+            <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+              <Ruler className="text-primary w-8 h-8" />
             </div>
-        </main>
-    );
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Mimari Tasarım</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+              İlk eskizlerden detaylı mekansal planlamaya kadar, işlevsellik ve estetiğe odaklanan kapsamlı tasarım çözümleri.
+            </p>
+            <div className="space-y-3 mb-8 flex-grow">
+              {['Kavramsal Çizim', 'Detaylı Kat Planları', 'Saha Analizi', 'Sürdürülebilir Entegrasyon'].map(item => (
+                <div key={item} className="flex items-start">
+                  <span className="material-icons text-primary text-sm mt-1 mr-3">check_circle</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-sm">{item}</span>
+                </div>
+              ))}
+            </div>
+            <Link to="/contact" className="w-full py-3 px-4 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white">
+              Teklif İste
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </motion.div>
+
+          {/* Service Card 2: 3D Visualization */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="group relative bg-white dark:bg-[#1a242f] border border-slate-200 dark:border-slate-800 rounded-xl p-8 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/5 flex flex-col h-full"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-xl"></div>
+            <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+              <Box className="text-primary w-8 h-8" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">3D Görselleştirme</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+              Nihai yapılı çevreyi görselleştirmeye yardımcı olmak için yüksek kaliteli render ve sürükleyici deneyimlerle tasarımları hayata geçirmek.
+            </p>
+            <div className="space-y-3 mb-8 flex-grow">
+              {['Fotogerçekçi Render', '3D Gezintiler', 'Işık & Gölge Çalışmaları', 'VR Entegrasyonu'].map(item => (
+                <div key={item} className="flex items-start">
+                  <span className="material-icons text-primary text-sm mt-1 mr-3">check_circle</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-sm">{item}</span>
+                </div>
+              ))}
+            </div>
+            <Link to="/contact" className="w-full py-3 px-4 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white">
+              Teklif İste
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </motion.div>
+
+          {/* Service Card 3: Technical Consulting */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="group relative bg-white dark:bg-[#1a242f] border border-slate-200 dark:border-slate-800 rounded-xl p-8 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/5 flex flex-col h-full"
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-t-xl"></div>
+            <div className="w-14 h-14 bg-primary/10 rounded-lg flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+              <FileText className="text-primary w-8 h-8" />
+            </div>
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Teknik Danışmanlık</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+              Detaylı teknik dokümantasyon ve malzeme uzmanlığı ile yapısal bütünlük ve mevzuata uygunluk sağlama.
+            </p>
+            <div className="space-y-3 mb-8 flex-grow">
+              {['Ruhsat Dokümantasyonu', 'Uygulama Detayları', 'Malzeme Seçimi', 'Yönetmelik Uyumu'].map(item => (
+                <div key={item} className="flex items-start">
+                  <span className="material-icons text-primary text-sm mt-1 mr-3">check_circle</span>
+                  <span className="text-slate-600 dark:text-slate-300 text-sm">{item}</span>
+                </div>
+              ))}
+            </div>
+            <Link to="/contact" className="w-full py-3 px-4 border border-primary text-primary hover:bg-primary hover:text-white rounded-lg transition-all duration-200 font-medium text-sm flex items-center justify-center group-hover:bg-primary group-hover:text-white">
+              Teklif İste
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </motion.div>
+
+        </div>
+      </main>
+
+      {/* Footer / CTA Section */}
+      <section className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">Aklınızda özel bir proje mi var?</h2>
+          <p className="text-slate-600 dark:text-slate-400 mb-8 font-light">
+            İhtiyaçlarınız yukarıdaki kategorilere uymuyorsa, özel işbirlikleri ve benzersiz mimari zorlukları tartışmaya her zaman açığım.
+          </p>
+          <div className="flex justify-center gap-4">
+            <Link to="/contact" className="px-8 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover transition-colors shadow-lg shadow-primary/25">
+              İletişime Geç
+            </Link>
+            <Link to="/portfolio" className="px-8 py-3 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-medium rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+              Portfolyoyu İncele
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
 };
 
 export default ServicesPage;

@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Eye, 
-  // Upload, // Not used currently
-  Settings,
-  BarChart3,
-  // Users, // Not used currently
-  FileText,
-  QrCode,
-  BookOpen,
-  FlaskConical
+  Plus, Edit, Trash2, Eye, Settings, BarChart3, FileText, QrCode, BookOpen, FlaskConical, Search, Bell, LogOut, Menu, Folder
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useProject } from '../context/ProjectContext';
@@ -25,37 +14,25 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import AdminLoginForm from '../components/AdminLoginForm';
 
 const AdminPage = () => {
-  const { user, isAdmin } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   const { 
-    projects, 
-    paftas,
-    blogPosts,
-    experiments,
-    inspirations,
-    loadProjects, 
-    loadPaftas,
-    loadBlogPosts,
-    loadExperiments,
-    loadInspirations,
-    deleteProject, 
-    deletePafta,
-    deleteBlogPost,
-    deleteExperiment,
-    deleteInspiration,
+    projects, paftas, blogPosts, experiments, inspirations,
+    loadProjects, loadPaftas, loadBlogPosts, loadExperiments, loadInspirations,
+    deleteProject, deletePafta, deleteBlogPost, deleteExperiment, deleteInspiration,
     loading 
   } = useProject();
   
-  const [activeTab, setActiveTab] = useState('projects');
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Form states
   const [showProjectForm, setShowProjectForm] = useState(false);
   const [showPaftaForm, setShowPaftaForm] = useState(false);
   const [showBlogForm, setShowBlogForm] = useState(false);
   const [showExperimentForm, setShowExperimentForm] = useState(false);
   const [showInspirationForm, setShowInspirationForm] = useState(false);
-  const [editingProject, setEditingProject] = useState(null);
-  const [editingPafta, setEditingPafta] = useState(null);
-  const [editingBlog, setEditingBlog] = useState(null);
-  const [editingExperiment, setEditingExperiment] = useState(null);
-  const [editingInspiration, setEditingInspiration] = useState(null);
+
+  const [editingItem, setEditingItem] = useState(null);
 
   useEffect(() => {
     if (isAdmin) {
@@ -67,720 +44,259 @@ const AdminPage = () => {
     }
   }, [isAdmin, loadProjects, loadPaftas, loadExperiments, loadBlogPosts, loadInspirations]);
 
-  // Show login form if not authenticated or not admin
   if (!user || !isAdmin) {
     return <AdminLoginForm />;
   }
 
-  const tabs = [
-    { id: 'projects', label: 'Projeler', icon: FileText },
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  const navItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
+    { id: 'projects', label: 'Projects', icon: Folder },
     { id: 'paftas', label: 'Paftalar', icon: QrCode },
-    { id: 'blog', label: 'Blog', icon: BookOpen },
-    { id: 'experiments', label: 'Deneyler', icon: FlaskConical },
-    { id: 'inspirations', label: 'İlhamlar', icon: Eye },
-    { id: 'analytics', label: 'Analitik', icon: BarChart3 },
-    { id: 'settings', label: 'Ayarlar', icon: Settings }
+    { id: 'blog', label: 'Blog', icon: FileText },
+    { id: 'experiments', label: 'Experiments', icon: FlaskConical },
+    { id: 'inspirations', label: 'Inspirations', icon: Eye },
+    { id: 'settings', label: 'Configuration', icon: Settings },
   ];
 
-  const handleEditProject = (project) => {
-    setEditingProject(project);
-    setShowProjectForm(true);
+  const handleEdit = (type, item) => {
+    setEditingItem(item);
+    if(type === 'project') setShowProjectForm(true);
+    if(type === 'pafta') setShowPaftaForm(true);
+    if(type === 'blog') setShowBlogForm(true);
+    if(type === 'experiment') setShowExperimentForm(true);
+    if(type === 'inspiration') setShowInspirationForm(true);
   };
 
-  const handleEditPafta = (pafta) => {
-    setEditingPafta(pafta);
-    setShowPaftaForm(true);
-  };
-
-  const handleDeleteProject = async (projectId) => {
-    if (window.confirm('Bu projeyi silmek istediğinizden emin misiniz?')) {
-      try {
-        await deleteProject(projectId);
-      } catch (error) {
-        console.error('Proje silinirken hata:', error);
-      }
-    }
-  };
-
-  const handleDeletePafta = async (paftaId) => {
-    if (window.confirm('Bu paftayı silmek istediğinizden emin misiniz?')) {
-      try {
-        await deletePafta(paftaId);
-      } catch (error) {
-        console.error('Pafta silinirken hata:', error);
-      }
-    }
-  };
-
-  const handleEditBlog = (blog) => {
-    setEditingBlog(blog);
-    setShowBlogForm(true);
-  };
-
-  const handleDeleteBlog = async (blogId) => {
-    if (window.confirm('Bu blog gönderisini silmek istediğinizden emin misiniz?')) {
-      try {
-        await deleteBlogPost(blogId);
-      } catch (error) {
-        console.error('Blog gönderisi silinirken hata:', error);
-      }
-    }
-  };
-
-  const handleEditExperiment = (experiment) => {
-    setEditingExperiment(experiment);
-    setShowExperimentForm(true);
-  };
-
-  const handleDeleteExperiment = async (experimentId) => {
-    if (window.confirm('Bu deneyi silmek istediğinizden emin misiniz?')) {
-      try {
-        await deleteExperiment(experimentId);
-      } catch (error) {
-        console.error('Deney silinirken hata:', error);
-      }
-    }
-  };
-
-  const handleEditInspiration = (inspiration) => {
-    setEditingInspiration(inspiration);
-    setShowInspirationForm(true);
-  };
-
-  const handleDeleteInspiration = async (inspirationId) => {
-    if (window.confirm('Bu ilhamı silmek istediğinizden emin misiniz?')) {
-      try {
-        await deleteInspiration(inspirationId);
-      } catch (error) {
-        console.error('İlham silinirken hata:', error);
-      }
-    }
-  };
-
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case 'projects':
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-secondary-800">
-                Proje Yönetimi
-              </h2>
-              <button
-                onClick={() => {
-                  setEditingProject(null);
-                  setShowProjectForm(true);
-                }}
-                className="btn-primary flex items-center space-x-2"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Yeni Proje</span>
-              </button>
-            </div>
-
-            {loading ? (
-              <LoadingSpinner text="Projeler yükleniyor..." />
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {projects.map((project) => (
-                  <motion.div
-                    key={project.id}
-                    className="card p-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="mb-4">
-                      {project.images && project.images.length > 0 ? (
-                        <img
-                          src={project.images[0]}
-                          alt={project.title}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                      ) : (
-                        <div className="w-full h-32 bg-secondary-100 rounded-lg flex items-center justify-center">
-                          <span className="text-secondary-400">Görsel Yok</span>
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="text-lg font-bold mb-2 text-secondary-800">
-                      {project.title}
-                    </h3>
-                    
-                    <p className="text-secondary-600 text-sm mb-4 line-clamp-2">
-                      {project.description}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        project.category === 'mimari' 
-                          ? 'bg-blue-100 text-blue-800' 
-                          : 'bg-green-100 text-green-800'
-                      }`}>
-                        {project.category === 'mimari' ? 'Mimari' : 'Yazılım'}
-                      </span>
-                      
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => window.open(`/project/${project.id}`, '_blank')}
-                          className="p-2 text-secondary-500 hover:text-primary-600 transition-colors duration-200"
-                          title="Görüntüle"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleEditProject(project)}
-                          className="p-2 text-secondary-500 hover:text-primary-600 transition-colors duration-200"
-                          title="Düzenle"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleDeleteProject(project.id)}
-                          className="p-2 text-secondary-500 hover:text-red-600 transition-colors duration-200"
-                          title="Sil"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-
-      case 'paftas':
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-secondary-800">
-                Pafta Yönetimi
-              </h2>
-              <button
-                onClick={() => {
-                  setEditingPafta(null);
-                  setShowPaftaForm(true);
-                }}
-                className="btn-primary flex items-center space-x-2"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Yeni Pafta</span>
-              </button>
-            </div>
-
-            {loading ? (
-              <LoadingSpinner text="Paftalar yükleniyor..." />
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {paftas.map((pafta) => (
-                  <motion.div
-                    key={pafta.id}
-                    className="card p-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="mb-4">
-                      {pafta.images && pafta.images.length > 0 ? (
-                        <img
-                          src={pafta.images[0]}
-                          alt={pafta.title}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                      ) : (
-                        <div className="w-full h-32 bg-secondary-100 rounded-lg flex items-center justify-center">
-                          <QrCode className="w-8 h-8 text-secondary-400" />
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="text-lg font-bold mb-2 text-secondary-800">
-                      {pafta.title}
-                    </h3>
-                    
-                    <p className="text-secondary-600 text-sm mb-4 line-clamp-2">
-                      {pafta.description}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
-                        {pafta.semester}
-                      </span>
-                      
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => window.open(`/pafta/${pafta.qrCodeData}`, '_blank')}
-                          className="p-2 text-secondary-500 hover:text-primary-600 transition-colors duration-200"
-                          title="Görüntüle"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleEditPafta(pafta)}
-                          className="p-2 text-secondary-500 hover:text-primary-600 transition-colors duration-200"
-                          title="Düzenle"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleDeletePafta(pafta.id)}
-                          className="p-2 text-secondary-500 hover:text-red-600 transition-colors duration-200"
-                          title="Sil"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-
-      case 'blog':
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-secondary-800 dark:text-white">
-                Blog Yönetimi
-              </h2>
-              <button
-                onClick={() => {
-                  setEditingBlog(null);
-                  setShowBlogForm(true);
-                }}
-                className="btn-primary flex items-center space-x-2"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Yeni Blog Gönderisi</span>
-              </button>
-            </div>
-
-            {loading ? (
-              <LoadingSpinner text="Blog gönderileri yükleniyor..." />
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {blogPosts.map((blog) => (
-                  <motion.div
-                    key={blog.id}
-                    className="card p-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="mb-4">
-                      {blog.imageUrl ? (
-                        <img
-                          src={blog.imageUrl}
-                          alt={blog.title}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                      ) : (
-                        <div className="w-full h-32 bg-secondary-100 rounded-lg flex items-center justify-center">
-                          <span className="text-secondary-400">Görsel Yok</span>
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="text-lg font-bold mb-2 text-secondary-800 dark:text-white">
-                      {blog.title}
-                    </h3>
-                    
-                    <p className="text-secondary-600 dark:text-slate-300 text-sm mb-4 line-clamp-2">
-                      {blog.summary || blog.description}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {blog.category || 'Genel'}
-                      </span>
-                      
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => window.open(`/blog/${blog.id}`, '_blank')}
-                          className="p-2 text-secondary-500 hover:text-primary-600 transition-colors duration-200"
-                          title="Görüntüle"
-                        >
-                          <Eye className="w-4 h-4" />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleEditBlog(blog)}
-                          className="p-2 text-secondary-500 hover:text-primary-600 transition-colors duration-200"
-                          title="Düzenle"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleDeleteBlog(blog.id)}
-                          className="p-2 text-secondary-500 hover:text-red-600 transition-colors duration-200"
-                          title="Sil"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-
-      case 'experiments':
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-secondary-800 dark:text-white">
-                Deney Yönetimi
-              </h2>
-              <button
-                onClick={() => {
-                  setEditingExperiment(null);
-                  setShowExperimentForm(true);
-                }}
-                className="btn-primary flex items-center space-x-2"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Yeni Deney</span>
-              </button>
-            </div>
-
-            {loading ? (
-              <LoadingSpinner text="Deneyler yükleniyor..." />
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {experiments.map((experiment) => (
-                  <motion.div
-                    key={experiment.id}
-                    className="card p-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="mb-4">
-                      {experiment.imageUrl ? (
-                        <img
-                          src={experiment.imageUrl}
-                          alt={experiment.title}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                      ) : (
-                        <div className="w-full h-32 bg-secondary-100 rounded-lg flex items-center justify-center">
-                          <FlaskConical className="w-8 h-8 text-secondary-400" />
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="text-lg font-bold mb-2 text-secondary-800 dark:text-white">
-                      {experiment.title}
-                    </h3>
-                    
-                    <p className="text-secondary-600 dark:text-slate-300 text-sm mb-4 line-clamp-2">
-                      {experiment.description}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        experiment.type === 'featured' ? 'bg-green-100 text-green-800' :
-                        experiment.type === 'digital' ? 'bg-blue-100 text-blue-800' :
-                        'bg-red-100 text-red-800'
-                      }`}>
-                        {experiment.type === 'featured' ? 'Öne Çıkan' :
-                         experiment.type === 'digital' ? 'Dijital' : 'Başarısız'}
-                      </span>
-                      
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => handleEditExperiment(experiment)}
-                          className="p-2 text-secondary-500 hover:text-primary-600 transition-colors duration-200"
-                          title="Düzenle"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleDeleteExperiment(experiment.id)}
-                          className="p-2 text-secondary-500 hover:text-red-600 transition-colors duration-200"
-                          title="Sil"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-
-      case 'inspirations':
-        return (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-secondary-800 dark:text-white">
-                İlham Yönetimi
-              </h2>
-              <button
-                onClick={() => {
-                  setEditingInspiration(null);
-                  setShowInspirationForm(true);
-                }}
-                className="btn-primary flex items-center space-x-2"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Yeni İlham</span>
-              </button>
-            </div>
-
-            {loading ? (
-              <LoadingSpinner text="İlhamlar yükleniyor..." />
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {inspirations.map((inspiration) => (
-                  <motion.div
-                    key={inspiration.id}
-                    className="card p-6"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <div className="mb-4">
-                      {inspiration.imageUrl ? (
-                        <img
-                          src={inspiration.imageUrl}
-                          alt={inspiration.title || inspiration.name}
-                          className="w-full h-32 object-cover rounded-lg"
-                        />
-                      ) : (
-                        <div className="w-full h-32 bg-secondary-100 rounded-lg flex items-center justify-center">
-                          <Eye className="w-8 h-8 text-secondary-400" />
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="text-lg font-bold mb-2 text-secondary-800 dark:text-white">
-                      {inspiration.title || inspiration.name}
-                    </h3>
-                    
-                    <p className="text-secondary-600 dark:text-slate-300 text-sm mb-4 line-clamp-2">
-                      {inspiration.description}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                        {inspiration.category}
-                      </span>
-                      
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => handleEditInspiration(inspiration)}
-                          className="p-2 text-secondary-500 hover:text-primary-600 transition-colors duration-200"
-                          title="Düzenle"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleDeleteInspiration(inspiration.id)}
-                          className="p-2 text-secondary-500 hover:text-red-600 transition-colors duration-200"
-                          title="Sil"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </div>
-        );
-
-      case 'analytics':
-        return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-secondary-800">
-              Analitik
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="card p-6 text-center">
-                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <FileText className="w-6 h-6 text-primary-600" />
-                </div>
-                <div className="text-2xl font-bold text-secondary-800 mb-2">
-                  {projects.length}
-                </div>
-                <div className="text-secondary-600">Toplam Proje</div>
-              </div>
-              
-              <div className="card p-6 text-center">
-                <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <QrCode className="w-6 h-6 text-purple-600" />
-                </div>
-                <div className="text-2xl font-bold text-secondary-800 mb-2">
-                  {paftas.length}
-                </div>
-                <div className="text-secondary-600">Toplam Pafta</div>
-              </div>
-              
-              <div className="card p-6 text-center">
-                <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <BarChart3 className="w-6 h-6 text-green-600" />
-                </div>
-                <div className="text-2xl font-bold text-secondary-800 mb-2">
-                  {projects.filter(p => p.featured).length}
-                </div>
-                <div className="text-secondary-600">Öne Çıkan Proje</div>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'settings':
-        return (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-secondary-800">
-              Site Ayarları
-            </h2>
-            
-            <div className="card p-6">
-              <h3 className="text-lg font-bold mb-4 text-secondary-800">
-                Genel Ayarlar
-              </h3>
-              <p className="text-secondary-600">
-                Site ayarları yakında eklenecek.
-              </p>
-            </div>
-          </div>
-        );
-
-      default:
-        return null;
+  const handleDelete = async (type, id) => {
+    if (window.confirm('Are you sure you want to delete this item?')) {
+        if(type === 'project') await deleteProject(id);
+        if(type === 'pafta') await deletePafta(id);
+        if(type === 'blog') await deleteBlogPost(id);
+        if(type === 'experiment') await deleteExperiment(id);
+        if(type === 'inspiration') await deleteInspiration(id);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-900">
-      <div className="container-custom py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2 gradient-text">
-              Admin Panel
-            </h1>
-            <p className="text-secondary-600">
-              Hoş geldiniz, {user.email}
-            </p>
-          </div>
+    <div className="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex antialiased pt-16">
 
-          {/* Tab Navigation */}
-          <div className="mb-8">
-            <div className="border-b border-secondary-200">
-              <nav className="-mb-px flex space-x-8">
-                {tabs.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
-                        activeTab === tab.id
-                          ? 'border-primary-500 text-primary-600'
-                          : 'border-transparent text-secondary-500 hover:text-secondary-700 hover:border-secondary-300'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                      <span>{tab.label}</span>
-                    </button>
-                  );
-                })}
-              </nav>
+      {/* Sidebar Navigation */}
+      <aside className={`fixed inset-y-0 left-0 pt-16 w-64 bg-white dark:bg-[#1a232e] border-r border-slate-200 dark:border-slate-800 flex flex-col z-20 transition-transform duration-300 md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+          <p className="px-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Main</p>
+          {navItems.map(item => {
+              const Icon = item.icon;
+              return (
+                <button
+                    key={item.id}
+                    onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors group ${activeTab === item.id ? 'bg-primary/10 text-primary' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'}`}
+                >
+                    <Icon className={`text-xl ${activeTab === item.id ? 'text-primary' : 'group-hover:text-primary'}`} />
+                    {item.label}
+                </button>
+              )
+          })}
+        </div>
+
+        {/* User Profile/Logout */}
+        <div className="p-4 border-t border-slate-200 dark:border-slate-800">
+            <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                    {user.email[0].toUpperCase()}
+                </div>
+                <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-900 dark:text-white truncate">Admin User</p>
+                    <p className="text-xs text-slate-500 truncate">{user.email}</p>
+                </div>
             </div>
-          </div>
+            <button
+                onClick={handleLogout}
+                className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium text-slate-600 dark:text-slate-300 transition-colors"
+            >
+                <LogOut className="text-sm w-4 h-4" /> Sign Out
+            </button>
+        </div>
+      </aside>
 
-          {/* Tab Content */}
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {renderTabContent()}
-          </motion.div>
-        </motion.div>
-      </div>
+      {/* Main Content Area */}
+      <main className="flex-1 md:ml-64 flex flex-col h-[calc(100vh-4rem)] overflow-hidden">
+        {/* Header */}
+        <header className="h-16 flex items-center justify-between px-6 bg-white dark:bg-[#1a232e] border-b border-slate-200 dark:border-slate-800 z-10 shrink-0">
+            <div className="flex items-center gap-4">
+                <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden p-2 -ml-2 text-slate-500 hover:text-primary">
+                    <Menu className="w-5 h-5" />
+                </button>
+                <h1 className="text-lg font-semibold text-slate-900 dark:text-white capitalize">{activeTab} Overview</h1>
+            </div>
+            <div className="flex items-center gap-4">
+                <div className="hidden md:flex relative">
+                    <Search className="absolute left-3 top-2.5 text-slate-400 w-4 h-4" />
+                    <input className="pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-900 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary w-64 text-slate-900 dark:text-slate-100 placeholder-slate-500 outline-none" placeholder="Search..." type="text"/>
+                </div>
+                <button className="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                    <Bell className="w-5 h-5" />
+                    <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-[#1a232e]"></span>
+                </button>
+                {activeTab !== 'dashboard' && activeTab !== 'settings' && (
+                    <button
+                        onClick={() => {
+                            setEditingItem(null);
+                            if(activeTab === 'projects') setShowProjectForm(true);
+                            if(activeTab === 'paftas') setShowPaftaForm(true);
+                            if(activeTab === 'blog') setShowBlogForm(true);
+                            if(activeTab === 'experiments') setShowExperimentForm(true);
+                            if(activeTab === 'inspirations') setShowInspirationForm(true);
+                        }}
+                        className="hidden md:flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-primary/20"
+                    >
+                        <Plus className="w-4 h-4" /> Add New
+                    </button>
+                )}
+            </div>
+        </header>
 
-      {/* Forms */}
-      {showProjectForm && (
-        <ProjectForm
-          project={editingProject}
-          onClose={() => {
-            setShowProjectForm(false);
-            setEditingProject(null);
-          }}
-        />
-      )}
+        {/* Scrollable Content */}
+        <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-8 bg-background-light dark:bg-background-dark">
+            {loading ? (
+                <LoadingSpinner />
+            ) : (
+                <>
+                    {activeTab === 'dashboard' && (
+                        <>
+                            {/* Stats Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                <div className="bg-white dark:bg-[#1a232e] p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400"><Eye className="w-5 h-5" /></div>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-slate-500 text-sm font-medium">Total Views</p>
+                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white">24.5k</h3>
+                                    </div>
+                                </div>
+                                <div className="bg-white dark:bg-[#1a232e] p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg text-purple-600 dark:text-purple-400"><Folder className="w-5 h-5" /></div>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-slate-500 text-sm font-medium">Projects</p>
+                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{projects.length}</h3>
+                                    </div>
+                                </div>
+                                <div className="bg-white dark:bg-[#1a232e] p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg text-orange-600 dark:text-orange-400"><FileText className="w-5 h-5" /></div>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-slate-500 text-sm font-medium">Blog Posts</p>
+                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{blogPosts.length}</h3>
+                                    </div>
+                                </div>
+                                <div className="bg-white dark:bg-[#1a232e] p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div className="p-2 bg-teal-100 dark:bg-teal-900/30 rounded-lg text-teal-600 dark:text-teal-400"><QrCode className="w-5 h-5" /></div>
+                                    </div>
+                                    <div className="space-y-1">
+                                        <p className="text-slate-500 text-sm font-medium">Paftalar</p>
+                                        <h3 className="text-2xl font-bold text-slate-900 dark:text-white">{paftas.length}</h3>
+                                    </div>
+                                </div>
+                            </div>
 
-      {showPaftaForm && (
-        <PaftaForm
-          pafta={editingPafta}
-          onClose={() => {
-            setShowPaftaForm(false);
-            setEditingPafta(null);
-          }}
-        />
-      )}
+                            {/* Recent Projects Table */}
+                            <div className="bg-white dark:bg-[#1a232e] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+                                <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+                                    <h3 className="font-bold text-lg text-slate-900 dark:text-white">Recent Projects</h3>
+                                    <button onClick={() => setActiveTab('projects')} className="text-sm text-primary font-medium hover:underline">View All</button>
+                                </div>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-left text-sm text-slate-600 dark:text-slate-400">
+                                        <thead className="bg-slate-50 dark:bg-slate-900/50 text-xs uppercase font-semibold text-slate-500">
+                                            <tr>
+                                                <th className="px-6 py-4">Project Name</th>
+                                                <th className="px-6 py-4">Category</th>
+                                                <th className="px-6 py-4 text-right">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                                            {projects.slice(0, 5).map(project => (
+                                                <tr key={project.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+                                                    <td className="px-6 py-4">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-10 h-10 rounded bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                                                                <img className="w-full h-full object-cover" src={project.images?.[0] || '/placeholder.jpg'} alt="" />
+                                                            </div>
+                                                            <span className="font-medium text-slate-900 dark:text-white">{project.title}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4">{project.category}</td>
+                                                    <td className="px-6 py-4 text-right">
+                                                        <div className="flex items-center justify-end gap-2">
+                                                            <button onClick={() => handleEdit('project', project)} className="p-1 text-slate-400 hover:text-primary transition-colors"><Edit className="w-4 h-4" /></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </>
+                    )}
 
-      {showBlogForm && (
-        <BlogForm
-          blogPost={editingBlog}
-          onClose={() => {
-            setShowBlogForm(false);
-            setEditingBlog(null);
-            loadBlogPosts();
-          }}
-        />
-      )}
+                    {activeTab === 'projects' && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {projects.map(project => (
+                                <div key={project.id} className="bg-white dark:bg-[#1a232e] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                    <img className="w-full h-40 object-cover rounded-lg mb-4 bg-slate-200 dark:bg-slate-800" src={project.images?.[0]} alt={project.title} />
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">{project.title}</h3>
+                                    <p className="text-sm text-slate-500 mb-4 line-clamp-2">{project.description}</p>
+                                    <div className="flex justify-end gap-2">
+                                        <button onClick={() => handleEdit('project', project)} className="p-2 text-slate-500 hover:text-primary"><Edit className="w-4 h-4" /></button>
+                                        <button onClick={() => handleDelete('project', project.id)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    
+                    {/* Simplified view for other tabs using similar grid structure */}
+                    {(activeTab === 'paftas' || activeTab === 'blog' || activeTab === 'experiments' || activeTab === 'inspirations') && (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {(activeTab === 'paftas' ? paftas : activeTab === 'blog' ? blogPosts : activeTab === 'experiments' ? experiments : inspirations).map(item => (
+                                <div key={item.id} className="bg-white dark:bg-[#1a232e] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                                    <div className="w-full h-40 bg-slate-200 dark:bg-slate-800 rounded-lg mb-4 overflow-hidden">
+                                        {(item.images?.[0] || item.imageUrl || item.image) && <img className="w-full h-full object-cover" src={item.images?.[0] || item.imageUrl || item.image} alt={item.title} />}
+                                    </div>
+                                    <h3 className="font-bold text-slate-900 dark:text-white mb-1">{item.title || item.name}</h3>
+                                    <div className="flex justify-end gap-2 mt-4">
+                                        <button onClick={() => handleEdit(activeTab.slice(0, -1), item)} className="p-2 text-slate-500 hover:text-primary"><Edit className="w-4 h-4" /></button>
+                                        <button onClick={() => handleDelete(activeTab.slice(0, -1), item.id)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </>
+            )}
+        </div>
+      </main>
 
-      {showExperimentForm && (
-        <ExperimentForm
-          experiment={editingExperiment}
-          onClose={() => {
-            setShowExperimentForm(false);
-            setEditingExperiment(null);
-            loadExperiments();
-          }}
-        />
-      )}
-
-      {showInspirationForm && (
-        <InspirationForm
-          inspiration={editingInspiration}
-          onClose={() => {
-            setShowInspirationForm(false);
-            setEditingInspiration(null);
-          }}
-          onSuccess={() => {
-            loadInspirations();
-          }}
-        />
-      )}
+      {/* Modals for Forms */}
+      {showProjectForm && <ProjectForm project={editingItem} onClose={() => { setShowProjectForm(false); setEditingItem(null); }} />}
+      {showPaftaForm && <PaftaForm pafta={editingItem} onClose={() => { setShowPaftaForm(false); setEditingItem(null); }} />}
+      {showBlogForm && <BlogForm blogPost={editingItem} onClose={() => { setShowBlogForm(false); setEditingItem(null); }} />}
+      {showExperimentForm && <ExperimentForm experiment={editingItem} onClose={() => { setShowExperimentForm(false); setEditingItem(null); }} />}
+      {showInspirationForm && <InspirationForm inspiration={editingItem} onClose={() => { setShowInspirationForm(false); setEditingItem(null); }} onSuccess={loadInspirations} />}
     </div>
   );
 };
