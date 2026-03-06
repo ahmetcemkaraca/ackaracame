@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Maximize, Download, Share2, Layers, Lightbulb } from 'lucide-react';
 import { InspirationService } from '../firebase/services';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -9,17 +8,18 @@ const InspirationDetailPage = () => {
   const { id } = useParams();
   const [inspiration, setInspiration] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchInspiration = async () => {
       try {
         setLoading(true);
-        // Using getById if available, otherwise defaulting to a mock for demo fidelity
-        // In a real app with proper data, this would just use the fetched data
+        setError(null);
         const data = await InspirationService.getById(id);
         setInspiration(data);
-      } catch (error) {
-        console.error("İlham yüklenirken hata:", error);
+      } catch (err) {
+        console.error("İlham yüklenirken hata:", err);
+        setError("İlham yüklenirken bir hata oluştu.");
       } finally {
         setLoading(false);
       }
@@ -38,18 +38,28 @@ const InspirationDetailPage = () => {
     );
   }
 
-  // Fallback mock if data is missing or empty (for visual fidelity of the design)
-  const item = inspiration || {
-    title: 'Geisel Library Study',
-    category: 'Brutalism',
-    year: '1965',
-    architect: 'William Pereira',
-    location: 'San Diego, USA',
-    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDRYWOqIn1kbDRaqKPbVzPQPgnVEpfL-Dw0Y6l65jMZvt0_ttHpVDn5QPI_h3skueQ_9yDvBfLvFx6HOIhrBOzI-eAcdsiDbBgIi4suYM-AobfaBmBYwL7WF9ijBTQ964uutx8YLA7ZUyRrBbaxY4I9Imyr0E_fntsPZ70mA4oniPNHg2MkK5MjxT8j9Tpo70Qf8gzmHTXo39ijUd2SVyx1zgurI9khFNobBxDBkdjCZmGJfOnCWDLT3VNSX-J5vDENM9PHvj83Vnk',
-    description: 'The structural daring of the cantilevered floors creates a sense of weightlessness despite the heavy concrete material. This dichotomy between form and material is something I want to explore in my "Urban Sanctuary" project.',
-    notes: 'The central core houses the elevators and stairs, allowing the floor plates to be open and free of columns.',
-    palette: ['#4a5568', '#718096', '#a0aec0', '#e2e8f0', '#1a202c']
-  };
+  if (error || !inspiration) {
+    return (
+      <div className="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex flex-col pt-20">
+        <nav className="h-16 border-b border-slate-200 dark:border-slate-800 flex items-center px-6 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md z-50">
+          <Link to="/inspiration-gallery" className="group flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors">
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Galeriye Dön
+          </Link>
+        </nav>
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-slate-500 dark:text-slate-400 text-lg mb-4">
+              {error || "İlham bulunamadı."}
+            </p>
+            <Link to="/inspiration-gallery" className="text-primary hover:underline">
+              Galeriye geri dön
+            </Link>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex flex-col overflow-hidden pt-20">
@@ -73,8 +83,8 @@ const InspirationDetailPage = () => {
         {/* Left Column: Immersive Image */}
         <div className="lg:w-7/12 xl:w-2/3 h-1/2 lg:h-full bg-black relative group overflow-hidden">
           <img
-            src={item.imageUrl || item.image}
-            alt={item.title}
+            src={inspiration.imageUrl || inspiration.image}
+            alt={inspiration.title}
             className="w-full h-full object-cover opacity-90 transition-transform duration-700 group-hover:scale-[1.01]"
           />
 
@@ -97,22 +107,22 @@ const InspirationDetailPage = () => {
             <header className="space-y-4">
               <div className="flex items-start justify-between">
                 <div className="flex gap-2 mb-2">
-                  <span className="px-2 py-1 text-xs font-semibold tracking-wider uppercase text-primary bg-primary/10 rounded border border-primary/20">{item.category || 'Architecture'}</span>
-                  {item.year && <span className="px-2 py-1 text-xs font-semibold tracking-wider uppercase text-slate-500 bg-slate-200 dark:bg-slate-800 dark:text-slate-400 rounded border border-slate-300 dark:border-slate-700">{item.year}</span>}
+                  <span className="px-2 py-1 text-xs font-semibold tracking-wider uppercase text-primary bg-primary/10 rounded border border-primary/20">{inspiration.category || 'Architecture'}</span>
+                  {inspiration.year && <span className="px-2 py-1 text-xs font-semibold tracking-wider uppercase text-slate-500 bg-slate-200 dark:bg-slate-800 dark:text-slate-400 rounded border border-slate-300 dark:border-slate-700">{inspiration.year}</span>}
                 </div>
               </div>
               <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
-                {item.title}
+                {inspiration.title}
               </h1>
               <div className="flex items-center gap-3 text-slate-500 dark:text-slate-400 text-sm">
                 <span className="flex items-center gap-1.5">
                   <span className="material-icons text-base">person</span>
-                  {item.architect || 'Unknown Architect'}
+                  {inspiration.architect || 'Unknown Architect'}
                 </span>
                 <span className="w-1 h-1 bg-slate-400 rounded-full"></span>
                 <span className="flex items-center gap-1.5">
                   <span className="material-icons text-base">place</span>
-                  {item.location || 'Unknown Location'}
+                  {inspiration.location || 'Unknown Location'}
                 </span>
               </div>
             </header>
@@ -126,7 +136,7 @@ const InspirationDetailPage = () => {
                 Neden ilham veriyor?
               </h2>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                {item.description}
+                {inspiration.description}
               </p>
 
               <div className="grid grid-cols-2 gap-4 mt-4">
@@ -143,23 +153,23 @@ const InspirationDetailPage = () => {
               </div>
             </section>
 
-            {/* Technical Notes (Accordion-like) */}
+            {/* Technical Notes */}
             <section className="space-y-4">
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                     <span className="w-1 h-6 bg-primary/50 rounded-full"></span>
                     Teknik Detaylar
                 </h2>
                 <div className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-slate-700 rounded-lg p-4">
-                    <p className="text-sm text-slate-600 dark:text-slate-400">{item.notes || 'No technical notes available.'}</p>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">{inspiration.notes || 'Teknik not mevcut değil.'}</p>
                 </div>
             </section>
 
             {/* Palette */}
-            {item.palette && (
+            {inspiration.palette && inspiration.palette.length > 0 && (
                 <section>
                     <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500 mb-3">Çıkarılan Renk Paleti</h3>
                     <div className="flex h-12 rounded-lg overflow-hidden w-full shadow-sm">
-                        {item.palette.map(color => (
+                        {inspiration.palette.map(color => (
                             <div key={color} className="flex-1" style={{ backgroundColor: color }} title={color}></div>
                         ))}
                     </div>

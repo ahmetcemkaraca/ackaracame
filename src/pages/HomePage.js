@@ -6,12 +6,13 @@ import { useLanguage } from '../context/LanguageContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const HomePage = () => {
-  const { featuredProjects, loadFeaturedProjects, loading } = useProject();
+  const { featuredProjects, blogPosts, loadFeaturedProjects, loadBlogPosts, loading } = useProject();
   const { t } = useLanguage();
 
   useEffect(() => {
     loadFeaturedProjects();
-  }, [loadFeaturedProjects]);
+    loadBlogPosts();
+  }, [loadFeaturedProjects, loadBlogPosts]);
 
   if (loading) {
     return (
@@ -88,7 +89,7 @@ const HomePage = () => {
         <div className="hidden md:block text-xs font-mono text-slate-500">
           <p>LAT: 36.8969° N</p>
           <p>LON: 30.7133° E</p>
-          <p class="mt-2 text-slate-400">BASED IN ANTALYA</p>
+          <p className="mt-2 text-slate-400">BASED IN ANTALYA</p>
         </div>
 
         {/* Scroll Indicator */}
@@ -136,37 +137,36 @@ const HomePage = () => {
                 </Link>
               ))
             ) : (
-                // Fallback / Mock Projects if no data
                 <>
                     <div className="group relative overflow-hidden rounded-lg cursor-pointer h-96">
-                        <img alt="Modern glass residential building" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9dSFID6G6gTV6_3GvP-HEA-Vl_3h5jqT6FJ9ZX7X3NZl3pluQMWiz_snhymrk4WgmFTtku1ZjIz2fZlqp0bqFk3OKysu7p6IDoSk35m6a5WXI4Isz12a9D14Ai_p1pbtWOO_RyOue4W1S6RCXLTEG4Few93f4b6-k57zBAcBhxbR7kgBzDATt3Kp8wPT3H3c_awWpqhhFSVM1ZjV0zOiz9cYA5vSpUahIDI571CFA1cttA7UfCdV-spTXCvqVtmPdULJIMbdJqfY"/>
-                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="absolute bottom-0 left-0 p-6 w-full">
-                            <p class="text-xs text-primary font-mono mb-1">RESIDENTIAL</p>
-                            <h3 class="text-xl text-white font-serif mb-2">The Glass Pavilion</h3>
-                            <p class="text-sm text-slate-300 line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                        <img alt="Modern glass residential building" className="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9dSFID6G6gTV6_3GvP-HEA-Vl_3h5jqT6FJ9ZX7X3NZl3pluQMWiz_snhymrk4WgmFTtku1ZjIz2fZlqp0bqFk3OKysu7p6IDoSk35m6a5WXI4Isz12a9D14Ai_p1pbtWOO_RyOue4W1S6RCXLTEG4Few93f4b6-k57zBAcBhxbR7kgBzDATt3Kp8wPT3H3c_awWpqhhFSVM1ZjV0zOiz9cYA5vSpUahIDI571CFA1cttA7UfCdV-spTXCvqVtmPdULJIMbdJqfY"/>
+                        <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="absolute bottom-0 left-0 p-6 w-full">
+                            <p className="text-xs text-primary font-mono mb-1">RESIDENTIAL</p>
+                            <h3 className="text-xl text-white font-serif mb-2">The Glass Pavilion</h3>
+                            <p className="text-sm text-slate-300 line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
                                 A study in transparency and seamless integration with the natural environment.
                             </p>
                         </div>
                     </div>
                     <div className="group relative overflow-hidden rounded-lg cursor-pointer h-96">
-                        <img alt="Minimalist art gallery interior" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAKZLB4D0YUKUpvN0SOMxt73TKzhq8yTAFcFAPTNdsQK6zS9E8kjHMGH1O-feZSeBjhw5jHBOGfup33x3jwzsaM9oSkWwftIqTf6OplFo-bnBMNMafsYarVvna_D1W5erwoGaabrbBupaiOvihaFs2YcmgVgkn1-xxOpo_fTN_PdPfYaiTWP2DuTmNatxWGGUVgOv51TrNLk-YYvr0R5U7cH2eTTFU9Yd_RbMZ6v9KDoZi-YiJxvTyuNUlkUbXMeuJ7Gmyc0kMvi0"/>
-                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="absolute bottom-0 left-0 p-6 w-full">
-                            <p class="text-xs text-primary font-mono mb-1">CULTURAL</p>
-                            <h3 class="text-xl text-white font-serif mb-2">Kyoto Art Center</h3>
-                            <p class="text-sm text-slate-300 line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                        <img alt="Minimalist art gallery interior" className="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAKZLB4D0YUKUpvN0SOMxt73TKzhq8yTAFcFAPTNdsQK6zS9E8kjHMGH1O-feZSeBjhw5jHBOGfup33x3jwzsaM9oSkWwftIqTf6OplFo-bnBMNMafsYarVvna_D1W5erwoGaabrbBupaiOvihaFs2YcmgVgkn1-xxOpo_fTN_PdPfYaiTWP2DuTmNatxWGGUVgOv51TrNLk-YYvr0R5U7cH2eTTFU9Yd_RbMZ6v9KDoZi-YiJxvTyuNUlkUbXMeuJ7Gmyc0kMvi0"/>
+                        <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="absolute bottom-0 left-0 p-6 w-full">
+                            <p className="text-xs text-primary font-mono mb-1">CULTURAL</p>
+                            <h3 className="text-xl text-white font-serif mb-2">Kyoto Art Center</h3>
+                            <p className="text-sm text-slate-300 line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
                                 Revitalizing heritage through brutalist concrete interventions and light control.
                             </p>
                         </div>
                     </div>
                     <div className="group relative overflow-hidden rounded-lg cursor-pointer h-96">
-                        <img alt="Abstract skyscraper facade" class="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjeOog1pk8Yvh-mABM1FRWjDFw4KlpKs81HUISm1ceP01aE2BpS1oyHnna8JhzagRcQsyttgp7Gcw4lGCWfOe0PZC6hjn80RpFVyaZ80zXAvyiRkCDj5eaI2U0_lxOjf-bT27K-UgvjLS4TOzKq9lXj2vFKRQ1U2ikgMMNbGoNnD2YSVmtDGQZoETnjEm9yxvpL_dXcQ86tAlw2tETFca4hS8R3bYD99t4CGY84P-ZUrkcM4QBP6pMPxc1zB9TrIxe0t3mdFXOFl8"/>
-                        <div class="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
-                        <div class="absolute bottom-0 left-0 p-6 w-full">
-                            <p class="text-xs text-primary font-mono mb-1">CONCEPTUAL</p>
-                            <h3 class="text-xl text-white font-serif mb-2">Vertical Horizon</h3>
-                            <p class="text-sm text-slate-300 line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                        <img alt="Abstract skyscraper facade" className="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-out" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjeOog1pk8Yvh-mABM1FRWjDFw4KlpKs81HUISm1ceP01aE2BpS1oyHnna8JhzagRcQsyttgp7Gcw4lGCWfOe0PZC6hjn80RpFVyaZ80zXAvyiRkCDj5eaI2U0_lxOjf-bT27K-UgvjLS4TOzKq9lXj2vFKRQ1U2ikgMMNbGoNnD2YSVmtDGQZoETnjEm9yxvpL_dXcQ86tAlw2tETFca4hS8R3bYD99t4CGY84P-ZUrkcM4QBP6pMPxc1zB9TrIxe0t3mdFXOFl8"/>
+                        <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                        <div className="absolute bottom-0 left-0 p-6 w-full">
+                            <p className="text-xs text-primary font-mono mb-1">CONCEPTUAL</p>
+                            <h3 className="text-xl text-white font-serif mb-2">Vertical Horizon</h3>
+                            <p className="text-sm text-slate-300 line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
                                 Reimagining urban density with modular, sustainable skyscraper concepts.
                             </p>
                         </div>
@@ -176,6 +176,43 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Son Blog Yazıları */}
+      {blogPosts?.length > 0 && (
+        <section className="relative z-10 w-full bg-background-light dark:bg-background-dark py-20 px-6 md:px-12 border-t border-slate-200 dark:border-white/5">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+              <div>
+                <h2 className="text-3xl font-serif text-slate-900 dark:text-white mb-2">{t('blog.latest') || "Son Yazılar"}</h2>
+                <div className="h-1 w-24 bg-primary rounded-full"></div>
+              </div>
+              <Link to="/blog" className="mt-4 md:mt-0 text-sm text-primary hover:text-slate-900 dark:hover:text-white transition-colors flex items-center">
+                {t('blog.viewAll') || "Tüm Yazılar"} <span className="material-icons text-base ml-1">arrow_right_alt</span>
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {blogPosts.slice(0, 3).map((post) => (
+                <Link to={`/blog/${post.id}`} key={post.id} className="group relative overflow-hidden rounded-lg cursor-pointer h-96 block">
+                  <img
+                    alt={post.title}
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition duration-700 ease-out"
+                    src={post.imageUrl || "https://placehold.co/600x400"}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background-dark/90 via-background-dark/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity"></div>
+                  <div className="absolute bottom-0 left-0 p-6 w-full">
+                    <p className="text-xs text-primary font-mono mb-1 uppercase">{post.category || "Genel"}</p>
+                    <h3 className="text-xl text-white font-serif mb-2">{post.title}</h3>
+                    <p className="text-sm text-slate-300 line-clamp-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition duration-500">
+                      {post.summary || post.description}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 };

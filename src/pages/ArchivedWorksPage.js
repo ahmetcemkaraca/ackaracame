@@ -1,78 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ChevronDown, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useProject } from '../context/ProjectContext';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const ArchivedWorksPage = () => {
-  // Mock data representing the chronological archive
-  const archiveData = [
-    {
-      year: '22',
-      title: 'Senior Year & Thesis Prep',
-      items: [
-        {
-          id: '1',
-          title: 'Urban Infill Study: void/SOLID',
-          type: 'Academic',
-          season: 'Spring 2022',
-          description: 'An exploration of negative space in dense urban environments. This project focuses on utilizing leftover alleyways in downtown Chicago to create modular micro-housing units.',
-          tools: ['Rhino 7', 'V-Ray', 'Illustrator'],
-          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA4Qu1-Q09MSPD9CjvoqFLN_hitCIdDVQRctuAPE1qtAsZy4XHwu9P9flkavVDTgGRu2GU5f3JuMVWuZCWJuapcxn0SOw44Q3zUAnmiomABVy38B_cdZJxAsrAPeI4Re4NzVrxyxigydTV404J47ny_jWCL2RvZrKPMw0_FEv5Mi8vrnWxZJMv67DuW4p3PA4z79e9Lc2mXwUbJ2BXB7lN3-ZaSodw7Hv9t9jXTsqFOnH3kW_OfE3bo5wOx6ZbWHTi2XIbCrV_ClWo'
-        },
-        {
-          id: '2',
-          title: 'The Hangar Library',
-          type: 'Competition',
-          season: 'Winter 2022',
-          description: 'Finalist entry for the generic Adaptive Reuse competition. Transforming a decommissioned aircraft hangar into a public library and digital archive center using lightweight timber framing.',
-          tools: ['Revit', 'Photoshop'],
-          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA3Rdka41N8NkHTqAdo-AiMhIZJP1Bsaemu4g8kcWCOSfYE06_B77Dy5w8AOBhlLSrv-ggP-B_XFYwS2uGEm7ro1I0YfT8EafWuLtOlK7-SDBk-_-gP8PJbVvlB_p5PKj5e2hlekbByabrl-_XQaTM1tvxM0sNhCawqymahO352Y6Xo08jNfYjCzeD2p8Q5D62r8FO4oCIJGtDasEgYmAZCSb93kbnD2v7xA65KTcSjR9MKeoLPeGxlHnKROCKnPALDtnBUvj2j4x8',
-          typeColor: 'text-emerald-500 bg-emerald-500/10'
-        }
-      ]
-    },
-    {
-      year: '21',
-      title: 'Junior Studio & Experiments',
-      items: [
-        {
-          id: '3',
-          title: 'Vertical Farms: Structure Study',
-          type: 'Academic',
-          season: 'Fall 2021',
-          description: 'A structural analysis project focusing on hydroponic systems integration within high-rise structural grids. Investigated water load distribution and natural light penetration.',
-          tools: ['Grasshopper', 'Rhino'],
-          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDtaGlBmtIky7GOahgpV6a8rsQlElm2VOywZ2AlOfKnYv-FLdvv0nviK_LcpVuv7Hd1eFfOZdn6yHckshRyyUE7KeGfPoMnnyQ62fD4yPKC3nHqw-1rjNCe1LRRaXvkBHyS20cyfxEj2rwwhMAgwrTBs_d6tuH5l66L1Q0BQ4NQon4DGAv4lpaPg2rFw4cHl948KhifpzOU_fQQjo8Rmmgcp3bFgg4W5ZDKkYuNEpmFvg367q6Ew8veT6GCJRvwzrvGb_sUEBAVJJw'
-        },
-        {
-          id: '4',
-          title: 'Parametric Bench Series',
-          type: 'Personal',
-          season: 'Summer 2021',
-          description: 'Self-initiated exploration into CNC fabrication techniques. Designed a series of interlocking plywood benches using algorithmic generation.',
-          tools: ['CNC', 'Fabrication'],
-          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAfsAQu5We6zuNHIlfNzuV7aEEIUb1qbGyJb2aL-b26R753F07OFRUiKRCJ5JozJHhiYKxuTW4bP9YiCpOCGvIFPmr3TMLl7BDm7jWtEs470XLxn1c9vsQq47jsWh5zZe5zeXvL4NBMGU1PMJ-x4dY2jKmAeVcRfTG9clwyrXPsQunwanv67ep4UAsHz5mYnlR_Q0AzUQguLgtT8ZrQyio8kWcLlr7sqxHu_r3CxWm7nv7XAq162q5BKDkbco9zbYG-icMc6PaMlME',
-          typeColor: 'text-purple-400 bg-purple-400/10'
-        }
-      ]
-    },
-    {
-      year: '20',
-      title: 'Sophomore Year',
-      opacity: 'opacity-75',
-      items: [
-        {
-          id: '5',
-          title: 'Form & Massing: The Cube',
-          type: 'Academic',
-          season: 'Fall 2020',
-          description: 'Foundational study on subtractive boolean operations. Created a complex interior spatial experience starting from a solid 10x10m cube.',
-          tools: ['Physical Model', 'SketchUp'],
-          image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAmnXBgdgfK4Ssp8rdfB2hu72KNmLY6kyluTemmdP4LT5XfXBK1QBR0w6Op_Nhzbwt4tHEKMwwXCmM9EFBMsVO2KergfLUIVGIPQap37N2FF5fqIOjyoIkeSxGjIn3JFfnxIDYyhdoKzwYZzQkshORRypY50YUO8otg8K7PPNbkSoLt3pPw9KSJmZCJh5zwIqk3mjd3eAIeEDJeJrOYXGZSBmuJwbDWbhrkcFa0Uu7ks6dARzjEbC3lwFt_1GMtkRnDI7MUWhsM-Go'
-        }
-      ]
+  const { projects, loadProjects, loading } = useProject();
+  const [filterYear, setFilterYear] = useState('All');
+  const [filterType, setFilterType] = useState('All');
+
+  useEffect(() => {
+    if (projects.length === 0) {
+      loadProjects();
     }
-  ];
+  }, [projects.length, loadProjects]);
+
+  // Arşivlenmiş projeleri filtrele (eski yıllara ait olanlar)
+  const archivedProjects = projects.filter(p => p.isArchived || p.status === 'archived');
+
+  // Yıllara göre grupla
+  const archiveData = archivedProjects.reduce((acc, project) => {
+    const year = project.year || project.createdAt?.toDate?.()?.getFullYear()?.toString().slice(-2) || '?';
+    const yearKey = year;
+    if (!acc[yearKey]) {
+      acc[yearKey] = {
+        year: yearKey,
+        title: `${yearKey} Projects`,
+        items: []
+      };
+    }
+    acc[yearKey].items.push({
+      id: project.id,
+      title: project.title,
+      type: project.category || 'Project',
+      season: project.season || '',
+      description: project.description || '',
+      tools: project.tools || [],
+      image: project.thumbnail || project.images?.[0] || '/placeholder.jpg',
+      typeColor: project.typeColor
+    });
+    return acc;
+  }, {});
+
+  const sortedYears = Object.keys(archiveData).sort((a, b) => b - a);
+  const archiveDataArray = sortedYears.map(year => archiveData[year]);
+
+  if (loading && projects.length === 0) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-background-light dark:bg-background-dark">
+        <LoadingSpinner text="Arşiv yükleniyor..." />
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex flex-col pt-20">
@@ -113,7 +93,13 @@ const ArchivedWorksPage = () => {
         {/* Archive List Container */}
         <div className="relative border-l border-slate-200 dark:border-slate-800 ml-4 md:ml-6 pl-8 md:pl-12 space-y-10">
 
-          {archiveData.map((yearGroup, yearIndex) => (
+          {archiveDataArray.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-slate-500 dark:text-slate-400 text-lg">Henüz arşivlenmiş proje bulunmuyor.</p>
+              <Link to="/admin" className="text-primary hover:underline mt-2 inline-block">Admin panelinden proje ekleyebilirsiniz.</Link>
+            </div>
+          ) : (
+            archiveDataArray.map((yearGroup, yearIndex) => (
             <div key={yearGroup.year} className={`relative ${yearIndex > 0 ? 'pt-8' : ''} ${yearGroup.opacity || ''}`}>
               <span className={`absolute -left-10 md:-left-[3.75rem] ${yearIndex > 0 ? 'top-8' : 'top-0'} flex items-center justify-center w-6 h-6 md:w-8 md:h-8 rounded-full bg-slate-200 dark:bg-surface-dark border-2 border-white dark:border-background-dark text-xs font-bold text-slate-500`}>
                 '{yearGroup.year}
@@ -169,14 +155,8 @@ const ArchivedWorksPage = () => {
                 ))}
               </div>
             </div>
-          ))}
-
-          {/* Load More */}
-          <div className="pt-8 pb-12 flex justify-center">
-            <button className="px-8 py-3 bg-slate-200 dark:bg-surface-dark text-slate-600 dark:text-slate-300 rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary dark:hover:text-white transition-colors text-sm font-medium">
-              Load Older Projects (2019)
-            </button>
-          </div>
+          ))
+          )}
         </div>
       </main>
     </div>
