@@ -1,0 +1,15 @@
+{
+  "short_name": "ACKaraca.me",
+  "name": "ACKaraca.me",
+  "icons": [
+    {
+      "src": "276a1eae-4442-4dd4-8482-c24ac8fe3423.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0ea5e9",
+  "background_color": "#ffffff"
+}
