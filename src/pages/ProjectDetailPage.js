@@ -1,188 +1,129 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Download, Grid, MapPin } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Globe, Grid, MapPin } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
-  const { currentProject, loadProject, loading } = useProject();
+  const { currentPortfolioItem, loadPortfolioItem, loading } = useProject();
 
   useEffect(() => {
-    if (id) {
-      loadProject(id);
-    }
-  }, [id, loadProject]);
+    if (id) loadPortfolioItem(id);
+  }, [id, loadPortfolioItem]);
 
-  if (loading || !currentProject) {
+  if (loading || !currentPortfolioItem) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark">
-        <LoadingSpinner text="Proje yükleniyor..." />
+        <LoadingSpinner text="İçerik yükleniyor..." />
       </div>
     );
   }
 
-  const {
-    title,
-    description,
-    images = [],
-    category,
-    year,
-    location,
-    technologies = []
-  } = currentProject;
+  const item = currentPortfolioItem;
+  const images = item.images || (item.image ? [item.image] : []);
+  const isApplication = item.kind === 'application';
 
   return (
-    <div className="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display antialiased min-h-screen flex flex-col pt-20">
-
-      {/* Hero Section */}
-      <header className="relative w-full h-[60vh] min-h-[400px] flex items-end pb-12 overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <img
-            alt={title}
-            className="w-full h-full object-cover"
-            src={images[0] || "https://placehold.co/1920x1080"}
-          />
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/40 to-transparent"></div>
+    <div className="min-h-screen bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 pt-20">
+      <header className="relative min-h-[56vh] flex items-end overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={images[0] || 'https://placehold.co/1920x1080'} alt={item.title} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/55 to-transparent" />
         </div>
-
-        {/* Hero Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl"
-          >
-            <div className="flex items-center space-x-4 mb-4">
-              <span className="px-3 py-1 text-xs font-mono uppercase tracking-widest text-primary border border-primary/30 bg-primary/10 rounded">{year || '2023'}</span>
-              <span className="text-xs font-mono uppercase tracking-widest text-slate-400">{category || 'Academic'}</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pb-12">
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-[0.18em] bg-primary/15 text-primary border border-primary/30">
+                {isApplication ? 'Uygulama' : 'Proje'}
+              </span>
+              <span className="text-xs uppercase tracking-[0.18em] text-slate-300">{item.year || item.version || 'Güncel'}</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-light text-white tracking-tight mb-4">
-              {title}
-            </h1>
-            <p className="text-lg md:text-xl text-slate-300 font-light max-w-2xl leading-relaxed line-clamp-2">
-              {description}
-            </p>
+            <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">{item.title}</h1>
+            <p className="text-lg text-slate-200 max-w-2xl leading-relaxed">{item.description}</p>
           </motion.div>
         </div>
       </header>
 
-      {/* Main Content Grid */}
-      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
-          {/* Sticky Sidebar / Navigation (Left Column on Desktop) */}
-          <aside className="hidden lg:block lg:col-span-3">
-            <div className="sticky top-32 space-y-8">
-              <div className="border-l-2 border-slate-200 dark:border-slate-800 pl-6 space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-6">İçerik</h3>
-                <a href="#metadata" className="block text-sm text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors">Proje Verileri</a>
-                <a href="#concept" className="block text-sm text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors">Konsept</a>
-                <a href="#gallery" className="block text-sm text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors">Galeri</a>
+          <aside className="lg:col-span-3">
+            <div className="sticky top-28 space-y-4">
+              <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-5">
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-500 mb-4">Bilgiler</p>
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <p className="text-slate-500">Kategori</p>
+                    <p className="font-medium text-slate-900 dark:text-white">{item.category || item.type || 'Portfolio'}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-500">Konum</p>
+                    <p className="font-medium text-slate-900 dark:text-white flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-primary" /> {item.location || 'Antalya, TR'}
+                    </p>
+                  </div>
+                  {item.link && (
+                    <div>
+                      <p className="text-slate-500">Bağlantı</p>
+                      <a href={item.link} target={item.link.startsWith('http') ? '_blank' : '_self'} rel="noreferrer" className="font-medium text-primary hover:underline">
+                        {item.linkText || 'İncele'}
+                      </a>
+                    </div>
+                  )}
+                </div>
               </div>
-
-              <div className="pt-8">
-                <button className="inline-flex items-center space-x-2 text-xs font-mono uppercase tracking-wide text-slate-500 hover:text-primary transition-colors group">
-                  <Download className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
-                  <span>PDF Özeti İndir</span>
-                </button>
-              </div>
+              <Link to="/portfolio" className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
+                <ArrowLeft className="w-4 h-4" />
+                Portfolyoya dön
+              </Link>
             </div>
           </aside>
 
-          {/* Main Content Area (Right Column on Desktop) */}
-          <div className="lg:col-span-9 space-y-24">
-
-            {/* Metadata Grid */}
-            <section id="metadata" className="border-y border-slate-200 dark:border-slate-800 py-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div>
-                  <h4 className="text-xs font-mono uppercase text-slate-500 mb-2">Konum</h4>
-                  <p className="text-sm font-medium text-slate-900 dark:text-white flex items-center gap-1">
-                    <MapPin className="w-3 h-3 text-primary" /> {location || 'Antalya, TR'}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-xs font-mono uppercase text-slate-500 mb-2">Tip</h4>
-                  <p className="text-sm font-medium text-slate-900 dark:text-white">{category || 'Project'}</p>
-                </div>
-                <div>
-                  <h4 className="text-xs font-mono uppercase text-slate-500 mb-2">Yıl</h4>
-                  <p className="text-sm font-medium text-slate-900 dark:text-white">{year || '2023'}</p>
-                </div>
-                <div>
-                  <h4 className="text-xs font-mono uppercase text-slate-500 mb-2">Araçlar</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {technologies.length > 0 ? technologies.map(tech => (
-                        <span key={tech} className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded">{tech}</span>
-                    )) : (
-                        <>
-                            <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded">Revit</span>
-                            <span className="text-xs px-2 py-1 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded">Lumion</span>
-                        </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {/* Concept Section */}
-            <section id="concept" className="scroll-mt-32">
-              <div className="flex flex-col md:flex-row gap-12 items-start">
-                <div className="md:w-1/2">
-                  <h2 className="text-3xl font-light text-slate-900 dark:text-white mb-6">Konsept</h2>
-                  <div className="prose prose-slate dark:prose-invert">
-                    <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-6 font-light">
-                      {description}
-                    </p>
-                  </div>
-                </div>
-                {images.length > 1 && (
-                    <div className="md:w-1/2 grid gap-4">
-                        <div className="group relative overflow-hidden rounded-lg">
-                            <img alt="Detail 1" className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-700" src={images[1]} />
-                        </div>
-                    </div>
-                )}
-              </div>
-            </section>
-
-            {/* Gallery Section */}
-            {images.length > 2 && (
-                <section id="gallery" className="scroll-mt-32">
-                    <div className="flex items-end justify-between mb-8 border-b border-slate-200 dark:border-slate-800 pb-4">
-                        <h2 className="text-3xl font-light text-slate-900 dark:text-white">Proje Galerisi</h2>
-                        <span className="font-mono text-xs uppercase text-slate-500">Görseller</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {images.slice(2).map((img, idx) => (
-                            <div key={idx} className="relative group rounded-xl overflow-hidden shadow-xl shadow-black/10 dark:shadow-black/30 cursor-pointer h-80">
-                                <img alt={`Project view ${idx}`} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" src={img} />
-                            </div>
-                        ))}
-                    </div>
-                </section>
-            )}
-
-            {/* Navigation Footer */}
-            <div className="border-t border-slate-200 dark:border-slate-800 pt-16 flex justify-between items-center">
-              <Link to="/portfolio" className="group flex flex-col items-start text-left">
-                <span className="text-xs font-mono uppercase text-slate-500 mb-1 group-hover:text-primary transition-colors">Portfolyoya Dön</span>
-                <span className="text-lg md:text-xl font-medium text-slate-800 dark:text-white group-hover:translate-x-1 transition-transform flex items-center gap-2">
-                    <ArrowLeft className="w-4 h-4" /> Tüm Projeler
-                </span>
-              </Link>
-
-              <Link to="/portfolio" className="w-12 h-12 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-slate-500 hover:border-primary hover:text-primary transition-all">
-                <Grid className="w-5 h-5" />
-              </Link>
+          <section className="lg:col-span-9 space-y-10">
+            <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-6 md:p-8">
+              <h2 className="text-2xl font-semibold mb-4">Genel Bakış</h2>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
+                {item.description}
+              </p>
             </div>
 
-          </div>
+            {images.length > 1 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {images.slice(1).map((img, index) => (
+                  <div key={index} className="rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800">
+                    <img src={img} alt={`${item.title} ${index + 2}`} className="w-full h-72 object-cover" />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {(item.technologies || item.techStack) && (
+              <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-6 md:p-8">
+                <h2 className="text-2xl font-semibold mb-4">Teknolojiler</h2>
+                <div className="flex flex-wrap gap-2">
+                  {(item.technologies || item.techStack?.map((tech) => tech.name) || []).map((tech) => (
+                    <span key={tech} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="flex flex-wrap gap-4">
+              {item.link && (
+                <a href={item.link} target={item.link.startsWith('http') ? '_blank' : '_self'} rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:opacity-95">
+                  {item.linkText || 'Bağlantıyı Aç'}
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              )}
+              <Link to="/portfolio" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-medium text-slate-700 dark:text-slate-200 hover:border-primary hover:text-primary transition-colors">
+                <Grid className="w-4 h-4" />
+                Tüm Portfolyo
+              </Link>
+            </div>
+          </section>
         </div>
       </main>
     </div>

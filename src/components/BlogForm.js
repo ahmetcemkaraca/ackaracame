@@ -135,6 +135,11 @@ const BlogForm = ({ blogPost, onClose }) => {
               <option value="Teknoloji">Teknoloji</option>
               <option value="Tasarım">Tasarım</option>
               <option value="Düşünceler">Düşünceler</option>
+              <option value="DuaAPP">DuaAPP</option>
+              <option value="WhereToGo">WhereToGo</option>
+              <option value="ArchBuilder">ArchBuilder</option>
+              <option value="Draw Or Die">Draw Or Die</option>
+              <option value="Hoca Puanla">Hoca Puanla</option>
             </select>
           </div>
 

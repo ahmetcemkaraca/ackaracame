@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NewsTimeline from '../components/NewsTimeline';
+import { useProject } from '../context/ProjectContext';
+
+const DUA_NEWS_CATEGORIES = ['DuaAPP', 'Dua App', 'Dua News'];
+
+const formatPostDate = (post) => {
+    if (post.date) {
+        return post.date;
+    }
+
+    if (post.createdAt?.seconds) {
+        return new Date(post.createdAt.seconds * 1000).toLocaleDateString('tr-TR');
+    }
+
+    return 'Yeni';
+};
 
 const DuaNewsPage = () => {
-    const newsItems = [
-        {
-            id: 'dua-2',
-            date: 'Yakında',
-            title: 'GitHub Release: v1.2.0',
-            tag: 'v1.2.0',
-            type: 'github_release',
-            description: 'Performans iyileştirmeleri ve yeni dua kategorileri eklendi. (Placeholder data)',
-            linkText: 'Sürüm Notları',
-            linkUrl: '#'
-        },
-        {
-            id: 'dua-1',
-            date: 'Ocak 2024',
-            title: 'Dua App iOS & Android Yayınlandı!',
-            type: 'feature',
-            description: 'Dua App uygulamamız artık App Store ve Google Play üzerinde indirilebilir durumda!',
-        }
-    ];
+    const { blogPosts, loadBlogPosts } = useProject();
+
+    useEffect(() => {
+        loadBlogPosts();
+    }, [loadBlogPosts]);
+
+    const newsItems = blogPosts
+        .filter((post) => DUA_NEWS_CATEGORIES.includes(post.category))
+        .map((post) => ({
+            id: post.id,
+            date: formatPostDate(post),
+            title: post.title,
+            tag: post.version || post.tag,
+            type: post.type || 'announcement',
+            description: post.summary || post.description || post.content || '',
+            linkText: 'Detayları Gör',
+            linkUrl: `/blog/${post.id}`
+        }));
 
     return (
         <NewsTimeline

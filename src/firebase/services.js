@@ -416,3 +416,45 @@ export const ApplicationService = {
     await deleteDoc(applicationRef);
   }
 };
+
+// Birleşik portfolyo içeriği servisi
+export const PortfolioItemService = {
+  async getAll() {
+    const portfolioRef = collection(db, 'portfolioItems');
+    const q = query(portfolioRef, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  },
+
+  async getById(id) {
+    const portfolioRef = doc(db, 'portfolioItems', id);
+    const snapshot = await getDoc(portfolioRef);
+    if (snapshot.exists()) {
+      return { id: snapshot.id, ...snapshot.data() };
+    }
+    return null;
+  },
+
+  async create(portfolioData) {
+    const portfolioRef = collection(db, 'portfolioItems');
+    const docRef = await addDoc(portfolioRef, {
+      ...portfolioData,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+    return docRef.id;
+  },
+
+  async update(id, portfolioData) {
+    const portfolioRef = doc(db, 'portfolioItems', id);
+    await updateDoc(portfolioRef, {
+      ...portfolioData,
+      updatedAt: serverTimestamp()
+    });
+  },
+
+  async delete(id) {
+    const portfolioRef = doc(db, 'portfolioItems', id);
+    await deleteDoc(portfolioRef);
+  }
+};

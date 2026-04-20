@@ -6,8 +6,15 @@ import {
   ExperimentService,
   BlogPostService,
   InspirationService,
-  ApplicationService
+  ApplicationService,
+  PortfolioItemService
 } from '../firebase/services';
+import {
+  projects as staticProjects,
+  applications as staticApplications,
+  findProjectById,
+  findApplicationById
+} from '../data/siteContent';
 
 const ProjectContext = createContext();
 
@@ -19,10 +26,13 @@ const initialState = {
   blogPosts: [],
   inspirations: [],
   applications: [],
+  portfolioItems: [],
   loading: false,
   error: null,
   currentProject: null,
-  currentPafta: null
+  currentPafta: null,
+  currentApplication: null,
+  currentPortfolioItem: null
 };
 
 const projectReducer = (state, action) => {
@@ -53,6 +63,12 @@ const projectReducer = (state, action) => {
 
     case 'SET_CURRENT_PAFTA':
       return { ...state, currentPafta: action.payload };
+
+    case 'SET_CURRENT_APPLICATION':
+      return { ...state, currentApplication: action.payload, loading: false };
+
+    case 'SET_CURRENT_PORTFOLIO_ITEM':
+      return { ...state, currentPortfolioItem: action.payload, loading: false };
 
     case 'ADD_PROJECT':
       return { ...state, projects: [...state.projects, action.payload] };
@@ -145,6 +161,9 @@ const projectReducer = (state, action) => {
     case 'SET_APPLICATIONS':
       return { ...state, applications: action.payload, loading: false };
 
+    case 'SET_PORTFOLIO_ITEMS':
+      return { ...state, portfolioItems: action.payload, loading: false };
+
     case 'ADD_APPLICATION':
       return { ...state, applications: [...state.applications, action.payload] };
 
@@ -174,8 +193,7 @@ export const ProjectProvider = ({ children }) => {
   const loadProjects = useCallback(async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const projects = await ProjectService.getAll();
-      dispatch({ type: 'SET_PROJECTS', payload: projects });
+      dispatch({ type: 'SET_PROJECTS', payload: staticProjects });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error.message });
     }
@@ -185,8 +203,7 @@ export const ProjectProvider = ({ children }) => {
   const loadFeaturedProjects = useCallback(async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const projects = await ProjectService.getFeatured();
-      dispatch({ type: 'SET_FEATURED_PROJECTS', payload: projects });
+      dispatch({ type: 'SET_FEATURED_PROJECTS', payload: staticProjects.filter(project => project.featured) });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error.message });
     }
@@ -196,8 +213,7 @@ export const ProjectProvider = ({ children }) => {
   const loadProjectsByCategory = useCallback(async (category) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const projects = await ProjectService.getByCategory(category);
-      dispatch({ type: 'SET_PROJECTS', payload: projects });
+      dispatch({ type: 'SET_PROJECTS', payload: staticProjects.filter(project => project.category === category) });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error.message });
     }
@@ -207,7 +223,7 @@ export const ProjectProvider = ({ children }) => {
   const loadProject = useCallback(async (id) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const project = await ProjectService.getById(id);
+      const project = findProjectById(id);
       dispatch({ type: 'SET_CURRENT_PROJECT', payload: project });
       dispatch({ type: 'SET_LOADING', payload: false });
     } catch (error) {
@@ -260,6 +276,42 @@ export const ProjectProvider = ({ children }) => {
     }
   }, []);
 
+  // Tek uygulama yükle
+  const loadApplication = useCallback(async (id) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const application = findApplicationById(id);
+      dispatch({ type: 'SET_CURRENT_APPLICATION', payload: application });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+    }
+  }, []);
+
+  const loadPortfolioItem = useCallback(async (id) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const hardcodedItem = findProjectById(id) || findApplicationById(id);
+      if (hardcodedItem) {
+        dispatch({
+          type: 'SET_CURRENT_PORTFOLIO_ITEM',
+          payload: {
+            ...hardcodedItem,
+            kind: findProjectById(id) ? 'project' : 'application',
+            source: 'hardcoded'
+          }
+        });
+        return;
+      }
+      const manualItem = await PortfolioItemService.getById(id);
+      dispatch({
+        type: 'SET_CURRENT_PORTFOLIO_ITEM',
+        payload: manualItem ? { ...manualItem, source: 'admin' } : null
+      });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+    }
+  }, []);
+
   // Load Experiments
   const loadExperiments = useCallback(async () => {
     try {
@@ -297,8 +349,22 @@ export const ProjectProvider = ({ children }) => {
   const loadApplications = useCallback(async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const apps = await ApplicationService.getAll();
-      dispatch({ type: 'SET_APPLICATIONS', payload: apps });
+      dispatch({ type: 'SET_APPLICATIONS', payload: staticApplications });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+    }
+  }, []);
+
+  const loadPortfolioItems = useCallback(async () => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      const manualItems = await PortfolioItemService.getAll();
+      const combined = [
+        ...staticProjects.map((item) => ({ ...item, kind: 'project', source: 'hardcoded' })),
+        ...staticApplications.map((item) => ({ ...item, kind: 'application', source: 'hardcoded' })),
+        ...manualItems.map((item) => ({ ...item, source: 'admin', kind: item.kind || 'project' }))
+      ];
+      dispatch({ type: 'SET_PORTFOLIO_ITEMS', payload: combined });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error.message });
     }
@@ -520,6 +586,31 @@ export const ProjectProvider = ({ children }) => {
     }
   }, []);
 
+  const createPortfolioItem = useCallback(async (portfolioData) => {
+    try {
+      const id = await PortfolioItemService.create(portfolioData);
+      const newItem = { id, ...portfolioData, source: 'admin' };
+      dispatch({ type: 'SET_PORTFOLIO_ITEMS', payload: [...state.portfolioItems, newItem] });
+      return id;
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+      throw error;
+    }
+  }, [state.portfolioItems]);
+
+  const deletePortfolioItem = useCallback(async (id) => {
+    try {
+      await PortfolioItemService.delete(id);
+      dispatch({
+        type: 'SET_PORTFOLIO_ITEMS',
+        payload: state.portfolioItems.filter((item) => item.id !== id)
+      });
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+      throw error;
+    }
+  }, [state.portfolioItems]);
+
   // Hata temizle
   const clearError = useCallback(() => {
     dispatch({ type: 'SET_ERROR', payload: null });
@@ -533,12 +624,15 @@ export const ProjectProvider = ({ children }) => {
     loadProject,
     loadPaftas,
     loadPaftaByQR,
+    loadApplication,
+    loadPortfolioItem,
     loadAllProjects,
     loadAllPaftas,
     loadExperiments,
     loadBlogPosts,
     loadInspirations,
     loadApplications,
+    loadPortfolioItems,
     createProject,
     updateProject,
     deleteProject,
@@ -557,6 +651,10 @@ export const ProjectProvider = ({ children }) => {
     createApplication,
     updateApplication,
     deleteApplication,
+    createPortfolioItem,
+    deletePortfolioItem,
+    currentApplication: state.currentApplication,
+    currentPortfolioItem: state.currentPortfolioItem,
     clearError
   };
 

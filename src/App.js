@@ -20,6 +20,7 @@ import SemesterProjectsPage from './pages/SemesterProjectsPage'; // Import the n
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import ApplicationsPage from './pages/ApplicationsPage';
+import ApplicationDetailPage from './pages/ApplicationDetailPage';
 import DuaNewsPage from './pages/DuaNewsPage';
 import WhereToGoPrivacyPage from './pages/WhereToGoPrivacyPage';
 import WhereToGoTermsPage from './pages/WhereToGoTermsPage';
@@ -103,6 +104,20 @@ function App() {
                         transition={{ duration: 0.3 }}
                       >
                         <ApplicationsPage />
+                      </motion.div>
+                    }
+                  />
+
+                  <Route
+                    path="/applications/:id"
+                    element={
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ApplicationDetailPage />
                       </motion.div>
                     }
                   />
@@ -201,6 +216,20 @@ function App() {
                         transition={{ duration: 0.3 }}
                       >
                         <BlogPostPage />
+                      </motion.div>
+                    }
+                  />
+
+                  <Route
+                    path="/portfolio/:id"
+                    element={
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ProjectDetailPage />
                       </motion.div>
                     }
                   />

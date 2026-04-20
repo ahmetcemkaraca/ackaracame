@@ -11,15 +11,16 @@ import BlogForm from '../components/BlogForm';
 import ExperimentForm from '../components/ExperimentForm';
 import InspirationForm from '../components/InspirationForm';
 import ApplicationForm from '../components/ApplicationForm';
+import PortfolioItemForm from '../components/PortfolioItemForm';
 import LoadingSpinner from '../components/LoadingSpinner';
 import AdminLoginForm from '../components/AdminLoginForm';
 
 const AdminPage = () => {
     const { user, isAdmin, logout } = useAuth();
     const {
-        projects, paftas, blogPosts, experiments, inspirations, applications,
-        loadProjects, loadPaftas, loadBlogPosts, loadExperiments, loadInspirations, loadApplications,
-        deleteProject, deletePafta, deleteBlogPost, deleteExperiment, deleteInspiration, deleteApplication,
+        projects, paftas, blogPosts, experiments, inspirations, applications, portfolioItems,
+        loadProjects, loadPaftas, loadBlogPosts, loadExperiments, loadInspirations, loadApplications, loadPortfolioItems,
+        deleteProject, deletePafta, deleteBlogPost, deleteExperiment, deleteInspiration, deleteApplication, deletePortfolioItem,
         loading
     } = useProject();
 
@@ -33,8 +34,10 @@ const AdminPage = () => {
     const [showExperimentForm, setShowExperimentForm] = useState(false);
     const [showInspirationForm, setShowInspirationForm] = useState(false);
     const [showApplicationForm, setShowApplicationForm] = useState(false);
+    const [showPortfolioItemForm, setShowPortfolioItemForm] = useState(false);
 
     const [editingItem, setEditingItem] = useState(null);
+    const contentReadOnly = activeTab === 'projects' || activeTab === 'applications';
 
     useEffect(() => {
         if (isAdmin) {
@@ -44,8 +47,9 @@ const AdminPage = () => {
             loadBlogPosts();
             loadInspirations();
             loadApplications();
+            loadPortfolioItems();
         }
-    }, [isAdmin, loadProjects, loadPaftas, loadExperiments, loadBlogPosts, loadInspirations, loadApplications]);
+    }, [isAdmin, loadProjects, loadPaftas, loadExperiments, loadBlogPosts, loadInspirations, loadApplications, loadPortfolioItems]);
 
     if (!user || !isAdmin) {
         return <AdminLoginForm />;
@@ -64,6 +68,7 @@ const AdminPage = () => {
         { id: 'projects', label: 'Projects', icon: Folder },
         { id: 'paftas', label: 'Paftalar', icon: QrCode },
         { id: 'applications', label: 'Applications', icon: Smartphone },
+        { id: 'portfolioItems', label: 'Portfolio', icon: Folder },
         { id: 'blog', label: 'Blog', icon: FileText },
         { id: 'experiments', label: 'Experiments', icon: FlaskConical },
         { id: 'inspirations', label: 'Inspirations', icon: Eye },
@@ -78,6 +83,7 @@ const AdminPage = () => {
         if (type === 'experiment') setShowExperimentForm(true);
         if (type === 'inspiration') setShowInspirationForm(true);
         if (type === 'application') setShowApplicationForm(true);
+        if (type === 'portfolioItem') setShowPortfolioItemForm(true);
     };
 
     const handleDelete = async (type, id) => {
@@ -88,6 +94,7 @@ const AdminPage = () => {
             if (type === 'experiment') await deleteExperiment(id);
             if (type === 'inspiration') await deleteInspiration(id);
             if (type === 'application') await deleteApplication(id);
+            if (type === 'portfolioItem') await deletePortfolioItem(id);
         }
     };
 
@@ -152,7 +159,7 @@ const AdminPage = () => {
                             <Bell className="w-5 h-5" />
                             <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white dark:border-[#1a232e]"></span>
                         </button>
-                        {activeTab !== 'dashboard' && activeTab !== 'settings' && (
+                        {activeTab !== 'dashboard' && activeTab !== 'settings' && !contentReadOnly && (
                             <button
                                 onClick={() => {
                                     setEditingItem(null);
@@ -162,6 +169,7 @@ const AdminPage = () => {
                                     if (activeTab === 'experiments') setShowExperimentForm(true);
                                     if (activeTab === 'inspirations') setShowInspirationForm(true);
                                     if (activeTab === 'applications') setShowApplicationForm(true);
+                                    if (activeTab === 'portfolioItems') setShowPortfolioItemForm(true);
                                 }}
                                 className="hidden md:flex items-center gap-2 bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-primary/20"
                             >
@@ -177,6 +185,12 @@ const AdminPage = () => {
                         <LoadingSpinner />
                     ) : (
                         <>
+                            {contentReadOnly && (
+                                <div className="bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-800 rounded-xl p-4 text-sm text-amber-900 dark:text-amber-200">
+                                    Bu içerikler artık hardcoded kaynak dosyadan geliyor. Listeyi burada yalnızca görüntüleyebilirsiniz.
+                                </div>
+                            )}
+
                             {activeTab === 'dashboard' && (
                                 <>
                                     {/* Stats Grid */}
@@ -247,8 +261,8 @@ const AdminPage = () => {
                                                             </td>
                                                             <td className="px-6 py-4">{project.category}</td>
                                                             <td className="px-6 py-4 text-right">
-                                                                <div className="flex items-center justify-end gap-2">
-                                                                    <button onClick={() => handleEdit('project', project)} className="p-1 text-slate-400 hover:text-primary transition-colors"><Edit className="w-4 h-4" /></button>
+                                                <div className="flex items-center justify-end gap-2">
+                                                                    {!contentReadOnly && <button onClick={() => handleEdit('project', project)} className="p-1 text-slate-400 hover:text-primary transition-colors"><Edit className="w-4 h-4" /></button>}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -267,28 +281,32 @@ const AdminPage = () => {
                                             <img className="w-full h-40 object-cover rounded-lg mb-4 bg-slate-200 dark:bg-slate-800" src={project.images?.[0]} alt={project.title} />
                                             <h3 className="font-bold text-slate-900 dark:text-white mb-1">{project.title}</h3>
                                             <p className="text-sm text-slate-500 mb-4 line-clamp-2">{project.description}</p>
-                                            <div className="flex justify-end gap-2">
-                                                <button onClick={() => handleEdit('project', project)} className="p-2 text-slate-500 hover:text-primary"><Edit className="w-4 h-4" /></button>
-                                                <button onClick={() => handleDelete('project', project.id)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
-                                            </div>
+                                            {!contentReadOnly && (
+                                                <div className="flex justify-end gap-2">
+                                                    <button onClick={() => handleEdit('project', project)} className="p-2 text-slate-500 hover:text-primary"><Edit className="w-4 h-4" /></button>
+                                                    <button onClick={() => handleDelete('project', project.id)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
                             )}
 
                             {/* Simplified view for other tabs using similar grid structure */}
-                            {(activeTab === 'paftas' || activeTab === 'blog' || activeTab === 'experiments' || activeTab === 'inspirations' || activeTab === 'applications') && (
+                            {(activeTab === 'paftas' || activeTab === 'blog' || activeTab === 'experiments' || activeTab === 'inspirations' || activeTab === 'applications' || activeTab === 'portfolioItems') && (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {(activeTab === 'paftas' ? paftas : activeTab === 'blog' ? blogPosts : activeTab === 'experiments' ? experiments : activeTab === 'applications' ? applications : inspirations).map(item => (
+                                    {(activeTab === 'paftas' ? paftas : activeTab === 'blog' ? blogPosts : activeTab === 'experiments' ? experiments : activeTab === 'applications' ? applications : activeTab === 'portfolioItems' ? portfolioItems : inspirations).map(item => (
                                         <div key={item.id} className="bg-white dark:bg-[#1a232e] p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
                                             <div className="w-full h-40 bg-slate-200 dark:bg-slate-800 rounded-lg mb-4 overflow-hidden">
                                                 {(item.images?.[0] || item.imageUrl || item.image) && <img className="w-full h-full object-cover" src={item.images?.[0] || item.imageUrl || item.image} alt={item.title} />}
                                             </div>
                                             <h3 className="font-bold text-slate-900 dark:text-white mb-1">{item.title || item.name}</h3>
-                                            <div className="flex justify-end gap-2 mt-4">
-                                                <button onClick={() => handleEdit(activeTab.slice(0, -1), item)} className="p-2 text-slate-500 hover:text-primary"><Edit className="w-4 h-4" /></button>
-                                                <button onClick={() => handleDelete(activeTab.slice(0, -1), item.id)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>
-                                            </div>
+                                            {!contentReadOnly || activeTab !== 'applications' ? (
+                                                <div className="flex justify-end gap-2 mt-4">
+                                                    {activeTab !== 'applications' && activeTab !== 'portfolioItems' && <button onClick={() => handleEdit(activeTab.slice(0, -1), item)} className="p-2 text-slate-500 hover:text-primary"><Edit className="w-4 h-4" /></button>}
+                                                    {activeTab !== 'applications' && <button onClick={() => handleDelete(activeTab.slice(0, -1), item.id)} className="p-2 text-slate-500 hover:text-red-500"><Trash2 className="w-4 h-4" /></button>}
+                                                </div>
+                                            ) : null}
                                         </div>
                                     ))}
                                 </div>
@@ -305,6 +323,7 @@ const AdminPage = () => {
             {showExperimentForm && <ExperimentForm experiment={editingItem} onClose={() => { setShowExperimentForm(false); setEditingItem(null); }} />}
             {showInspirationForm && <InspirationForm inspiration={editingItem} onClose={() => { setShowInspirationForm(false); setEditingItem(null); }} onSuccess={loadInspirations} />}
             {showApplicationForm && <ApplicationForm application={editingItem} onClose={() => { setShowApplicationForm(false); setEditingItem(null); }} />}
+            {showPortfolioItemForm && <PortfolioItemForm item={editingItem} onClose={() => { setShowPortfolioItemForm(false); setEditingItem(null); }} />}
         </div>
     );
 };
