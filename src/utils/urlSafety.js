@@ -34,14 +34,27 @@ export const getSafeVideoEmbedUrl = (value) => {
   if (!url) return '';
 
   const normalized = url.toString();
+  const hostname = url.hostname.toLowerCase();
+  const pathSegments = url.pathname.split('/').filter(Boolean);
 
-  if (normalized.includes('youtube.com') || normalized.includes('youtu.be')) {
-    const videoId = normalized.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)?.[1];
+  const youtubeHosts = new Set(['youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be', 'www.youtu.be']);
+  if (youtubeHosts.has(hostname)) {
+    let videoId = '';
+
+    if (hostname === 'youtu.be' || hostname === 'www.youtu.be') {
+      videoId = pathSegments[0] || '';
+    } else if (pathSegments[0] === 'watch') {
+      videoId = url.searchParams.get('v') || '';
+    } else if (pathSegments[0] === 'embed' || pathSegments[0] === 'shorts') {
+      videoId = pathSegments[1] || '';
+    }
+
     return videoId ? `https://www.youtube.com/embed/${videoId}` : '';
   }
 
-  if (normalized.includes('vimeo.com')) {
-    const videoId = normalized.match(/vimeo\.com\/(\d+)/)?.[1];
+  const vimeoHosts = new Set(['vimeo.com', 'www.vimeo.com', 'player.vimeo.com']);
+  if (vimeoHosts.has(hostname)) {
+    const videoId = pathSegments.find((segment) => /^\d+$/.test(segment)) || '';
     return videoId ? `https://player.vimeo.com/video/${videoId}` : '';
   }
 
