@@ -21,6 +21,7 @@ import {
 } from 'firebase/storage';
 import { httpsCallable } from 'firebase/functions';
 import { db, storage, functions } from './config';
+import { getSafeGitHubRepoUrl } from '../utils/urlSafety';
 
 // Projeler servisi
 export const ProjectService = {
@@ -218,17 +219,13 @@ export const AdminSecurityService = {
 };
 
 const parseGitHubRepo = (repoUrl) => {
-  if (!repoUrl) return null;
+  const safeRepoUrl = getSafeGitHubRepoUrl(repoUrl);
+  if (!safeRepoUrl) return null;
 
-  try {
-    const url = new URL(repoUrl);
-    if (url.hostname !== 'github.com') return null;
-    const [owner, repo] = url.pathname.replace(/^\/+/, '').split('/');
-    if (!owner || !repo) return null;
-    return { owner, repo: repo.replace(/\.git$/, '') };
-  } catch (error) {
-    return null;
-  }
+  const url = new URL(safeRepoUrl);
+  const [owner, repo] = url.pathname.replace(/^\/+/, '').split('/');
+  if (!owner || !repo) return null;
+  return { owner, repo: repo.replace(/\.git$/, '') };
 };
 
 export const GitHubService = {

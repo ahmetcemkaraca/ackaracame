@@ -5,6 +5,7 @@ import { ArrowLeft, ExternalLink, Github, Globe, History, Rocket } from 'lucide-
 import { useProject } from '../context/ProjectContext';
 import { GitHubService } from '../firebase/services';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { getSafeHttpUrl, getSafeGitHubRepoUrl } from '../utils/urlSafety';
 
 const formatDate = (value) => {
   if (!value) return 'Tarih belirtilmedi';
@@ -88,13 +89,13 @@ const PortfolioChangelogPage = () => {
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Baglantilar</p>
               <div className="mt-4 space-y-3">
                 {item.websiteUrl && (
-                  <a href={item.websiteUrl} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-sm hover:border-primary dark:border-slate-800">
+                  <a href={getSafeHttpUrl(item.websiteUrl)} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-sm hover:border-primary dark:border-slate-800">
                     <span className="inline-flex items-center gap-2"><Globe className="w-4 h-4 text-primary" /> {item.websiteLabel || 'Website'}</span>
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 )}
                 {item.githubUrl && (
-                  <a href={item.githubUrl} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-sm hover:border-primary dark:border-slate-800">
+                  <a href={getSafeGitHubRepoUrl(item.githubUrl)} target="_blank" rel="noreferrer" className="flex items-center justify-between rounded-2xl border border-slate-200 px-4 py-3 text-sm hover:border-primary dark:border-slate-800">
                     <span className="inline-flex items-center gap-2"><Github className="w-4 h-4 text-primary" /> GitHub Repo</span>
                     <ExternalLink className="w-4 h-4" />
                   </a>
