@@ -1,4 +1,5 @@
 import React from 'react';
+import { getSafeVideoEmbedUrl } from '../../utils/urlSafety';
 
 // Frontend için blokları render et
 const BlockRenderer = ({ blocks = [] }) => {
@@ -78,18 +79,21 @@ const BlockRenderer = ({ blocks = [] }) => {
         );
 
       case 'video':
+        const embedUrl = getSafeVideoEmbedUrl(block.content.url);
         return (
           <div key={index} className="my-8">
-            <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-slate-100 dark:bg-slate-900">
-              <iframe
-                src={block.content.url}
-                title={`Video: ${block.content.url}`}
-                className="absolute inset-0 w-full h-full"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+            {embedUrl && (
+              <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-slate-100 dark:bg-slate-900">
+                <iframe
+                  src={embedUrl}
+                  title={`Video: ${block.content.url}`}
+                  className="absolute inset-0 w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            )}
             {block.content.caption && (
               <p className="mt-3 text-center text-sm text-slate-600 dark:text-slate-400">
                 {block.content.caption}

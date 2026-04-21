@@ -14,6 +14,7 @@ import {
   findProjectById,
   findApplicationById
 } from '../data/siteContent';
+import { getSafeGitHubRepoUrl, getSafeHttpUrl } from '../utils/urlSafety';
 
 const ProjectContext = createContext();
 
@@ -87,14 +88,10 @@ const dedupeById = (items = []) => {
   return Array.from(map.values());
 };
 
-const isAbsoluteHttpUrl = (value) => typeof value === 'string' && /^https?:\/\//i.test(value.trim());
-
-const isGitHubRepoUrl = (value) => typeof value === 'string' && /https?:\/\/(www\.)?github\.com\//i.test(value.trim());
-
 const normalizeExternalLinks = (item) => {
   const link = typeof item.link === 'string' ? item.link.trim() : '';
-  const websiteUrl = item.websiteUrl || (isAbsoluteHttpUrl(link) && !isGitHubRepoUrl(link) ? link : '');
-  const githubUrl = item.githubUrl || (isGitHubRepoUrl(link) ? link : '');
+  const websiteUrl = getSafeHttpUrl(item.websiteUrl) || (link && !getSafeGitHubRepoUrl(link) ? getSafeHttpUrl(link) : '');
+  const githubUrl = getSafeGitHubRepoUrl(item.githubUrl) || getSafeGitHubRepoUrl(link);
 
   return {
     websiteUrl,

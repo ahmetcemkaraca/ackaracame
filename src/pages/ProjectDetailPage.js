@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Github, Globe, Grid, History, MapPin } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { getSafeHttpUrl, getSafeGitHubRepoUrl } from '../utils/urlSafety';
 
 const ProjectDetailPage = () => {
   const { id } = useParams();
@@ -67,7 +68,7 @@ const ProjectDetailPage = () => {
                   {item.websiteUrl && (
                     <div>
                       <p className="text-slate-500">Website</p>
-                      <a href={item.websiteUrl} target="_blank" rel="noreferrer" className="font-medium text-primary hover:underline inline-flex items-center gap-2">
+                      <a href={getSafeHttpUrl(item.websiteUrl)} target="_blank" rel="noreferrer" className="font-medium text-primary hover:underline inline-flex items-center gap-2">
                         <Globe className="w-3.5 h-3.5" />
                         {item.websiteLabel || 'Website'}
                       </a>
@@ -76,7 +77,7 @@ const ProjectDetailPage = () => {
                   {item.githubUrl && (
                     <div>
                       <p className="text-slate-500">GitHub Repo</p>
-                      <a href={item.githubUrl} target="_blank" rel="noreferrer" className="font-medium text-primary hover:underline inline-flex items-center gap-2">
+                      <a href={getSafeGitHubRepoUrl(item.githubUrl)} target="_blank" rel="noreferrer" className="font-medium text-primary hover:underline inline-flex items-center gap-2">
                         <Github className="w-3.5 h-3.5" />
                         Repo baglantisi
                       </a>
@@ -85,7 +86,7 @@ const ProjectDetailPage = () => {
                   {item.link && (
                     <div>
                       <p className="text-slate-500">Birincil baglanti</p>
-                      <a href={item.link} target={item.link.startsWith('http') ? '_blank' : '_self'} rel="noreferrer" className="font-medium text-primary hover:underline">
+                      <a href={getSafeHttpUrl(item.link)} target={getSafeHttpUrl(item.link) ? '_blank' : '_self'} rel="noreferrer" className="font-medium text-primary hover:underline">
                         {item.linkText || 'Incele'}
                       </a>
                     </div>
@@ -134,7 +135,7 @@ const ProjectDetailPage = () => {
 
             <div className="flex flex-wrap gap-4">
               {item.link && (
-                <a href={item.link} target={item.link.startsWith('http') ? '_blank' : '_self'} rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:opacity-95">
+                <a href={getSafeHttpUrl(item.link)} target={getSafeHttpUrl(item.link) ? '_blank' : '_self'} rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:opacity-95">
                   {item.linkText || 'Baglantiyi Ac'}
                   <ArrowRight className="w-4 h-4" />
                 </a>
