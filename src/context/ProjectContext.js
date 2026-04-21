@@ -2,7 +2,6 @@ import React, { createContext, useContext, useReducer, useCallback } from 'react
 import {
   ProjectService,
   PaftaService,
-  // ContactService, // Not used currently
   ExperimentService,
   BlogPostService,
   InspirationService,
@@ -35,697 +34,415 @@ const initialState = {
   currentPortfolioItem: null
 };
 
-const projectReducer = (state, action) => {
+const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
-
     case 'SET_ERROR':
       return { ...state, error: action.payload, loading: false };
-
     case 'SET_PROJECTS':
       return { ...state, projects: action.payload, loading: false };
-
-    case 'SET_PAFTAS':
-      return { ...state, paftas: action.payload, loading: false };
-
     case 'SET_FEATURED_PROJECTS':
       return { ...state, featuredProjects: action.payload, loading: false };
-
+    case 'SET_PAFTAS':
+      return { ...state, paftas: action.payload, loading: false };
     case 'SET_EXPERIMENTS':
       return { ...state, experiments: action.payload, loading: false };
-
     case 'SET_BLOG_POSTS':
       return { ...state, blogPosts: action.payload, loading: false };
-
-    case 'SET_CURRENT_PROJECT':
-      return { ...state, currentProject: action.payload, loading: false };
-
-    case 'SET_CURRENT_PAFTA':
-      return { ...state, currentPafta: action.payload };
-
-    case 'SET_CURRENT_APPLICATION':
-      return { ...state, currentApplication: action.payload, loading: false };
-
-    case 'SET_CURRENT_PORTFOLIO_ITEM':
-      return { ...state, currentPortfolioItem: action.payload, loading: false };
-
-    case 'ADD_PROJECT':
-      return { ...state, projects: [...state.projects, action.payload] };
-
-    case 'UPDATE_PROJECT':
-      return {
-        ...state,
-        projects: state.projects.map(project =>
-          project.id === action.payload.id ? action.payload : project
-        )
-      };
-
-    case 'DELETE_PROJECT':
-      return {
-        ...state,
-        projects: state.projects.filter(project => project.id !== action.payload)
-      };
-
-    case 'ADD_PAFTA':
-      return { ...state, paftas: [...state.paftas, action.payload] };
-
-    case 'UPDATE_PAFTA':
-      return {
-        ...state,
-        paftas: state.paftas.map(pafta =>
-          pafta.id === action.payload.id ? action.payload : pafta
-        )
-      };
-
-    case 'DELETE_PAFTA':
-      return {
-        ...state,
-        paftas: state.paftas.filter(pafta => pafta.id !== action.payload)
-      };
-
-    case 'ADD_EXPERIMENT':
-      return { ...state, experiments: [...state.experiments, action.payload] };
-
-    case 'UPDATE_EXPERIMENT':
-      return {
-        ...state,
-        experiments: state.experiments.map(exp =>
-          exp.id === action.payload.id ? action.payload : exp
-        )
-      };
-
-    case 'DELETE_EXPERIMENT':
-      return {
-        ...state,
-        experiments: state.experiments.filter(exp => exp.id !== action.payload)
-      };
-
-    case 'ADD_BLOG_POST':
-      return { ...state, blogPosts: [...state.blogPosts, action.payload] };
-
-    case 'UPDATE_BLOG_POST':
-      return {
-        ...state,
-        blogPosts: state.blogPosts.map(post =>
-          post.id === action.payload.id ? action.payload : post
-        )
-      };
-
-    case 'DELETE_BLOG_POST':
-      return {
-        ...state,
-        blogPosts: state.blogPosts.filter(post => post.id !== action.payload)
-      };
-
     case 'SET_INSPIRATIONS':
       return { ...state, inspirations: action.payload, loading: false };
-
-    case 'ADD_INSPIRATION':
-      return { ...state, inspirations: [...state.inspirations, action.payload] };
-
-    case 'UPDATE_INSPIRATION':
-      return {
-        ...state,
-        inspirations: state.inspirations.map(inspiration =>
-          inspiration.id === action.payload.id ? action.payload : inspiration
-        )
-      };
-
-    case 'DELETE_INSPIRATION':
-      return {
-        ...state,
-        inspirations: state.inspirations.filter(inspiration => inspiration.id !== action.payload)
-      };
-
     case 'SET_APPLICATIONS':
       return { ...state, applications: action.payload, loading: false };
-
     case 'SET_PORTFOLIO_ITEMS':
       return { ...state, portfolioItems: action.payload, loading: false };
-
-    case 'ADD_APPLICATION':
-      return { ...state, applications: [...state.applications, action.payload] };
-
-    case 'UPDATE_APPLICATION':
-      return {
-        ...state,
-        applications: state.applications.map(app =>
-          app.id === action.payload.id ? action.payload : app
-        )
-      };
-
-    case 'DELETE_APPLICATION':
-      return {
-        ...state,
-        applications: state.applications.filter(app => app.id !== action.payload)
-      };
-
+    case 'SET_CURRENT_PROJECT':
+      return { ...state, currentProject: action.payload, loading: false };
+    case 'SET_CURRENT_PAFTA':
+      return { ...state, currentPafta: action.payload, loading: false };
+    case 'SET_CURRENT_APPLICATION':
+      return { ...state, currentApplication: action.payload, loading: false };
+    case 'SET_CURRENT_PORTFOLIO_ITEM':
+      return { ...state, currentPortfolioItem: action.payload, loading: false };
     default:
       return state;
   }
 };
 
+const sortByOrderAndDate = (items = []) => (
+  [...items].sort((a, b) => {
+    const left = Number(a.order ?? 999);
+    const right = Number(b.order ?? 999);
+    if (left !== right) return left - right;
+    return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+  })
+);
+
+const dedupeById = (items = []) => {
+  const map = new Map();
+  items.forEach((item) => {
+    const key = item.id || item.slug || item.title;
+    map.set(key, item);
+  });
+  return Array.from(map.values());
+};
+
 export const ProjectProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(projectReducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const buildStaticPortfolioItems = useCallback(() => ([
-    ...staticProjects.map((item) => ({ ...item, kind: 'project', source: 'hardcoded' })),
-    ...staticApplications.map((item) => ({ ...item, kind: 'application', source: 'hardcoded' }))
-  ]), []);
+  const withErrorHandling = useCallback(async (work) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      await work();
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.message });
+    }
+  }, []);
 
-  const buildUnifiedApplicationList = useCallback(async () => {
-    const staticItems = staticApplications.map((item) => ({
-      ...item,
-      kind: 'application',
-      source: 'hardcoded'
-    }));
+  const buildProjects = useCallback(async () => {
+    let adminProjects = [];
+    try {
+      adminProjects = await ProjectService.getAll();
+    } catch (error) {
+      console.warn('Projects could not be fully loaded from Firestore:', error);
+    }
 
-    let adminApplications = [];
+    return sortByOrderAndDate(dedupeById([
+      ...staticProjects.map((item) => ({ ...item, source: 'hardcoded', kind: 'project', originCollection: 'projects' })),
+      ...adminProjects.map((item) => ({
+        ...item,
+        source: 'admin',
+        kind: 'project',
+        originCollection: 'projects',
+        websiteUrl: item.websiteUrl || (item.link?.startsWith('http') && !item.link.includes('github.com') ? item.link : ''),
+        githubUrl: item.githubUrl || (item.link?.includes('github.com') ? item.link : '')
+      }))
+    ]));
+  }, []);
+
+  const buildApplications = useCallback(async () => {
+    let legacyApplications = [];
+    let portfolioApplications = [];
 
     try {
-      const [legacyApplications, manualPortfolioItems] = await Promise.all([
+      const [rawApps, rawPortfolio] = await Promise.all([
         ApplicationService.getAll(),
         PortfolioItemService.getAll()
       ]);
-
-      adminApplications = [
-        ...legacyApplications.map((item) => ({
-          ...item,
-          kind: 'application',
-          source: 'admin'
-        })),
-        ...manualPortfolioItems
-          .filter((item) => (item.kind || 'project') === 'application')
-          .map((item) => ({
-            ...item,
-            kind: 'application',
-            source: 'admin'
-          }))
-      ];
+      legacyApplications = rawApps.map((item) => ({
+        ...item,
+        source: 'admin',
+        kind: 'application',
+        originCollection: 'applications',
+        websiteUrl: item.websiteUrl || (item.link?.startsWith('http') && !item.link.includes('github.com') ? item.link : ''),
+        githubUrl: item.githubUrl || (item.link?.includes('github.com') ? item.link : '')
+      }));
+      portfolioApplications = rawPortfolio
+        .filter((item) => (item.kind || 'project') === 'application')
+        .map((item) => ({ ...item, source: 'admin', kind: 'application', originCollection: 'portfolioItems' }));
     } catch (error) {
       console.warn('Applications could not be fully loaded from Firestore:', error);
     }
 
-    const merged = [...staticItems, ...adminApplications];
-    const byKey = new Map();
+    return sortByOrderAndDate(dedupeById([
+      ...staticApplications.map((item) => ({
+        ...item,
+        source: 'hardcoded',
+        kind: 'application',
+        originCollection: 'applications',
+        websiteUrl: item.websiteUrl || (item.link?.startsWith('http') && !item.link.includes('github.com') ? item.link : ''),
+        githubUrl: item.githubUrl || (item.link?.includes('github.com') ? item.link : '')
+      })),
+      ...legacyApplications,
+      ...portfolioApplications
+    ]));
+  }, []);
 
-    merged.forEach((item) => {
-      const key = item.slug || item.id || item.title;
-      byKey.set(key, item);
+  const buildPortfolioItems = useCallback(async () => {
+    const [projects, applications] = await Promise.all([buildProjects(), buildApplications()]);
+    let portfolioItems = [];
+
+    try {
+      portfolioItems = await PortfolioItemService.getAll();
+    } catch (error) {
+      console.warn('Portfolio items could not be fully loaded from Firestore:', error);
+    }
+
+    return sortByOrderAndDate(dedupeById([
+      ...projects.map((item) => ({ ...item, kind: 'project' })),
+      ...applications.map((item) => ({ ...item, kind: 'application' })),
+      ...portfolioItems.map((item) => ({ ...item, source: 'admin', kind: item.kind || 'project', originCollection: 'portfolioItems' }))
+    ]));
+  }, [buildApplications, buildProjects]);
+
+  const loadProjects = useCallback(() => withErrorHandling(async () => {
+    const projects = await buildProjects();
+    dispatch({ type: 'SET_PROJECTS', payload: projects });
+  }), [buildProjects, withErrorHandling]);
+
+  const loadFeaturedProjects = useCallback(() => withErrorHandling(async () => {
+    const projects = await buildProjects();
+    dispatch({ type: 'SET_FEATURED_PROJECTS', payload: projects.filter((project) => project.featured) });
+  }), [buildProjects, withErrorHandling]);
+
+  const loadProjectsByCategory = useCallback((category) => withErrorHandling(async () => {
+    const projects = await buildProjects();
+    dispatch({ type: 'SET_PROJECTS', payload: projects.filter((project) => project.category === category) });
+  }), [buildProjects, withErrorHandling]);
+
+  const loadProject = useCallback((id) => withErrorHandling(async () => {
+    const staticProject = findProjectById(id);
+    if (staticProject) {
+      dispatch({ type: 'SET_CURRENT_PROJECT', payload: { ...staticProject, source: 'hardcoded', kind: 'project', originCollection: 'projects' } });
+      return;
+    }
+    const project = await ProjectService.getById(id);
+    dispatch({ type: 'SET_CURRENT_PROJECT', payload: project ? { ...project, source: 'admin', kind: 'project', originCollection: 'projects' } : null });
+  }), [withErrorHandling]);
+
+  const loadPaftas = useCallback(() => withErrorHandling(async () => {
+    dispatch({ type: 'SET_PAFTAS', payload: await PaftaService.getAll() });
+  }), [withErrorHandling]);
+
+  const loadAllProjects = loadProjects;
+  const loadAllPaftas = loadPaftas;
+
+  const loadPaftaByQR = useCallback((qrCode) => withErrorHandling(async () => {
+    dispatch({ type: 'SET_CURRENT_PAFTA', payload: await PaftaService.getByQRCode(qrCode) });
+  }), [withErrorHandling]);
+
+  const loadApplication = useCallback((id) => withErrorHandling(async () => {
+    const staticApplication = findApplicationById(id);
+    if (staticApplication) {
+      dispatch({ type: 'SET_CURRENT_APPLICATION', payload: { ...staticApplication, source: 'hardcoded', kind: 'application', originCollection: 'applications' } });
+      return;
+    }
+    const application = await ApplicationService.getById(id) || await PortfolioItemService.getById(id);
+    dispatch({
+      type: 'SET_CURRENT_APPLICATION',
+      payload: application ? {
+        ...application,
+        source: 'admin',
+        kind: 'application',
+        originCollection: application.kind === 'application' ? 'portfolioItems' : 'applications'
+      } : null
     });
+  }), [withErrorHandling]);
 
-    return Array.from(byKey.values()).sort((a, b) => {
-      const left = Number(a.order ?? 999);
-      const right = Number(b.order ?? 999);
-      if (left !== right) return left - right;
-      return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-    });
-  }, []);
-
-  // Projeleri yükle
-  const loadProjects = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      dispatch({ type: 'SET_PROJECTS', payload: staticProjects });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  // Öne çıkan projeleri yükle
-  const loadFeaturedProjects = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      dispatch({ type: 'SET_FEATURED_PROJECTS', payload: staticProjects.filter(project => project.featured) });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  // Kategoriye göre projeleri yükle
-  const loadProjectsByCategory = useCallback(async (category) => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      dispatch({ type: 'SET_PROJECTS', payload: staticProjects.filter(project => project.category === category) });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  // Tek proje yükle
-  const loadProject = useCallback(async (id) => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const project = findProjectById(id);
-      dispatch({ type: 'SET_CURRENT_PROJECT', payload: project });
-      dispatch({ type: 'SET_LOADING', payload: false });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  // Paftaları yükle
-  const loadPaftas = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const paftas = await PaftaService.getAll();
-      dispatch({ type: 'SET_PAFTAS', payload: paftas });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  // Projeleri yükle (Tümü)
-  const loadAllProjects = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const projects = await ProjectService.getAll();
-      dispatch({ type: 'SET_PROJECTS', payload: projects });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  // Paftaları yükle (Tümü)
-  const loadAllPaftas = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const paftas = await PaftaService.getAll();
-      dispatch({ type: 'SET_PAFTAS', payload: paftas });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  // QR kod ile pafta yükle
-  const loadPaftaByQR = useCallback(async (qrCode) => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const pafta = await PaftaService.getByQRCode(qrCode);
-      dispatch({ type: 'SET_CURRENT_PAFTA', payload: pafta });
-      dispatch({ type: 'SET_LOADING', payload: false });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  // Tek uygulama yükle
-  const loadApplication = useCallback(async (id) => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const application = findApplicationById(id);
-      dispatch({ type: 'SET_CURRENT_APPLICATION', payload: application });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
-
-  const loadPortfolioItem = useCallback(async (id) => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const hardcodedItem = findProjectById(id) || findApplicationById(id);
-      if (hardcodedItem) {
-        dispatch({
-          type: 'SET_CURRENT_PORTFOLIO_ITEM',
-          payload: {
-            ...hardcodedItem,
-            kind: findProjectById(id) ? 'project' : 'application',
-            source: 'hardcoded'
-          }
-        });
-        return;
-      }
-      const manualItem = await PortfolioItemService.getById(id);
+  const loadPortfolioItem = useCallback((id) => withErrorHandling(async () => {
+    const hardcodedItem = findProjectById(id) || findApplicationById(id);
+    if (hardcodedItem) {
       dispatch({
         type: 'SET_CURRENT_PORTFOLIO_ITEM',
-        payload: manualItem ? { ...manualItem, source: 'admin' } : null
+        payload: {
+          ...hardcodedItem,
+          source: 'hardcoded',
+          kind: findProjectById(id) ? 'project' : 'application',
+          originCollection: findProjectById(id) ? 'projects' : 'applications'
+        }
       });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
+      return;
     }
-  }, []);
 
-  // Load Experiments
-  const loadExperiments = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const experiments = await ExperimentService.getAll();
-      dispatch({ type: 'SET_EXPERIMENTS', payload: experiments });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
+    const [project, application, portfolioItem] = await Promise.all([
+      ProjectService.getById(id),
+      ApplicationService.getById(id),
+      PortfolioItemService.getById(id)
+    ]);
 
-  // Load Blog Posts
-  const loadBlogPosts = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const blogPosts = await BlogPostService.getAll();
-      dispatch({ type: 'SET_BLOG_POSTS', payload: blogPosts });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
+    const item = portfolioItem || project || application || null;
+    dispatch({
+      type: 'SET_CURRENT_PORTFOLIO_ITEM',
+      payload: item ? {
+        ...item,
+        source: 'admin',
+        kind: item.kind || (application ? 'application' : 'project'),
+        originCollection: portfolioItem ? 'portfolioItems' : (application ? 'applications' : 'projects'),
+        websiteUrl: item.websiteUrl || (item.link?.startsWith('http') && !item.link.includes('github.com') ? item.link : ''),
+        githubUrl: item.githubUrl || (item.link?.includes('github.com') ? item.link : '')
+      } : null
+    });
+  }), [withErrorHandling]);
 
-  // Load Inspirations
-  const loadInspirations = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const inspirations = await InspirationService.getAll();
-      dispatch({ type: 'SET_INSPIRATIONS', payload: inspirations });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, []);
+  const loadExperiments = useCallback(() => withErrorHandling(async () => {
+    dispatch({ type: 'SET_EXPERIMENTS', payload: await ExperimentService.getAll() });
+  }), [withErrorHandling]);
 
-  // Load Applications
-  const loadApplications = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const unifiedApplications = await buildUnifiedApplicationList();
-      dispatch({ type: 'SET_APPLICATIONS', payload: unifiedApplications });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, [buildUnifiedApplicationList]);
+  const loadBlogPosts = useCallback(() => withErrorHandling(async () => {
+    dispatch({ type: 'SET_BLOG_POSTS', payload: await BlogPostService.getAll() });
+  }), [withErrorHandling]);
 
-  const loadPortfolioItems = useCallback(async () => {
-    try {
-      dispatch({ type: 'SET_LOADING', payload: true });
-      const staticItems = buildStaticPortfolioItems();
-      let combined = staticItems;
+  const loadInspirations = useCallback(() => withErrorHandling(async () => {
+    dispatch({ type: 'SET_INSPIRATIONS', payload: await InspirationService.getAll() });
+  }), [withErrorHandling]);
 
-      try {
-        const [manualItems, legacyApplications] = await Promise.all([
-          PortfolioItemService.getAll(),
-          ApplicationService.getAll()
-        ]);
-        combined = [
-          ...staticItems,
-          ...legacyApplications.map((item) => ({ ...item, source: 'admin', kind: 'application' })),
-          ...manualItems.map((item) => ({ ...item, source: 'admin', kind: item.kind || 'project' }))
-        ];
-      } catch (error) {
-        console.warn('Portfolio items could not be fully loaded from Firestore:', error);
-      }
+  const loadApplications = useCallback(() => withErrorHandling(async () => {
+    dispatch({ type: 'SET_APPLICATIONS', payload: await buildApplications() });
+  }), [buildApplications, withErrorHandling]);
 
-      dispatch({ type: 'SET_PORTFOLIO_ITEMS', payload: combined });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-    }
-  }, [buildStaticPortfolioItems]);
+  const loadPortfolioItems = useCallback(() => withErrorHandling(async () => {
+    dispatch({ type: 'SET_PORTFOLIO_ITEMS', payload: await buildPortfolioItems() });
+  }), [buildPortfolioItems, withErrorHandling]);
 
-  // Proje oluştur
   const createProject = useCallback(async (projectData) => {
-    try {
-      const id = await ProjectService.create(projectData);
-      const newProject = { id, ...projectData };
-      dispatch({ type: 'ADD_PROJECT', payload: newProject });
-      return id;
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    const id = await ProjectService.create(projectData);
+    await loadProjects();
+    return id;
+  }, [loadProjects]);
 
-  // Proje güncelle
   const updateProject = useCallback(async (id, projectData) => {
-    try {
-      await ProjectService.update(id, projectData);
-      const updatedProject = { id, ...projectData };
-      dispatch({ type: 'UPDATE_PROJECT', payload: updatedProject });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await ProjectService.update(id, projectData);
+    await loadProjects();
+  }, [loadProjects]);
 
-  // Proje sil
   const deleteProject = useCallback(async (id) => {
-    try {
-      await ProjectService.delete(id);
-      dispatch({ type: 'DELETE_PROJECT', payload: id });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await ProjectService.delete(id);
+    await loadProjects();
+  }, [loadProjects]);
 
-  // Pafta oluştur
   const createPafta = useCallback(async (paftaData) => {
-    try {
-      const id = await PaftaService.create(paftaData);
-      const newPafta = { id, ...paftaData };
-      dispatch({ type: 'ADD_PAFTA', payload: newPafta });
-      return id;
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    const id = await PaftaService.create(paftaData);
+    await loadPaftas();
+    return id;
+  }, [loadPaftas]);
 
-  // Pafta güncelle
   const updatePafta = useCallback(async (id, paftaData) => {
-    try {
-      await PaftaService.update(id, paftaData);
-      const updatedPafta = { id, ...paftaData };
-      dispatch({ type: 'UPDATE_PAFTA', payload: updatedPafta });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await PaftaService.update(id, paftaData);
+    await loadPaftas();
+  }, [loadPaftas]);
 
-  // Pafta sil
   const deletePafta = useCallback(async (id) => {
-    try {
-      await PaftaService.delete(id);
-      dispatch({ type: 'DELETE_PAFTA', payload: id });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await PaftaService.delete(id);
+    await loadPaftas();
+  }, [loadPaftas]);
 
-  // Deney oluştur
   const createExperiment = useCallback(async (experimentData) => {
-    try {
-      const id = await ExperimentService.create(experimentData);
-      const newExperiment = { id, ...experimentData };
-      dispatch({ type: 'ADD_EXPERIMENT', payload: newExperiment });
-      return id;
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    const id = await ExperimentService.create(experimentData);
+    await loadExperiments();
+    return id;
+  }, [loadExperiments]);
 
-  // Deney güncelle
   const updateExperiment = useCallback(async (id, experimentData) => {
-    try {
-      await ExperimentService.update(id, experimentData);
-      const updatedExperiment = { id, ...experimentData };
-      dispatch({ type: 'UPDATE_EXPERIMENT', payload: updatedExperiment });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await ExperimentService.update(id, experimentData);
+    await loadExperiments();
+  }, [loadExperiments]);
 
-  // Deney sil
   const deleteExperiment = useCallback(async (id) => {
-    try {
-      await ExperimentService.delete(id);
-      dispatch({ type: 'DELETE_EXPERIMENT', payload: id });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await ExperimentService.delete(id);
+    await loadExperiments();
+  }, [loadExperiments]);
 
-  // Blog gönderisi oluştur
   const createBlogPost = useCallback(async (blogPostData) => {
-    try {
-      const id = await BlogPostService.create(blogPostData);
-      const newBlogPost = { id, ...blogPostData };
-      dispatch({ type: 'ADD_BLOG_POST', payload: newBlogPost });
-      return id;
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    const id = await BlogPostService.create(blogPostData);
+    await loadBlogPosts();
+    return id;
+  }, [loadBlogPosts]);
 
-  // Blog gönderisi güncelle
   const updateBlogPost = useCallback(async (id, blogPostData) => {
-    try {
-      await BlogPostService.update(id, blogPostData);
-      const updatedBlogPost = { id, ...blogPostData };
-      dispatch({ type: 'UPDATE_BLOG_POST', payload: updatedBlogPost });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await BlogPostService.update(id, blogPostData);
+    await loadBlogPosts();
+  }, [loadBlogPosts]);
 
-  // Blog gönderisi sil
   const deleteBlogPost = useCallback(async (id) => {
-    try {
-      await BlogPostService.delete(id);
-      dispatch({ type: 'DELETE_BLOG_POST', payload: id });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await BlogPostService.delete(id);
+    await loadBlogPosts();
+  }, [loadBlogPosts]);
 
-  // İlham oluştur
-  const createInspiration = useCallback(async (inspirationData) => {
-    try {
-      const id = await InspirationService.create(inspirationData);
-      const newInspiration = { id, ...inspirationData };
-      dispatch({ type: 'ADD_INSPIRATION', payload: newInspiration });
-      return id;
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+  const createInspiration = useCallback(async (data) => {
+    const id = await InspirationService.create(data);
+    await loadInspirations();
+    return id;
+  }, [loadInspirations]);
 
-  // İlham güncelle
-  const updateInspiration = useCallback(async (id, inspirationData) => {
-    try {
-      await InspirationService.update(id, inspirationData);
-      const updatedInspiration = { id, ...inspirationData };
-      dispatch({ type: 'UPDATE_INSPIRATION', payload: updatedInspiration });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+  const updateInspiration = useCallback(async (id, data) => {
+    await InspirationService.update(id, data);
+    await loadInspirations();
+  }, [loadInspirations]);
 
-  // İlham sil
   const deleteInspiration = useCallback(async (id) => {
-    try {
-      await InspirationService.delete(id);
-      dispatch({ type: 'DELETE_INSPIRATION', payload: id });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await InspirationService.delete(id);
+    await loadInspirations();
+  }, [loadInspirations]);
 
-  // Uygulama oluştur
-  const createApplication = useCallback(async (applicationData) => {
-    try {
-      const id = await ApplicationService.create(applicationData);
-      const newApp = { id, ...applicationData };
-      dispatch({ type: 'ADD_APPLICATION', payload: newApp });
-      return id;
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+  const createApplication = useCallback(async (data) => {
+    const id = await ApplicationService.create(data);
+    await loadApplications();
+    return id;
+  }, [loadApplications]);
 
-  // Uygulama güncelle
-  const updateApplication = useCallback(async (id, applicationData) => {
-    try {
-      await ApplicationService.update(id, applicationData);
-      const updatedApp = { id, ...applicationData };
-      dispatch({ type: 'UPDATE_APPLICATION', payload: updatedApp });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+  const updateApplication = useCallback(async (id, data) => {
+    await ApplicationService.update(id, data);
+    await loadApplications();
+  }, [loadApplications]);
 
-  // Uygulama sil
   const deleteApplication = useCallback(async (id) => {
-    try {
-      await ApplicationService.delete(id);
-      dispatch({ type: 'DELETE_APPLICATION', payload: id });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, []);
+    await ApplicationService.delete(id);
+    await loadApplications();
+  }, [loadApplications]);
 
-  const createPortfolioItem = useCallback(async (portfolioData) => {
-    try {
-      const id = await PortfolioItemService.create(portfolioData);
-      const newItem = { id, ...portfolioData, source: 'admin' };
-      dispatch({ type: 'SET_PORTFOLIO_ITEMS', payload: [...state.portfolioItems, newItem] });
-      return id;
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, [state.portfolioItems]);
+  const createPortfolioItem = useCallback(async (data) => {
+    const id = await PortfolioItemService.create(data);
+    await loadPortfolioItems();
+    return id;
+  }, [loadPortfolioItems]);
+
+  const updatePortfolioItem = useCallback(async (id, data) => {
+    await PortfolioItemService.update(id, data);
+    await loadPortfolioItems();
+  }, [loadPortfolioItems]);
 
   const deletePortfolioItem = useCallback(async (id) => {
-    try {
-      await PortfolioItemService.delete(id);
-      dispatch({
-        type: 'SET_PORTFOLIO_ITEMS',
-        payload: state.portfolioItems.filter((item) => item.id !== id)
-      });
-    } catch (error) {
-      dispatch({ type: 'SET_ERROR', payload: error.message });
-      throw error;
-    }
-  }, [state.portfolioItems]);
+    await PortfolioItemService.delete(id);
+    await loadPortfolioItems();
+  }, [loadPortfolioItems]);
 
-  // Hata temizle
   const clearError = useCallback(() => {
     dispatch({ type: 'SET_ERROR', payload: null });
   }, []);
 
-  const value = {
-    ...state,
-    loadProjects,
-    loadFeaturedProjects,
-    loadProjectsByCategory,
-    loadProject,
-    loadPaftas,
-    loadPaftaByQR,
-    loadApplication,
-    loadPortfolioItem,
-    loadAllProjects,
-    loadAllPaftas,
-    loadExperiments,
-    loadBlogPosts,
-    loadInspirations,
-    loadApplications,
-    loadPortfolioItems,
-    createProject,
-    updateProject,
-    deleteProject,
-    createPafta,
-    updatePafta,
-    deletePafta,
-    createExperiment,
-    updateExperiment,
-    deleteExperiment,
-    createBlogPost,
-    updateBlogPost,
-    deleteBlogPost,
-    createInspiration,
-    updateInspiration,
-    deleteInspiration,
-    createApplication,
-    updateApplication,
-    deleteApplication,
-    createPortfolioItem,
-    deletePortfolioItem,
-    currentApplication: state.currentApplication,
-    currentPortfolioItem: state.currentPortfolioItem,
-    clearError
-  };
-
   return (
-    <ProjectContext.Provider value={value}>
+    <ProjectContext.Provider
+      value={{
+        ...state,
+        loadProjects,
+        loadFeaturedProjects,
+        loadProjectsByCategory,
+        loadProject,
+        loadPaftas,
+        loadPaftaByQR,
+        loadApplication,
+        loadPortfolioItem,
+        loadAllProjects,
+        loadAllPaftas,
+        loadExperiments,
+        loadBlogPosts,
+        loadInspirations,
+        loadApplications,
+        loadPortfolioItems,
+        createProject,
+        updateProject,
+        deleteProject,
+        createPafta,
+        updatePafta,
+        deletePafta,
+        createExperiment,
+        updateExperiment,
+        deleteExperiment,
+        createBlogPost,
+        updateBlogPost,
+        deleteBlogPost,
+        createInspiration,
+        updateInspiration,
+        deleteInspiration,
+        createApplication,
+        updateApplication,
+        deleteApplication,
+        createPortfolioItem,
+        updatePortfolioItem,
+        deletePortfolioItem,
+        clearError
+      }}
+    >
       {children}
     </ProjectContext.Provider>
   );
@@ -733,8 +450,6 @@ export const ProjectProvider = ({ children }) => {
 
 export const useProject = () => {
   const context = useContext(ProjectContext);
-  if (!context) {
-    throw new Error('useProject must be used within a ProjectProvider');
-  }
+  if (!context) throw new Error('useProject must be used within a ProjectProvider');
   return context;
 };

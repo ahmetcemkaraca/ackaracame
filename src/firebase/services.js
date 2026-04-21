@@ -4,6 +4,7 @@ import {
   getDocs,
   getDoc,
   addDoc,
+  setDoc,
   updateDoc,
   deleteDoc,
   query,
@@ -18,7 +19,8 @@ import {
   getDownloadURL,
   deleteObject
 } from 'firebase/storage';
-import { db, storage } from './config';
+import { httpsCallable } from 'firebase/functions';
+import { db, storage, functions } from './config';
 
 // Projeler servisi
 export const ProjectService = {
@@ -188,10 +190,70 @@ export const SiteSettingsService = {
   // Ayarları güncelle
   async update(settingsData) {
     const settingsRef = doc(db, 'siteSettings', 'main');
-    await updateDoc(settingsRef, {
+    await setDoc(settingsRef, {
       ...settingsData,
       updatedAt: serverTimestamp()
-    });
+    }, { merge: true });
+  }
+};
+
+export const AdminSecurityService = {
+  async getStatus() {
+    const callable = httpsCallable(functions, 'adminLoginGuard');
+    const result = await callable({ action: 'status' });
+    return result.data;
+  },
+
+  async recordFailure(payload = {}) {
+    const callable = httpsCallable(functions, 'adminLoginGuard');
+    const result = await callable({ action: 'failure', ...payload });
+    return result.data;
+  },
+
+  async recordSuccess(payload = {}) {
+    const callable = httpsCallable(functions, 'adminLoginGuard');
+    const result = await callable({ action: 'success', ...payload });
+    return result.data;
+  }
+};
+
+const parseGitHubRepo = (repoUrl) => {
+  if (!repoUrl) return null;
+
+  try {
+    const url = new URL(repoUrl);
+    if (url.hostname !== 'github.com') return null;
+    const [owner, repo] = url.pathname.replace(/^\/+/, '').split('/');
+    if (!owner || !repo) return null;
+    return { owner, repo: repo.replace(/\.git$/, '') };
+  } catch (error) {
+    return null;
+  }
+};
+
+export const GitHubService = {
+  async getFeed(repoUrl) {
+    const parsed = parseGitHubRepo(repoUrl);
+    if (!parsed) {
+      return { releases: [], commits: [], repo: null };
+    }
+
+    const { owner, repo } = parsed;
+    const headers = { Accept: 'application/vnd.github+json' };
+
+    const [releasesResponse, commitsResponse] = await Promise.all([
+      fetch(`https://api.github.com/repos/${owner}/${repo}/releases?per_page=5`, { headers }),
+      fetch(`https://api.github.com/repos/${owner}/${repo}/commits?per_page=5`, { headers })
+    ]);
+
+    const releases = releasesResponse.ok ? await releasesResponse.json() : [];
+    const commits = commitsResponse.ok ? await commitsResponse.json() : [];
+
+    return {
+      repo: { owner, repo, url: `https://github.com/${owner}/${repo}` },
+      releases: Array.isArray(releases) ? releases : [],
+      commits: Array.isArray(commits) ? commits : []
+    };
   }
 };
 

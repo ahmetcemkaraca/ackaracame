@@ -1,282 +1,180 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Upload, Plus } from 'lucide-react';
+import { X, Upload, Plus, Trash2 } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import { FileService } from '../firebase/services';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
+
+const inputClass = 'w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40';
 
 const ApplicationForm = ({ application, onClose }) => {
-    const { createApplication, updateApplication } = useProject();
-    const [loading, setLoading] = useState(false);
-    const [uploading, setUploading] = useState(false);
+  const { createApplication, updateApplication } = useProject();
+  const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [newTechName, setNewTechName] = useState('');
+  const [formData, setFormData] = useState({
+    title: '',
+    version: '',
+    type: '',
+    iconName: 'Monitor',
+    image: '',
+    description: '',
+    techStack: [],
+    link: '',
+    linkText: 'Uygulamayi Ac',
+    websiteUrl: '',
+    websiteLabel: 'Website',
+    githubUrl: '',
+    order: 0,
+    status: 'active',
+    accountDeletionEnabled: false,
+    changelogEntries: []
+  });
 
-    const [formData, setFormData] = useState({
-        title: '',
-        version: '',
-        type: '',
-        iconName: '',
-        image: '',
-        description: '',
-        techStack: [],
-        link: '',
-        linkText: '',
-        accountDeletionEnabled: false
-    });
+  useEffect(() => {
+    if (!application) return;
+    setFormData((prev) => ({ ...prev, ...application, changelogEntries: application.changelogEntries || [] }));
+  }, [application]);
 
-    const [newTechName, setNewTechName] = useState('');
-    const [newTechColor, setNewTechColor] = useState('bg-blue-500');
+  const setField = (name, value) => setFormData((prev) => ({ ...prev, [name]: value }));
 
-    useEffect(() => {
-        if (application) {
-            setFormData({
-                title: application.title || '',
-                version: application.version || '',
-                type: application.type || '',
-                iconName: application.iconName || '',
-                image: application.image || '',
-                description: application.description || '',
-                techStack: application.techStack || [],
-                link: application.link || '',
-                linkText: application.linkText || '',
-                accountDeletionEnabled: Boolean(application.accountDeletionEnabled)
-            });
-        }
-    }, [application]);
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await FileService.uploadImage(file, 'applications');
+      setField('image', url);
+    } finally {
+      setUploading(false);
+    }
+  };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+  const addTechnology = () => {
+    const name = newTechName.trim();
+    if (!name) return;
+    setField('techStack', [...formData.techStack, { name, color: 'bg-blue-500' }]);
+    setNewTechName('');
+  };
 
-    const handleImageUpload = async (e) => {
-        const files = Array.from(e.target.files);
-        if (files.length === 0) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      if (application?.source === 'admin') await updateApplication(application.id, formData);
+      else await createApplication(formData);
+      onClose();
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        setUploading(true);
-        try {
-            const url = await FileService.uploadImage(files[0], 'applications');
+  return (
+    <motion.div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div className="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl border border-slate-700 bg-slate-900 text-slate-100 shadow-2xl" initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-800 bg-slate-900/95 px-6 py-5 backdrop-blur">
+          <h2 className="text-2xl font-semibold">{application ? 'Uygulama Duzenle' : 'Yeni Uygulama'}</h2>
+          <button onClick={onClose} className="rounded-full p-2 text-slate-400 hover:bg-slate-800 hover:text-white"><X className="w-5 h-5" /></button>
+        </div>
 
-            setFormData(prev => ({
-                ...prev,
-                image: url
-            }));
-        } catch (error) {
-            console.error('Görsel yükleme hatası:', error);
-            alert('Görsel yüklenirken hata oluştu.');
-        } finally {
-            setUploading(false);
-        }
-    };
+        <form onSubmit={handleSubmit} className="space-y-8 p-6">
+          <div className="grid gap-4 md:grid-cols-2">
+            <input className={inputClass} value={formData.title} onChange={(e) => setField('title', e.target.value)} placeholder="Uygulama basligi" required />
+            <input className={inputClass} value={formData.version} onChange={(e) => setField('version', e.target.value)} placeholder="Versiyon" required />
+          </div>
 
-    const removeImage = () => {
-        setFormData(prev => ({
-            ...prev,
-            image: ''
-        }));
-    };
+          <div className="grid gap-4 md:grid-cols-3">
+            <input className={inputClass} value={formData.type} onChange={(e) => setField('type', e.target.value)} placeholder="Platform / Tur" required />
+            <input className={inputClass} value={formData.iconName} onChange={(e) => setField('iconName', e.target.value)} placeholder="Lucide ikon adi" />
+            <input className={inputClass} type="number" value={formData.order || 0} onChange={(e) => setField('order', Number(e.target.value))} placeholder="Siralama" />
+          </div>
 
-    const addTechnology = () => {
-        if (newTechName.trim()) {
-            setFormData(prev => ({
-                ...prev,
-                techStack: [...prev.techStack, { name: newTechName.trim(), color: newTechColor }]
-            }));
-            setNewTechName('');
-        }
-    };
+          <textarea className={inputClass} rows={4} value={formData.description} onChange={(e) => setField('description', e.target.value)} placeholder="Aciklama" required />
 
-    const removeTechnology = (index) => {
-        setFormData(prev => ({
-            ...prev,
-            techStack: prev.techStack.filter((_, i) => i !== index)
-        }));
-    };
+          <div className="grid gap-4 md:grid-cols-2">
+            <input className={inputClass} value={formData.websiteUrl || ''} onChange={(e) => setField('websiteUrl', e.target.value)} placeholder="Website URL" />
+            <input className={inputClass} value={formData.githubUrl || ''} onChange={(e) => setField('githubUrl', e.target.value)} placeholder="GitHub repo URL" />
+          </div>
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
+          <div className="grid gap-4 md:grid-cols-2">
+            <input className={inputClass} value={formData.link || ''} onChange={(e) => setField('link', e.target.value)} placeholder="Birincil baglanti URL" />
+            <input className={inputClass} value={formData.linkText || ''} onChange={(e) => setField('linkText', e.target.value)} placeholder="Birincil baglanti metni" />
+          </div>
 
-        try {
-            if (application) {
-                await updateApplication(application.id, formData);
-            } else {
-                await createApplication(formData);
-            }
-            onClose();
-        } catch (error) {
-            console.error('Uygulama kaydetme hatası:', error);
-            alert('Uygulama kaydedilirken hata oluştu.');
-        } finally {
-            setLoading(false);
-        }
-    };
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Kapak Gorseli</h3>
+              <label htmlFor="application-image" className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white">
+                <Upload className="w-4 h-4" />
+                {uploading ? 'Yukleniyor...' : 'Gorsel Yukle'}
+              </label>
+              <input id="application-image" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+            </div>
+            {formData.image && <img src={formData.image} alt={formData.title} className="h-40 w-full rounded-xl object-cover" />}
+          </div>
 
-    return (
-        <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-        >
-            <motion.div
-                className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-            >
-                <div className="p-6 border-b border-secondary-200">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-2xl font-bold text-secondary-800">
-                            {application ? 'Uygulama Düzenle' : 'Yeni Uygulama'}
-                        </h2>
-                        <button
-                            onClick={onClose}
-                            className="text-secondary-500 hover:text-secondary-700 transition-colors duration-200"
-                        >
-                            <X className="w-6 h-6" />
-                        </button>
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+            <h3 className="mb-4 text-lg font-semibold">Teknoloji Yigini</h3>
+            <div className="mb-3 flex gap-2">
+              <input className={inputClass} value={newTechName} onChange={(e) => setNewTechName(e.target.value)} placeholder="Teknoloji" />
+              <button type="button" onClick={addTechnology} className="rounded-xl border border-slate-700 px-4 text-slate-200"><Plus className="w-4 h-4" /></button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {formData.techStack.map((tech, index) => (
+                <span key={`${tech.name}-${index}`} className="inline-flex items-center gap-2 rounded-full bg-slate-800 px-3 py-1 text-sm">
+                  {tech.name}
+                  <button type="button" onClick={() => setField('techStack', formData.techStack.filter((_, techIndex) => techIndex !== index))}><X className="w-3 h-3" /></button>
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Changelog</h3>
+              <button type="button" onClick={() => setField('changelogEntries', [...(formData.changelogEntries || []), { version: '', date: '', title: '', description: '' }])} className="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2 text-sm">
+                <Plus className="w-4 h-4" />
+                Not Ekle
+              </button>
+            </div>
+            <div className="space-y-4">
+              {(formData.changelogEntries || []).map((entry, index) => (
+                <div key={`${entry.version}-${index}`} className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+                  <div className="mb-3 grid gap-3 md:grid-cols-3">
+                    <input className={inputClass} value={entry.version || ''} onChange={(e) => setField('changelogEntries', formData.changelogEntries.map((item, itemIndex) => itemIndex === index ? { ...item, version: e.target.value } : item))} placeholder="Versiyon" />
+                    <input className={inputClass} value={entry.date || ''} onChange={(e) => setField('changelogEntries', formData.changelogEntries.map((item, itemIndex) => itemIndex === index ? { ...item, date: e.target.value } : item))} placeholder="Tarih" />
+                    <div className="flex gap-2">
+                      <input className={inputClass} value={entry.title || ''} onChange={(e) => setField('changelogEntries', formData.changelogEntries.map((item, itemIndex) => itemIndex === index ? { ...item, title: e.target.value } : item))} placeholder="Baslik" />
+                      <button type="button" onClick={() => setField('changelogEntries', formData.changelogEntries.filter((_, itemIndex) => itemIndex !== index))} className="rounded-xl border border-red-500/40 px-3 text-red-300"><Trash2 className="w-4 h-4" /></button>
                     </div>
+                  </div>
+                  <textarea className={inputClass} rows={3} value={entry.description || ''} onChange={(e) => setField('changelogEntries', formData.changelogEntries.map((item, itemIndex) => itemIndex === index ? { ...item, description: e.target.value } : item))} placeholder="Degisiklik notu" />
                 </div>
+              ))}
+            </div>
+          </div>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                    {/* Temel Bilgiler */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-secondary-700 mb-2">Başlık *</label>
-                            <input type="text" name="title" value={formData.title} onChange={handleInputChange} className="input-field" required />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-secondary-700 mb-2">Versiyon *</label>
-                            <input type="text" name="version" value={formData.version} onChange={handleInputChange} className="input-field" required />
-                        </div>
-                    </div>
+          <div className="flex flex-wrap gap-6 text-sm">
+            <label className="inline-flex items-center gap-2">
+              <input type="checkbox" checked={formData.accountDeletionEnabled} onChange={(e) => setField('accountDeletionEnabled', e.target.checked)} />
+              Hesap silme sayfasinda goster
+            </label>
+            <label className="inline-flex items-center gap-2">
+              <input type="checkbox" checked={formData.status === 'active'} onChange={(e) => setField('status', e.target.checked ? 'active' : 'archived')} />
+              Aktif
+            </label>
+          </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-secondary-700 mb-2">Platform/Tür (örn: iOS / Android, Web App)</label>
-                            <input type="text" name="type" value={formData.type} onChange={handleInputChange} className="input-field" required />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-secondary-700 mb-2">İkon Adı (Lucide React, örn: Monitor, Smartphone)</label>
-                            <input type="text" name="iconName" value={formData.iconName} onChange={handleInputChange} className="input-field" required />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-secondary-700 mb-2">Açıklama *</label>
-                        <textarea name="description" value={formData.description} onChange={handleInputChange} rows={3} className="input-field" required />
-                    </div>
-
-                    {/* Görsel */}
-                    <div>
-                        <label className="block text-sm font-medium text-secondary-700 mb-2">Uygulama Görseli</label>
-                        <div className="mb-4">
-                            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" id="image-upload" />
-                            <label htmlFor="image-upload" className="btn-secondary cursor-pointer inline-flex items-center space-x-2">
-                                <Upload className="w-4 h-4" />
-                                <span>{uploading ? 'Yükleniyor...' : 'Görsel Yükle'}</span>
-                            </label>
-                        </div>
-                        {formData.image && (
-                            <div className="relative group w-1/2">
-                                <img src={formData.image} alt="Uygulama görseli" className="w-full h-32 object-cover rounded-lg" />
-                                <button type="button" onClick={removeImage} className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                    <X className="w-4 h-4" />
-                                </button>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Link */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-secondary-700 mb-2">Bağlantı URL *</label>
-                            <input type="text" name="link" value={formData.link} onChange={handleInputChange} className="input-field" required />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-medium text-secondary-700 mb-2">Bağlantı Metni *</label>
-                            <input type="text" name="linkText" value={formData.linkText} onChange={handleInputChange} className="input-field" required />
-                        </div>
-                    </div>
-
-                    <label className="flex items-center gap-3 rounded-xl border border-secondary-200 p-4">
-                        <input
-                            type="checkbox"
-                            checked={formData.accountDeletionEnabled}
-                            onChange={(e) => setFormData((prev) => ({ ...prev, accountDeletionEnabled: e.target.checked }))}
-                        />
-                        <div>
-                            <p className="text-sm font-medium text-secondary-800">Hesap silme sayfasinda goster</p>
-                            <p className="text-xs text-secondary-500">Bu uygulama hesap silme taleplerinde secilebilir olsun.</p>
-                        </div>
-                    </label>
-
-                    {/* Teknolojiler */}
-                    <div>
-                        <label className="block text-sm font-medium text-secondary-700 mb-2">Teknolojiler</label>
-
-                        <div className="flex space-x-2 mb-3">
-                            <input
-                                type="text"
-                                value={newTechName}
-                                onChange={(e) => setNewTechName(e.target.value)}
-                                placeholder="Örn: React Native"
-                                className="input-field flex-1"
-                                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTechnology())}
-                            />
-                            <select
-                                value={newTechColor}
-                                onChange={(e) => setNewTechColor(e.target.value)}
-                                className="input-field w-32"
-                            >
-                                <option value="bg-blue-500">Mavi</option>
-                                <option value="bg-cyan-400">Turkuaz</option>
-                                <option value="bg-green-500">Yeşil</option>
-                                <option value="bg-yellow-400">Sarı</option>
-                                <option value="bg-orange-500">Turuncu</option>
-                                <option value="bg-purple-500">Mor</option>
-                                <option value="bg-red-500">Kırmızı</option>
-                                <option value="bg-white">Beyaz</option>
-                            </select>
-                            <button type="button" onClick={addTechnology} className="btn-secondary" >
-                                <Plus className="w-4 h-4" />
-                            </button>
-                        </div>
-
-                        {formData.techStack.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
-                                {formData.techStack.map((tech, index) => (
-                                    <span
-                                        key={index}
-                                        className="px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm flex items-center space-x-2"
-                                    >
-                                        <span className={`w-2 h-2 rounded-full ${tech.color}`}></span>
-                                        <span>{tech.name}</span>
-                                        <button type="button" onClick={() => removeTechnology(index)} className="text-primary-600 hover:text-primary-800">
-                                            <X className="w-3 h-3" />
-                                        </button>
-                                    </span>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Butonlar */}
-                    <div className="flex justify-end space-x-4 pt-6 border-t border-secondary-200">
-                        <button type="button" onClick={onClose} className="btn-secondary" disabled={loading}>
-                            İptal
-                        </button>
-                        <button type="submit" className="btn-primary" disabled={loading}>
-                            {loading ? <LoadingSpinner size="small" text="" /> : (application ? 'Güncelle' : 'Oluştur')}
-                        </button>
-                    </div>
-                </form>
-            </motion.div>
-        </motion.div>
-    );
+          <div className="flex justify-end gap-3 border-t border-slate-800 pt-6">
+            <button type="button" onClick={onClose} className="rounded-xl border border-slate-700 px-4 py-2 text-slate-300">Iptal</button>
+            <button type="submit" className="rounded-xl bg-primary px-5 py-2 text-white">
+              {loading ? <LoadingSpinner size="small" text="" /> : (application ? 'Guncelle' : 'Kaydet')}
+            </button>
+          </div>
+        </form>
+      </motion.div>
+    </motion.div>
+  );
 };
 
 export default ApplicationForm;

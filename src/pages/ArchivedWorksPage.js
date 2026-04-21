@@ -96,7 +96,6 @@ const ArchivedWorksPage = () => {
           {archiveDataArray.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-slate-500 dark:text-slate-400 text-lg">Henüz arşivlenmiş proje bulunmuyor.</p>
-              <Link to="/admin" className="text-primary hover:underline mt-2 inline-block">Admin panelinden proje ekleyebilirsiniz.</Link>
             </div>
           ) : (
             archiveDataArray.map((yearGroup, yearIndex) => (
