@@ -26,6 +26,7 @@ const PortfolioItemForm = ({ item, onClose }) => {
     techStack: [],
     link: '',
     linkText: '',
+    accountDeletionEnabled: false,
     order: 0,
     status: 'active'
   });
@@ -92,6 +93,19 @@ const PortfolioItemForm = ({ item, onClose }) => {
             <input name="link" value={formData.link} onChange={handleInputChange} placeholder="Bağlantı" className="input-field" />
             <input name="linkText" value={formData.linkText} onChange={handleInputChange} placeholder="Bağlantı Metni" className="input-field" />
           </div>
+          {formData.kind === 'application' && (
+            <label className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 px-4 py-3">
+              <input
+                type="checkbox"
+                checked={formData.accountDeletionEnabled}
+                onChange={(e) => setFormData((prev) => ({ ...prev, accountDeletionEnabled: e.target.checked }))}
+              />
+              <div>
+                <p className="text-sm font-medium text-slate-900 dark:text-white">Hesap silme talebi destekliyor</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">Bu uygulama hesap silme sayfasindaki secim listesine girsin.</p>
+              </div>
+            </label>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <input name="year" value={formData.year} onChange={handleInputChange} placeholder="Yıl" className="input-field" />
             <input name="location" value={formData.location} onChange={handleInputChange} placeholder="Konum" className="input-field" />

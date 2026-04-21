@@ -28,7 +28,6 @@ const Navbar = () => {
     { name: t('common.home'), href: '/' },
     { name: t('common.about'), href: '/about' },
     { name: t('common.portfolio'), href: '/portfolio' },
-    { name: t('common.applications'), href: '/applications' },
     { name: t('common.archive'), href: '/archived-works' },
     { name: t('common.experiments'), href: '/experiments' },
     { name: t('common.blog'), href: '/blog' },

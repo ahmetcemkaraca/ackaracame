@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Sayfalar
@@ -19,7 +19,6 @@ import InspirationDetailPage from './pages/InspirationDetailPage';
 import SemesterProjectsPage from './pages/SemesterProjectsPage'; // Import the new page
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
-import ApplicationsPage from './pages/ApplicationsPage';
 import ApplicationDetailPage from './pages/ApplicationDetailPage';
 import DuaNewsPage from './pages/DuaNewsPage';
 import WhereToGoPrivacyPage from './pages/WhereToGoPrivacyPage';
@@ -30,6 +29,7 @@ import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import AllTermsPage from './pages/AllTermsPage';
 import AllPrivacyPage from './pages/AllPrivacyPage';
+import ServicesPage from './pages/ServicesPage';
 // Bileşenler
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -103,7 +103,7 @@ function App() {
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3 }}
                       >
-                        <ApplicationsPage />
+                        <Navigate to="/portfolio" replace />
                       </motion.div>
                     }
                   />
@@ -286,6 +286,20 @@ function App() {
                         transition={{ duration: 0.3 }}
                       >
                         <ContactPage />
+                      </motion.div>
+                    }
+                  />
+
+                  <Route
+                    path="/services"
+                    element={
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ServicesPage />
                       </motion.div>
                     }
                   />

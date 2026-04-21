@@ -189,6 +189,60 @@ const projectReducer = (state, action) => {
 export const ProjectProvider = ({ children }) => {
   const [state, dispatch] = useReducer(projectReducer, initialState);
 
+  const buildStaticPortfolioItems = useCallback(() => ([
+    ...staticProjects.map((item) => ({ ...item, kind: 'project', source: 'hardcoded' })),
+    ...staticApplications.map((item) => ({ ...item, kind: 'application', source: 'hardcoded' }))
+  ]), []);
+
+  const buildUnifiedApplicationList = useCallback(async () => {
+    const staticItems = staticApplications.map((item) => ({
+      ...item,
+      kind: 'application',
+      source: 'hardcoded'
+    }));
+
+    let adminApplications = [];
+
+    try {
+      const [legacyApplications, manualPortfolioItems] = await Promise.all([
+        ApplicationService.getAll(),
+        PortfolioItemService.getAll()
+      ]);
+
+      adminApplications = [
+        ...legacyApplications.map((item) => ({
+          ...item,
+          kind: 'application',
+          source: 'admin'
+        })),
+        ...manualPortfolioItems
+          .filter((item) => (item.kind || 'project') === 'application')
+          .map((item) => ({
+            ...item,
+            kind: 'application',
+            source: 'admin'
+          }))
+      ];
+    } catch (error) {
+      console.warn('Applications could not be fully loaded from Firestore:', error);
+    }
+
+    const merged = [...staticItems, ...adminApplications];
+    const byKey = new Map();
+
+    merged.forEach((item) => {
+      const key = item.slug || item.id || item.title;
+      byKey.set(key, item);
+    });
+
+    return Array.from(byKey.values()).sort((a, b) => {
+      const left = Number(a.order ?? 999);
+      const right = Number(b.order ?? 999);
+      if (left !== right) return left - right;
+      return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+    });
+  }, []);
+
   // Projeleri yükle
   const loadProjects = useCallback(async () => {
     try {
@@ -349,26 +403,38 @@ export const ProjectProvider = ({ children }) => {
   const loadApplications = useCallback(async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      dispatch({ type: 'SET_APPLICATIONS', payload: staticApplications });
+      const unifiedApplications = await buildUnifiedApplicationList();
+      dispatch({ type: 'SET_APPLICATIONS', payload: unifiedApplications });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error.message });
     }
-  }, []);
+  }, [buildUnifiedApplicationList]);
 
   const loadPortfolioItems = useCallback(async () => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
-      const manualItems = await PortfolioItemService.getAll();
-      const combined = [
-        ...staticProjects.map((item) => ({ ...item, kind: 'project', source: 'hardcoded' })),
-        ...staticApplications.map((item) => ({ ...item, kind: 'application', source: 'hardcoded' })),
-        ...manualItems.map((item) => ({ ...item, source: 'admin', kind: item.kind || 'project' }))
-      ];
+      const staticItems = buildStaticPortfolioItems();
+      let combined = staticItems;
+
+      try {
+        const [manualItems, legacyApplications] = await Promise.all([
+          PortfolioItemService.getAll(),
+          ApplicationService.getAll()
+        ]);
+        combined = [
+          ...staticItems,
+          ...legacyApplications.map((item) => ({ ...item, source: 'admin', kind: 'application' })),
+          ...manualItems.map((item) => ({ ...item, source: 'admin', kind: item.kind || 'project' }))
+        ];
+      } catch (error) {
+        console.warn('Portfolio items could not be fully loaded from Firestore:', error);
+      }
+
       dispatch({ type: 'SET_PORTFOLIO_ITEMS', payload: combined });
     } catch (error) {
       dispatch({ type: 'SET_ERROR', payload: error.message });
     }
-  }, []);
+  }, [buildStaticPortfolioItems]);
 
   // Proje oluştur
   const createProject = useCallback(async (projectData) => {

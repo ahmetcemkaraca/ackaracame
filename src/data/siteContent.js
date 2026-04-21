@@ -2,7 +2,7 @@ export const projects = [
   {
     id: 'draw-or-die',
     title: 'Draw Or Die',
-    description: 'Çizim ve eskiz tabanlı, hızlı karar verme odaklı deneysel bir TypeScript projesi. Fikir üretimi, sunum ve görsel karar akışlarını tek ekranda toplar.',
+    description: 'Cizim ve eskiz tabanli, hizli karar verme odakli deneysel bir TypeScript projesi. Fikir uretimi, sunum ve gorsel karar akislarini tek ekranda toplar.',
     category: 'yazilim',
     images: [
       'https://placehold.co/1600x1000/0f172a/f8fafc?text=Draw+Or+Die',
@@ -40,7 +40,7 @@ export const projects = [
   {
     id: 'beatforge',
     title: 'BeatForge',
-    description: 'Deterministik beat besteleme ve aranjman ortamı. MIDI odakli yapisi ile tekrar uretilabilir muzik akislari ve timeline farkindaligi saglar.',
+    description: 'Deterministik beat besteleme ve aranjman ortami. MIDI odakli yapisi ile tekrar uretilabilir muzik akislari ve timeline farkindaligi saglar.',
     category: 'yazilim',
     images: [
       'https://placehold.co/1600x1000/0f172a/f8fafc?text=BeatForge',
@@ -96,8 +96,7 @@ export const projects = [
     location: 'Remote',
     link: 'https://github.com/ahmetcemkaraca/hocapuanla',
     linkText: 'GitHub Repo'
-  },
-
+  }
 ];
 
 export const applications = [
@@ -106,48 +105,54 @@ export const applications = [
     title: 'ArchBuilder',
     version: 'v1.0.0 • Live',
     type: 'Web Platform',
+    kind: 'application',
     iconName: 'Monitor',
     image: 'https://placehold.co/1600x900/0f172a/f8fafc?text=ArchBuilder',
-    description: 'Yapay zeka destekli mimari proje oluşturma platformu. Kullanıcıyı soru-cevap akışıyla yönlendirerek konsept, program ve sunum verilerini düzenler.',
+    description: 'Yapay zeka destekli mimari proje olusturma platformu. Kullaniciyi soru-cevap akisiyla yonlendirerek konsept, program ve sunum verilerini duzenler.',
     techStack: [
       { name: 'TypeScript', color: 'bg-cyan-400' },
       { name: 'AI Workflow', color: 'bg-green-500' },
       { name: 'Firebase', color: 'bg-yellow-400' }
     ],
     link: 'https://archbuilder.app',
-    linkText: 'Uygulamaya Git'
+    linkText: 'Uygulamaya Git',
+    accountDeletionEnabled: true
   },
   {
     id: 'duaapp',
     title: 'DuaAPP',
     version: 'v2.1.0 • Mobile',
     type: 'iOS / Android',
+    kind: 'application',
     iconName: 'Smartphone',
     image: 'https://placehold.co/1600x900/0f172a/f8fafc?text=DuaAPP',
-    description: 'Günlük dualar, kategorilere ayrılmış içerikler ve çok dilli kullanım akışları için hazırlanmış mobil deneyim. Manevi içerik odaklı hafif bir ürün dili kullanır.',
+    description: 'Gunluk dualar, kategorilere ayrilmis icerikler ve cok dilli kullanim akislarina sahip mobil deneyim. Manevi icerik odakli hafif bir urun dili kullanir.',
     techStack: [
       { name: 'Dart', color: 'bg-blue-500' },
       { name: 'Firebase', color: 'bg-orange-500' },
       { name: 'Localization', color: 'bg-purple-500' }
     ],
     link: '/dua/news',
-    linkText: 'Güncellemeler'
+    linkText: 'Guncellemeler',
+    accountDeletionEnabled: true
   },
   {
     id: 'where-to-go',
     title: 'Where To-Go',
     version: 'v1.0.0 • Mobile',
     type: 'iOS / Android',
+    kind: 'application',
     iconName: 'Globe',
     image: 'https://placehold.co/1600x900/0f172a/f8fafc?text=Where+To-Go',
-    description: 'Aile odaklı konum ve etkinlik keşfi için tasarlanmış mobil ürün. Güvenli rota önerileri, ilgi alanı filtreleri ve çocuk güvenliği duyarlı karar desteği sağlar.',
+    description: 'Aile odakli konum ve etkinlik kesfi icin tasarlanmis mobil urun. Guvenli rota onerileri, ilgi alani filtreleri ve cocuk guvenligi duyarli karar destegi saglar.',
     techStack: [
       { name: 'React Native', color: 'bg-blue-500' },
       { name: 'Maps API', color: 'bg-green-500' },
       { name: 'Firebase', color: 'bg-orange-500' }
     ],
     link: '/wheretogo/news',
-    linkText: 'Proje Notları'
+    linkText: 'Proje Notlari',
+    accountDeletionEnabled: true
   }
 ];
 

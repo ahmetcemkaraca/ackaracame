@@ -19,7 +19,8 @@ const ApplicationForm = ({ application, onClose }) => {
         description: '',
         techStack: [],
         link: '',
-        linkText: ''
+        linkText: '',
+        accountDeletionEnabled: false
     });
 
     const [newTechName, setNewTechName] = useState('');
@@ -36,7 +37,8 @@ const ApplicationForm = ({ application, onClose }) => {
                 description: application.description || '',
                 techStack: application.techStack || [],
                 link: application.link || '',
-                linkText: application.linkText || ''
+                linkText: application.linkText || '',
+                accountDeletionEnabled: Boolean(application.accountDeletionEnabled)
             });
         }
     }, [application]);
@@ -199,6 +201,18 @@ const ApplicationForm = ({ application, onClose }) => {
                             <input type="text" name="linkText" value={formData.linkText} onChange={handleInputChange} className="input-field" required />
                         </div>
                     </div>
+
+                    <label className="flex items-center gap-3 rounded-xl border border-secondary-200 p-4">
+                        <input
+                            type="checkbox"
+                            checked={formData.accountDeletionEnabled}
+                            onChange={(e) => setFormData((prev) => ({ ...prev, accountDeletionEnabled: e.target.checked }))}
+                        />
+                        <div>
+                            <p className="text-sm font-medium text-secondary-800">Hesap silme sayfasinda goster</p>
+                            <p className="text-xs text-secondary-500">Bu uygulama hesap silme taleplerinde secilebilir olsun.</p>
+                        </div>
+                    </label>
 
                     {/* Teknolojiler */}
                     <div>

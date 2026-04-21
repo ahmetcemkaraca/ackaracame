@@ -13,6 +13,7 @@ const AccountDeletionPage = () => {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState('');
   const { applications, loadApplications } = useProject();
+  const availableApplications = applications.filter((app) => app.accountDeletionEnabled !== false);
 
   useEffect(() => {
     if (applications.length === 0) {
@@ -131,10 +132,15 @@ const AccountDeletionPage = () => {
                         required
                       >
                         <option value="" disabled>Uygulama secin...</option>
-                        {applications.map((app) => (
+                        {availableApplications.map((app) => (
                           <option key={app.id} value={app.title}>{app.title}</option>
                         ))}
                       </select>
+                      {availableApplications.length === 0 && (
+                        <p className="text-xs text-slate-500 dark:text-slate-400">
+                          Hesap silme talebi acik olan uygulama bulunamadi.
+                        </p>
+                      )}
                     </div>
 
                     {/* Email Input */}
@@ -205,7 +211,7 @@ const AccountDeletionPage = () => {
                       </Link>
                       <button
                         type="submit"
-                        disabled={loading || !confirmed}
+                        disabled={loading || !confirmed || availableApplications.length === 0}
                         className="w-full sm:w-1/3 inline-flex justify-center items-center px-4 py-3 border border-transparent shadow-sm text-sm font-medium rounded-lg text-red-700 bg-red-100 hover:bg-red-200 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-surface-dark transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {loading ? (

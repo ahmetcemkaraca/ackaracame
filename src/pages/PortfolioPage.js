@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Filter, LayoutGrid, Monitor, Smartphone } from 'lucide-react';
+import { ArrowRight, Calendar, LayoutGrid, Monitor, Smartphone } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const filterMeta = {
-  all: { label: 'Tüm Projeler', icon: LayoutGrid },
+  all: { label: 'Tum Icerikler', icon: LayoutGrid },
   project: { label: 'Projeler', icon: Monitor },
   application: { label: 'Uygulamalar', icon: Smartphone }
 };
@@ -20,30 +20,32 @@ const PortfolioPage = () => {
     loadPortfolioItems();
   }, [loadPortfolioItems]);
 
-  const items = useMemo(() => {
-    return [...portfolioItems].sort((a, b) => {
-      const left = Number(a.order || 999);
-      const right = Number(b.order || 999);
-      if (left !== right) return left - right;
-      return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-    });
-  }, [portfolioItems]);
+  const items = useMemo(() => (
+    [...portfolioItems]
+      .filter((item) => item.status !== 'archived')
+      .sort((a, b) => {
+        const left = Number(a.order || 999);
+        const right = Number(b.order || 999);
+        if (left !== right) return left - right;
+        return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+      })
+  ), [portfolioItems]);
 
   const filteredItems = useMemo(() => {
     if (activeFilter === 'all') return items;
     return items.filter((item) => (item.kind || 'project') === activeFilter);
   }, [items, activeFilter]);
 
-  const timelineItems = useMemo(() => {
-    return items.map((item, index) => ({
+  const timelineItems = useMemo(() => (
+    items.map((item, index) => ({
       id: item.id,
       date: item.year || item.version || item.semester || 'Yeni',
       title: item.title,
       description: item.description,
       kind: item.kind || 'project',
       index
-    }));
-  }, [items]);
+    }))
+  ), [items]);
 
   const activeTimelineItem = timelineItems.find((item) => item.id === activeTimelineId) || timelineItems[0];
 
@@ -56,7 +58,7 @@ const PortfolioPage = () => {
   if (loading && items.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background-light dark:bg-background-dark">
-        <LoadingSpinner text="Portfolyo yükleniyor..." />
+        <LoadingSpinner text="Portfolyo yukleniyor..." />
       </div>
     );
   }
@@ -68,14 +70,14 @@ const PortfolioPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-[0.18em] mb-6">
-              Birleşik Portfolyo
+              Birlesik Portfolyo
             </div>
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
               Uygulamalar ve projeler tek bir
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">yaşayan vitrin içinde.</span>
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">yasayan vitrin icinde.</span>
             </h1>
             <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-              Tüm uygulamalar artık portfolyoda birleştirildi. Kartlara tıklayarak kendi detay sayfalarına gidebilir, alt bölümdeki zaman çizelgesinden oluşturulan içeriklere etkileşimli olarak bakabilirsiniz.
+              Projeler ve uygulamalar tek bir akista listeleniyor. Her kart kendi detay sayfasina acilir; zaman cizelgesi ise uretilen tum icerikleri tek bakista etkilesimli olarak gosterir.
             </p>
           </motion.div>
 
@@ -105,6 +107,12 @@ const PortfolioPage = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-8">
           <div>
+            {filteredItems.length === 0 && (
+              <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/40 p-10 text-center text-slate-500 dark:text-slate-400 mb-6">
+                Bu filtrede gosterilecek icerik bulunamadi.
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               {filteredItems.map((item, index) => (
                 <motion.article
@@ -133,7 +141,7 @@ const PortfolioPage = () => {
                             {item.title}
                           </h3>
                           <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                            {item.year || item.version || item.semester || 'Güncel'}
+                            {item.year || item.version || item.semester || 'Guncel'}
                           </p>
                         </div>
                         <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
@@ -159,10 +167,10 @@ const PortfolioPage = () => {
             <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-6 shadow-sm">
               <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-4">
                 <Calendar className="w-4 h-4" />
-                Zaman Çizelgesi
+                Zaman Cizelgesi
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
-                Oluşturulan proje ve içerikleri burada tek akış halinde inceleyebilirsin. Bir öğeye tıklayınca aynı içeriğin detay sayfasına gidersin.
+                Olusturulan proje ve icerikleri burada tek akis halinde inceleyebilirsin. Bir ogeye tiklayinca ayni icerigin detay sayfasina gidersin.
               </p>
 
               <div className="space-y-3 max-h-[60vh] overflow-auto pr-2">
@@ -194,14 +202,14 @@ const PortfolioPage = () => {
 
               {activeTimelineItem && (
                 <div className="mt-6 rounded-xl bg-slate-950 text-white p-5">
-                  <p className="text-xs uppercase tracking-[0.2em] text-cyan-300 mb-2">Seçili İçerik</p>
+                  <p className="text-xs uppercase tracking-[0.2em] text-cyan-300 mb-2">Secili Icerik</p>
                   <h3 className="text-lg font-semibold mb-2">{activeTimelineItem.title}</h3>
                   <p className="text-sm text-slate-300 leading-relaxed">{activeTimelineItem.description}</p>
                   <Link
                     to={`/portfolio/${activeTimelineItem.id}`}
                     className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-cyan-300 hover:text-cyan-200 transition-colors"
                   >
-                    Detay sayfasını aç
+                    Detay sayfasini ac
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
