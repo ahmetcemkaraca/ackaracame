@@ -18,23 +18,86 @@ export const projects = [
     location: 'Antalya, TR'
   },
   {
-    id: 'hocapuanla',
-    title: 'Hoca Puanla',
-    description: 'Ders ve eğitmen geri bildirimi için tasarlanmış hafif bir değerlendirme projesi. Anonim skorlar, yorumlar ve dönemsel özetler sunar.',
+    id: 'mailcrush',
+    title: 'MailCrush',
+    description: 'AI destekli e-posta ozetleme ve digester servisi. Inbound email, OpenAI tabanli kisa ozetler, Stripe abonelik yapisi ve Firebase auth ile calisir.',
     category: 'yazilim',
     images: [
-      'https://placehold.co/1600x1000/0f172a/f8fafc?text=Hoca+Puanla',
-      'https://placehold.co/1200x900/111827/e2e8f0?text=Ratings',
-      'https://placehold.co/1200x900/1f2937/e5e7eb?text=Summary'
+      'https://placehold.co/1600x1000/0f172a/f8fafc?text=MailCrush',
+      'https://placehold.co/1200x900/111827/e2e8f0?text=Email+Digest',
+      'https://placehold.co/1200x900/1f2937/e5e7eb?text=FastAPI+%2B+Next.js'
     ],
-    technologies: ['TypeScript', 'Firebase', 'Data Visualization'],
+    technologies: ['Next.js', 'FastAPI', 'OpenAI', 'Firebase', 'Stripe'],
+    year: '2026',
+    semester: 'Personal',
+    featured: true,
+    order: 3,
+    status: 'active',
+    location: 'Remote',
+    link: 'https://github.com/ahmetcemkaraca/MailCrush',
+    linkText: 'GitHub Repo'
+  },
+  {
+    id: 'beatforge',
+    title: 'BeatForge',
+    description: 'Deterministik beat besteleme ve aranjman ortamı. MIDI odakli yapisi ile tekrar uretilabilir muzik akislari ve timeline farkindaligi saglar.',
+    category: 'yazilim',
+    images: [
+      'https://placehold.co/1600x1000/0f172a/f8fafc?text=BeatForge',
+      'https://placehold.co/1200x900/111827/e2e8f0?text=MIDI+Workflow',
+      'https://placehold.co/1200x900/1f2937/e5e7eb?text=Python+Workspace'
+    ],
+    technologies: ['Python', 'MIDI', 'music21', 'TypeScript', 'Vite'],
     year: '2026',
     semester: 'Personal',
     featured: false,
-    order: 2,
+    order: 4,
     status: 'active',
-    location: 'Antalya, TR'
-  }
+    location: 'Remote',
+    link: 'https://github.com/ahmetcemkaraca/beatforge',
+    linkText: 'GitHub Repo'
+  },
+  {
+    id: 'peakactivity',
+    title: 'PeakActivity',
+    description: 'ActivityWatch tabanli veriyi AI ile anlamli icgorlugu donusturen uretkenlik ve dijital saglik platformu. Desktop, web panel ve cloud functions katmanlari var.',
+    category: 'yazilim',
+    images: [
+      'https://placehold.co/1600x1000/0f172a/f8fafc?text=PeakActivity',
+      'https://placehold.co/1200x900/111827/e2e8f0?text=ActivityWatch+Core',
+      'https://placehold.co/1200x900/1f2937/e5e7eb?text=Firebase+Analytics'
+    ],
+    technologies: ['Tauri', 'Vue.js', 'TypeScript', 'Firebase', 'Python'],
+    year: '2026',
+    semester: 'Personal',
+    featured: true,
+    order: 5,
+    status: 'active',
+    location: 'Remote',
+    link: 'https://github.com/ahmetcemkaraca/PeakActivity',
+    linkText: 'GitHub Repo'
+  },
+  {
+    id: 'hocapuanla',
+    title: 'HocaPuanla',
+    description: 'Anonim hoca degerlendirme ve kesif platformu. Arama, profil sayfasi, yonetim akislari ve Firebase tabanli moderasyon katmanlari barindirir.',
+    category: 'yazilim',
+    images: [
+      'https://placehold.co/1600x1000/0f172a/f8fafc?text=HocaPuanla',
+      'https://placehold.co/1200x900/111827/e2e8f0?text=Professor+Search',
+      'https://placehold.co/1200x900/1f2937/e5e7eb?text=Next.js+16'
+    ],
+    technologies: ['Next.js', 'React', 'TypeScript', 'Firebase', 'Playwright'],
+    year: '2026',
+    semester: 'Personal',
+    featured: true,
+    order: 6,
+    status: 'active',
+    location: 'Remote',
+    link: 'https://github.com/ahmetcemkaraca/hocapuanla',
+    linkText: 'GitHub Repo'
+  },
+
 ];
 
 export const applications = [
