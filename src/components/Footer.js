@@ -2,10 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Github, Linkedin, Mail } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useSiteSettings } from '../hooks/useSiteSettings';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { t } = useLanguage();
+  const settings = useSiteSettings();
 
   const socialLinks = [
     { name: 'GitHub', icon: Github, href: 'https://github.com/ahmetcemkaraca' },
@@ -28,10 +30,13 @@ const Footer = () => {
                 ACKaraca<span className="text-primary">.me</span>
               </span>
             </Link>
-            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
-              {t('footer.description') || 'Sadeliği takdir eden bir mimar ve geliştirici. Karmaşıklık yerine özü bularak, anlamlı mekanlar ve kullanışlı araçlar yaratıyorum.'}
+            <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+              {settings.footerTagline}
             </p>
-            <div className="flex space-x-4">
+            <p className="mt-2 text-sm text-slate-300 dark:text-slate-500">
+              {settings.footerSubline}
+            </p>
+            <div className="mt-6 flex space-x-4">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
                 return (
@@ -82,7 +87,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-slate-500 dark:text-slate-500 font-mono">
-            © {currentYear} Ahmet Cem Karaca. All Rights Reserved.
+            {settings.footerCopyrightPrefix} {currentYear} {settings.footerCopyrightText} {settings.footerCopyrightSuffix}
           </p>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />

@@ -1,221 +1,266 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, LayoutGrid, Monitor, Smartphone } from 'lucide-react';
+import { ArrowRight, CalendarDays, Code2, Laptop2, Sparkles } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
-const filterMeta = {
-  all: { label: 'Tum Icerikler', icon: LayoutGrid },
-  project: { label: 'Projeler', icon: Monitor },
-  application: { label: 'Uygulamalar', icon: Smartphone }
+const filterOptions = [
+  { id: 'all', label: 'Tum Icerikler' },
+  { id: 'project', label: 'Projeler' },
+  { id: 'application', label: 'Uygulamalar' }
+];
+
+const getItemDateValue = (item) => {
+  if (item.createdAt?.seconds) return item.createdAt.seconds * 1000;
+  if (item.date) return new Date(item.date).getTime();
+  if (item.year) return new Date(`${item.year}-01-01`).getTime();
+  return 0;
 };
 
 const PortfolioPage = () => {
   const { portfolioItems, loadPortfolioItems, loading } = useProject();
   const [activeFilter, setActiveFilter] = useState('all');
-  const [activeTimelineId, setActiveTimelineId] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     loadPortfolioItems();
   }, [loadPortfolioItems]);
 
-  const items = useMemo(() => (
-    [...portfolioItems]
-      .filter((item) => item.status !== 'archived')
-      .sort((a, b) => {
-        const left = Number(a.order || 999);
-        const right = Number(b.order || 999);
-        if (left !== right) return left - right;
-        return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
-      })
-  ), [portfolioItems]);
-
   const filteredItems = useMemo(() => {
-    if (activeFilter === 'all') return items;
-    return items.filter((item) => (item.kind || 'project') === activeFilter);
-  }, [items, activeFilter]);
-
-  const timelineItems = useMemo(() => (
-    items.map((item, index) => ({
-      id: item.id,
-      date: item.year || item.version || item.semester || 'Yeni',
-      title: item.title,
-      description: item.description,
-      kind: item.kind || 'project',
-      index
-    }))
-  ), [items]);
-
-  const activeTimelineItem = timelineItems.find((item) => item.id === activeTimelineId) || timelineItems[0];
+    const items = portfolioItems.filter((item) => activeFilter === 'all' || item.kind === activeFilter);
+    return [...items].sort((left, right) => getItemDateValue(left) - getItemDateValue(right));
+  }, [activeFilter, portfolioItems]);
 
   useEffect(() => {
-    if (!activeTimelineId && timelineItems.length > 0) {
-      setActiveTimelineId(timelineItems[0].id);
+    if (!filteredItems.length) {
+      setSelectedId(null);
+      return;
     }
-  }, [activeTimelineId, timelineItems]);
 
-  if (loading && items.length === 0) {
+    if (!selectedId || !filteredItems.some((item) => item.id === selectedId)) {
+      setSelectedId(filteredItems[filteredItems.length - 1].id);
+    }
+  }, [filteredItems, selectedId]);
+
+  const selectedItem = filteredItems.find((item) => item.id === selectedId) || null;
+
+  if (loading && portfolioItems.length === 0) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-background-light dark:bg-background-dark">
+      <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark pt-20">
         <LoadingSpinner text="Portfolyo yukleniyor..." />
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-background-light dark:bg-background-dark text-slate-900 dark:text-white pt-20">
+    <main className="min-h-screen bg-background-light dark:bg-background-dark pt-20 text-slate-800 dark:text-slate-100">
       <section className="relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-        <div className="absolute inset-0 opacity-60 dark:opacity-30 bg-[radial-gradient(circle_at_top_left,rgba(25,127,230,0.18),transparent_30%),radial-gradient(circle_at_top_right,rgba(8,145,178,0.14),transparent_28%),linear-gradient(to_bottom,rgba(255,255,255,0.75),transparent)] dark:bg-[radial-gradient(circle_at_top_left,rgba(25,127,230,0.22),transparent_30%),radial-gradient(circle_at_top_right,rgba(8,145,178,0.18),transparent_28%),linear-gradient(to_bottom,rgba(15,23,42,0.92),transparent)]" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-[0.18em] mb-6">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(37,99,235,0.18),_transparent_35%),linear-gradient(180deg,_rgba(15,23,42,0.35),_transparent)]" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+              <Sparkles className="w-3.5 h-3.5" />
               Birlesik Portfolyo
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight mb-6">
-              Uygulamalar ve projeler tek bir
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">yasayan vitrin icinde.</span>
+            <h1 className="mt-6 text-4xl md:text-6xl font-bold tracking-tight leading-[1.02] text-slate-950 dark:text-white">
+              Uygulamalar ve projeler
+              <span className="block text-primary">tek bir canli vitrin icinde.</span>
             </h1>
-            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl leading-relaxed">
-              Projeler ve uygulamalar tek bir akista listeleniyor. Her kart kendi detay sayfasina acilir; zaman cizelgesi ise uretilen tum icerikleri tek bakista etkilesimli olarak gosterir.
+            <p className="mt-6 max-w-3xl text-lg md:text-xl leading-relaxed text-slate-600 dark:text-slate-300">
+              Tum uretilen icerikler ayni akista listeleniyor. Zaman cizelgesi artik ust bolumde;
+              soldan saga ilerleyerek yeni isleri secip detay ve changelog sayfalarina gecis yapabilirsiniz.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="mt-10 flex flex-wrap gap-3">
-            {Object.entries(filterMeta).map(([key, meta]) => {
-              const Icon = meta.icon;
-              const active = activeFilter === key;
-              return (
-                <button
-                  key={key}
-                  onClick={() => setActiveFilter(key)}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium border transition-all ${
-                    active
-                      ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
-                      : 'bg-white/80 dark:bg-slate-900/60 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {meta.label}
-                </button>
-              );
-            })}
-          </motion.div>
+          <div className="mt-10 flex flex-wrap gap-3">
+            {filterOptions.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => setActiveFilter(option.id)}
+                className={`rounded-full border px-5 py-3 text-sm font-medium transition ${
+                  activeFilter === option.id
+                    ? 'border-primary bg-primary text-white shadow-lg shadow-primary/20'
+                    : 'border-slate-300 bg-white/80 text-slate-700 hover:border-primary hover:text-primary dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200'
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_0.7fr] gap-8">
-          <div>
-            {filteredItems.length === 0 && (
-              <div className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 bg-white/70 dark:bg-slate-900/40 p-10 text-center text-slate-500 dark:text-slate-400 mb-6">
-                Bu filtrede gosterilecek icerik bulunamadi.
-              </div>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              {filteredItems.map((item, index) => (
-                <motion.article
-                  key={item.id}
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.06 }}
-                  className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:shadow-primary/5 transition-all duration-300"
-                >
-                  <Link to={`/portfolio/${item.id}`} className="block">
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={item.image || item.images?.[0] || 'https://placehold.co/1600x900'}
-                        alt={item.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/15 to-transparent" />
-                      <div className="absolute top-4 left-4 inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-black/40 text-white text-xs backdrop-blur">
-                        {(item.kind || 'project') === 'application' ? 'Uygulama' : 'Proje'}
-                      </div>
-                    </div>
-                    <div className="p-5">
-                      <div className="flex items-start justify-between gap-3 mb-3">
-                        <div>
-                          <h3 className="text-xl font-semibold text-slate-900 dark:text-white group-hover:text-primary transition-colors">
-                            {item.title}
-                          </h3>
-                          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                            {item.year || item.version || item.semester || 'Guncel'}
-                          </p>
-                        </div>
-                        <ArrowRight className="w-5 h-5 text-slate-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                      </div>
-                      <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
-                        {item.description}
-                      </p>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {(item.technologies || item.techStack?.map((tech) => tech.name) || []).slice(0, 3).map((tag) => (
-                          <span key={tag} className="text-xs px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </Link>
-                </motion.article>
-              ))}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+        <div className="rounded-[2rem] border border-slate-200 bg-white/80 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-950/70">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                <CalendarDays className="w-4 h-4" />
+                Zaman Cizelgesi
+              </p>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
+                Soldan saga ilerleyen bu akista son secilen oge detay paneline yansir. Sag taraf yeni icerikleri temsil eder.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-right dark:border-slate-800 dark:bg-slate-900/80">
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Secili Icerik</p>
+              <p className="mt-1 text-sm font-semibold text-slate-900 dark:text-white">{selectedItem?.title || 'Secim yapin'}</p>
             </div>
           </div>
 
-          <aside className="lg:sticky lg:top-28 h-fit">
-            <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-6 shadow-sm">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-primary font-semibold mb-4">
-                <Calendar className="w-4 h-4" />
-                Zaman Cizelgesi
-              </div>
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-6">
-                Olusturulan proje ve icerikleri burada tek akis halinde inceleyebilirsin. Bir ogeye tiklayinca ayni icerigin detay sayfasina gidersin.
-              </p>
-
-              <div className="space-y-3 max-h-[60vh] overflow-auto pr-2">
-                {timelineItems.map((item) => {
-                  const active = activeTimelineItem?.id === item.id;
+          <div className="mt-8 overflow-x-auto pb-3">
+            <div className="min-w-max px-2">
+              <div className="relative flex items-start gap-6 pb-10">
+                <div className="absolute left-0 right-0 top-8 h-px bg-gradient-to-r from-primary/30 via-primary to-primary/30" />
+                {filteredItems.map((item, index) => {
+                  const isSelected = item.id === selectedId;
+                  const isApplication = item.kind === 'application';
                   return (
                     <button
                       key={item.id}
-                      onClick={() => setActiveTimelineId(item.id)}
-                      className={`w-full text-left rounded-xl border px-4 py-3 transition-all ${
-                        active
-                          ? 'border-primary bg-primary/10 shadow-sm'
-                          : 'border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-950/30 hover:border-primary/50'
-                      }`}
+                      type="button"
+                      onClick={() => setSelectedId(item.id)}
+                      className="relative z-10 w-72 shrink-0 text-left"
                     >
-                      <div className="flex items-center justify-between gap-3">
-                        <div>
-                          <p className="text-sm font-semibold text-slate-900 dark:text-white">{item.title}</p>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">{item.date}</p>
+                      <motion.div
+                        whileHover={{ y: -4 }}
+                        className={`rounded-[1.75rem] border p-5 transition ${
+                          isSelected
+                            ? 'border-primary bg-primary text-white shadow-2xl shadow-primary/20'
+                            : 'border-slate-200 bg-slate-50/90 text-slate-900 hover:border-primary/50 dark:border-slate-800 dark:bg-slate-900/80 dark:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] ${
+                            isSelected
+                              ? 'bg-white/15 text-white'
+                              : 'bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-300'
+                          }`}>
+                            {isApplication ? <Laptop2 className="w-3.5 h-3.5" /> : <Code2 className="w-3.5 h-3.5" />}
+                            {isApplication ? 'Uygulama' : 'Proje'}
+                          </span>
+                          <span className={`text-xs ${isSelected ? 'text-white/80' : 'text-slate-500 dark:text-slate-400'}`}>
+                            {item.year || item.version || 'Guncel'}
+                          </span>
                         </div>
-                        <span className="text-[11px] uppercase tracking-[0.18em] text-primary">
-                          {item.kind}
-                        </span>
-                      </div>
+                        <div className={`mt-6 h-3 w-3 rounded-full border-4 ${
+                          isSelected ? 'border-white bg-white' : 'border-primary/20 bg-primary'
+                        }`} />
+                        <h3 className="mt-6 text-2xl font-semibold leading-tight">{item.title}</h3>
+                        <p className={`mt-3 line-clamp-3 text-sm leading-6 ${isSelected ? 'text-white/85' : 'text-slate-500 dark:text-slate-400'}`}>
+                          {item.description}
+                        </p>
+                        <p className={`mt-6 text-xs uppercase tracking-[0.18em] ${isSelected ? 'text-white/75' : 'text-slate-400'}`}>
+                          Adim {String(index + 1).padStart(2, '0')}
+                        </p>
+                      </motion.div>
                     </button>
                   );
                 })}
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-              {activeTimelineItem && (
-                <div className="mt-6 rounded-xl bg-slate-950 text-white p-5">
-                  <p className="text-xs uppercase tracking-[0.2em] text-cyan-300 mb-2">Secili Icerik</p>
-                  <h3 className="text-lg font-semibold mb-2">{activeTimelineItem.title}</h3>
-                  <p className="text-sm text-slate-300 leading-relaxed">{activeTimelineItem.description}</p>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950/70">
+            {selectedItem ? (
+              <>
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                      Secili Oge
+                    </p>
+                    <h2 className="mt-2 text-3xl font-semibold text-slate-950 dark:text-white">{selectedItem.title}</h2>
+                  </div>
+                  <span className="rounded-full border border-slate-200 px-4 py-2 text-sm text-slate-500 dark:border-slate-700 dark:text-slate-300">
+                    {selectedItem.category || selectedItem.type || selectedItem.kind}
+                  </span>
+                </div>
+
+                <div className="mt-6 overflow-hidden rounded-[1.5rem] border border-slate-200 dark:border-slate-800">
+                  <img
+                    src={selectedItem.images?.[0] || selectedItem.image || 'https://placehold.co/1600x900/0f172a/f8fafc?text=Portfolio'}
+                    alt={selectedItem.title}
+                    className="h-[320px] w-full object-cover"
+                  />
+                </div>
+
+                <p className="mt-6 max-w-3xl text-base leading-8 text-slate-600 dark:text-slate-300">
+                  {selectedItem.description}
+                </p>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {(selectedItem.technologies || selectedItem.techStack?.map((tech) => tech.name) || []).map((tech) => (
+                    <span key={tech} className="rounded-full bg-slate-100 px-3 py-1.5 text-sm text-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-4">
                   <Link
-                    to={`/portfolio/${activeTimelineItem.id}`}
-                    className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-cyan-300 hover:text-cyan-200 transition-colors"
+                    to={`/portfolio/${selectedItem.id}`}
+                    className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 font-medium text-white shadow-lg shadow-primary/20"
                   >
-                    Detay sayfasini ac
+                    Detay Sayfasi
                     <ArrowRight className="w-4 h-4" />
                   </Link>
+                  <Link
+                    to={`/portfolio/${selectedItem.id}/changelog`}
+                    className="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-5 py-3 font-medium text-slate-700 transition hover:border-primary hover:text-primary dark:border-slate-700 dark:text-slate-200"
+                  >
+                    Changelog
+                  </Link>
                 </div>
-              )}
+              </>
+            ) : (
+              <div className="rounded-[1.5rem] border border-dashed border-slate-300 p-10 text-center text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                Bu filtrede gosterilecek icerik yok.
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950/70">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">Liste</p>
+                <h3 className="mt-2 text-2xl font-semibold text-slate-950 dark:text-white">Tum Kartlar</h3>
+              </div>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                {filteredItems.length} oge
+              </span>
             </div>
-          </aside>
+
+            <div className="mt-6 space-y-3">
+              {filteredItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setSelectedId(item.id)}
+                  className={`w-full rounded-2xl border px-4 py-4 text-left transition ${
+                    item.id === selectedId
+                      ? 'border-primary bg-primary/10'
+                      : 'border-slate-200 hover:border-primary/40 dark:border-slate-800'
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="font-semibold text-slate-900 dark:text-white">{item.title}</p>
+                      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{item.year || item.version || 'Guncel'}</p>
+                    </div>
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-primary">
+                      {item.kind}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
     </main>

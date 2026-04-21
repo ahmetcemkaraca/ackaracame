@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Globe, Grid, MapPin } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Github, Globe, Grid, History, MapPin } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -16,13 +16,14 @@ const ProjectDetailPage = () => {
   if (loading || !currentPortfolioItem) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background-light dark:bg-background-dark">
-        <LoadingSpinner text="İçerik yükleniyor..." />
+        <LoadingSpinner text="Icerik yukleniyor..." />
       </div>
     );
   }
 
   const item = currentPortfolioItem;
   const images = item.images || (item.image ? [item.image] : []);
+  const technologies = item.technologies || item.techStack?.map((tech) => tech.name) || [];
   const isApplication = item.kind === 'application';
 
   return (
@@ -38,7 +39,7 @@ const ProjectDetailPage = () => {
               <span className="px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-[0.18em] bg-primary/15 text-primary border border-primary/30">
                 {isApplication ? 'Uygulama' : 'Proje'}
               </span>
-              <span className="text-xs uppercase tracking-[0.18em] text-slate-300">{item.year || item.version || 'Güncel'}</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-slate-300">{item.year || item.version || 'Guncel'}</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight mb-4">{item.title}</h1>
             <p className="text-lg text-slate-200 max-w-2xl leading-relaxed">{item.description}</p>
@@ -63,29 +64,49 @@ const ProjectDetailPage = () => {
                       <MapPin className="w-3.5 h-3.5 text-primary" /> {item.location || 'Antalya, TR'}
                     </p>
                   </div>
+                  {item.websiteUrl && (
+                    <div>
+                      <p className="text-slate-500">Website</p>
+                      <a href={item.websiteUrl} target="_blank" rel="noreferrer" className="font-medium text-primary hover:underline inline-flex items-center gap-2">
+                        <Globe className="w-3.5 h-3.5" />
+                        {item.websiteLabel || 'Website'}
+                      </a>
+                    </div>
+                  )}
+                  {item.githubUrl && (
+                    <div>
+                      <p className="text-slate-500">GitHub Repo</p>
+                      <a href={item.githubUrl} target="_blank" rel="noreferrer" className="font-medium text-primary hover:underline inline-flex items-center gap-2">
+                        <Github className="w-3.5 h-3.5" />
+                        Repo baglantisi
+                      </a>
+                    </div>
+                  )}
                   {item.link && (
                     <div>
-                      <p className="text-slate-500">Bağlantı</p>
+                      <p className="text-slate-500">Birincil baglanti</p>
                       <a href={item.link} target={item.link.startsWith('http') ? '_blank' : '_self'} rel="noreferrer" className="font-medium text-primary hover:underline">
-                        {item.linkText || 'İncele'}
+                        {item.linkText || 'Incele'}
                       </a>
                     </div>
                   )}
                 </div>
               </div>
+              <Link to={`/portfolio/${item.id}/changelog`} className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
+                <History className="w-4 h-4" />
+                Release notes / changelog
+              </Link>
               <Link to="/portfolio" className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
                 <ArrowLeft className="w-4 h-4" />
-                Portfolyoya dön
+                Portfolyoya don
               </Link>
             </div>
           </aside>
 
           <section className="lg:col-span-9 space-y-10">
             <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-6 md:p-8">
-              <h2 className="text-2xl font-semibold mb-4">Genel Bakış</h2>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                {item.description}
-              </p>
+              <h2 className="text-2xl font-semibold mb-4">Genel Bakis</h2>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{item.description}</p>
             </div>
 
             {images.length > 1 && (
@@ -98,11 +119,11 @@ const ProjectDetailPage = () => {
               </div>
             )}
 
-            {(item.technologies || item.techStack) && (
+            {technologies.length > 0 && (
               <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/70 p-6 md:p-8">
                 <h2 className="text-2xl font-semibold mb-4">Teknolojiler</h2>
                 <div className="flex flex-wrap gap-2">
-                  {(item.technologies || item.techStack?.map((tech) => tech.name) || []).map((tech) => (
+                  {technologies.map((tech) => (
                     <span key={tech} className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm">
                       {tech}
                     </span>
@@ -114,13 +135,17 @@ const ProjectDetailPage = () => {
             <div className="flex flex-wrap gap-4">
               {item.link && (
                 <a href={item.link} target={item.link.startsWith('http') ? '_blank' : '_self'} rel="noreferrer" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-primary text-white font-medium shadow-lg shadow-primary/20 hover:opacity-95">
-                  {item.linkText || 'Bağlantıyı Aç'}
+                  {item.linkText || 'Baglantiyi Ac'}
                   <ArrowRight className="w-4 h-4" />
                 </a>
               )}
+              <Link to={`/portfolio/${item.id}/changelog`} className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-medium text-slate-700 dark:text-slate-200 hover:border-primary hover:text-primary transition-colors">
+                <History className="w-4 h-4" />
+                Changelog
+              </Link>
               <Link to="/portfolio" className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-medium text-slate-700 dark:text-slate-200 hover:border-primary hover:text-primary transition-colors">
                 <Grid className="w-4 h-4" />
-                Tüm Portfolyo
+                Tum Portfolyo
               </Link>
             </div>
           </section>

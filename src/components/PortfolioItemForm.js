@@ -3,10 +3,12 @@ import { motion } from 'framer-motion';
 import { X, Upload, Plus } from 'lucide-react';
 import { useProject } from '../context/ProjectContext';
 import { FileService } from '../firebase/services';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
+
+const inputClass = 'w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40';
 
 const PortfolioItemForm = ({ item, onClose }) => {
-  const { createPortfolioItem } = useProject();
+  const { createPortfolioItem, updatePortfolioItem } = useProject();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [newTech, setNewTech] = useState('');
@@ -21,24 +23,25 @@ const PortfolioItemForm = ({ item, onClose }) => {
     technologies: [],
     version: '',
     type: '',
-    iconName: 'Monitor',
     image: '',
     techStack: [],
     link: '',
-    linkText: '',
-    accountDeletionEnabled: false,
+    linkText: 'Detayi Ac',
+    websiteUrl: '',
+    websiteLabel: 'Website',
+    githubUrl: '',
+    changelogEntries: [],
     order: 0,
-    status: 'active'
+    status: 'active',
+    accountDeletionEnabled: false
   });
 
   useEffect(() => {
-    if (item) setFormData((prev) => ({ ...prev, ...item }));
+    if (!item) return;
+    setFormData((prev) => ({ ...prev, ...item, changelogEntries: item.changelogEntries || [] }));
   }, [item]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const setField = (name, value) => setFormData((prev) => ({ ...prev, [name]: value }));
 
   const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
@@ -46,19 +49,21 @@ const PortfolioItemForm = ({ item, onClose }) => {
     setUploading(true);
     try {
       const url = await FileService.uploadImage(file, 'portfolio');
-      setFormData((prev) => (prev.kind === 'application' ? { ...prev, image: url } : { ...prev, images: [...prev.images, url] }));
+      setFormData((prev) => (
+        prev.kind === 'application'
+          ? { ...prev, image: url }
+          : { ...prev, images: [...prev.images, url] }
+      ));
     } finally {
       setUploading(false);
     }
   };
 
   const addTechnology = () => {
-    if (!newTech.trim()) return;
-    if (formData.kind === 'application') {
-      setFormData((prev) => ({ ...prev, techStack: [...prev.techStack, { name: newTech.trim(), color: 'bg-blue-500' }] }));
-    } else {
-      setFormData((prev) => ({ ...prev, technologies: [...prev.technologies, newTech.trim()] }));
-    }
+    const value = newTech.trim();
+    if (!value) return;
+    if (formData.kind === 'application') setField('techStack', [...formData.techStack, { name: value, color: 'bg-blue-500' }]);
+    else setField('technologies', [...formData.technologies, value]);
     setNewTech('');
   };
 
@@ -66,64 +71,114 @@ const PortfolioItemForm = ({ item, onClose }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await createPortfolioItem(formData);
+      if (item?.source === 'admin') await updatePortfolioItem(item.id, formData);
+      else await createPortfolioItem(formData);
       onClose();
     } finally {
       setLoading(false);
     }
   };
 
+  const tags = formData.kind === 'application' ? formData.techStack.map((item) => item.name) : formData.technologies;
+
   return (
-    <motion.div className="fixed inset-0 bg-black/50 z-50 p-4 flex items-center justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <motion.div className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800" initial={{ scale: 0.95 }} animate={{ scale: 1 }}>
-        <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">{item ? 'İçerik Düzenle' : 'Yeni Portfolyo İçeği'}</h2>
-          <button onClick={onClose}><X className="w-6 h-6" /></button>
+    <motion.div className="fixed inset-0 z-50 p-4 flex items-center justify-center bg-black/70" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+      <motion.div className="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-slate-900 border border-slate-700 text-slate-100" initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-800 bg-slate-900/95 px-6 py-5 backdrop-blur">
+          <h2 className="text-2xl font-semibold">{item ? 'Icerik Duzenle' : 'Yeni Portfolyo Icerigi'}</h2>
+          <button onClick={onClose} className="rounded-full p-2 text-slate-400 hover:bg-slate-800 hover:text-white"><X className="w-5 h-5" /></button>
         </div>
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input name="title" value={formData.title} onChange={handleInputChange} placeholder="Başlık" className="input-field" required />
-            <select name="kind" value={formData.kind} onChange={handleInputChange} className="input-field">
+
+        <form onSubmit={handleSubmit} className="space-y-6 p-6">
+          <div className="grid gap-4 md:grid-cols-2">
+            <input className={inputClass} value={formData.title} onChange={(e) => setField('title', e.target.value)} placeholder="Baslik" required />
+            <select className={inputClass} value={formData.kind} onChange={(e) => setField('kind', e.target.value)}>
               <option value="project">Proje</option>
               <option value="application">Uygulama</option>
             </select>
           </div>
-          <textarea name="description" value={formData.description} onChange={handleInputChange} rows={4} placeholder="Açıklama" className="input-field" required />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input name="link" value={formData.link} onChange={handleInputChange} placeholder="Bağlantı" className="input-field" />
-            <input name="linkText" value={formData.linkText} onChange={handleInputChange} placeholder="Bağlantı Metni" className="input-field" />
+
+          <textarea className={inputClass} rows={4} value={formData.description} onChange={(e) => setField('description', e.target.value)} placeholder="Aciklama" required />
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <input className={inputClass} value={formData.websiteUrl || ''} onChange={(e) => setField('websiteUrl', e.target.value)} placeholder="Website URL" />
+            <input className={inputClass} value={formData.githubUrl || ''} onChange={(e) => setField('githubUrl', e.target.value)} placeholder="GitHub repo URL" />
           </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <input className={inputClass} value={formData.link || ''} onChange={(e) => setField('link', e.target.value)} placeholder="Birincil baglanti URL" />
+            <input className={inputClass} value={formData.linkText || ''} onChange={(e) => setField('linkText', e.target.value)} placeholder="Birincil baglanti metni" />
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-4">
+            <input className={inputClass} value={formData.year || ''} onChange={(e) => setField('year', e.target.value)} placeholder="Yil" />
+            <input className={inputClass} value={formData.location || ''} onChange={(e) => setField('location', e.target.value)} placeholder="Konum" />
+            <input className={inputClass} value={formData.version || ''} onChange={(e) => setField('version', e.target.value)} placeholder="Versiyon" />
+            <input className={inputClass} type="number" value={formData.order || 0} onChange={(e) => setField('order', Number(e.target.value))} placeholder="Siralama" />
+          </div>
+
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Gorseller</h3>
+              <label htmlFor="portfolio-item-image" className="inline-flex cursor-pointer items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-medium text-white">
+                <Upload className="w-4 h-4" />
+                {uploading ? 'Yukleniyor...' : 'Gorsel Yukle'}
+              </label>
+              <input id="portfolio-item-image" type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {(formData.kind === 'application' ? [formData.image].filter(Boolean) : formData.images).map((image, index) => (
+                <img key={`${image}-${index}`} src={image} alt={`${formData.title}-${index}`} className="h-28 w-full rounded-xl object-cover" />
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+            <div className="mb-3 flex gap-2">
+              <input className={inputClass} value={newTech} onChange={(e) => setNewTech(e.target.value)} placeholder="Teknoloji" />
+              <button type="button" onClick={addTechnology} className="rounded-xl border border-slate-700 px-4 text-slate-200"><Plus className="w-4 h-4" /></button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag, index) => (
+                <span key={`${tag}-${index}`} className="rounded-full bg-slate-800 px-3 py-1 text-sm">{tag}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Manual Changelog</h3>
+              <button type="button" onClick={() => setField('changelogEntries', [...(formData.changelogEntries || []), { version: '', date: '', title: '', description: '' }])} className="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-4 py-2 text-sm">
+                <Plus className="w-4 h-4" />
+                Not Ekle
+              </button>
+            </div>
+            <div className="space-y-4">
+              {(formData.changelogEntries || []).map((entry, index) => (
+                <div key={`${entry.version}-${index}`} className="rounded-xl border border-slate-800 bg-slate-900 p-4">
+                  <div className="mb-3 grid gap-3 md:grid-cols-3">
+                    <input className={inputClass} value={entry.version || ''} onChange={(e) => setField('changelogEntries', formData.changelogEntries.map((item, itemIndex) => itemIndex === index ? { ...item, version: e.target.value } : item))} placeholder="Versiyon" />
+                    <input className={inputClass} value={entry.date || ''} onChange={(e) => setField('changelogEntries', formData.changelogEntries.map((item, itemIndex) => itemIndex === index ? { ...item, date: e.target.value } : item))} placeholder="Tarih" />
+                    <input className={inputClass} value={entry.title || ''} onChange={(e) => setField('changelogEntries', formData.changelogEntries.map((item, itemIndex) => itemIndex === index ? { ...item, title: e.target.value } : item))} placeholder="Baslik" />
+                  </div>
+                  <textarea className={inputClass} rows={3} value={entry.description || ''} onChange={(e) => setField('changelogEntries', formData.changelogEntries.map((item, itemIndex) => itemIndex === index ? { ...item, description: e.target.value } : item))} placeholder="Notlar" />
+                </div>
+              ))}
+            </div>
+          </div>
+
           {formData.kind === 'application' && (
-            <label className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-800 px-4 py-3">
-              <input
-                type="checkbox"
-                checked={formData.accountDeletionEnabled}
-                onChange={(e) => setFormData((prev) => ({ ...prev, accountDeletionEnabled: e.target.checked }))}
-              />
-              <div>
-                <p className="text-sm font-medium text-slate-900 dark:text-white">Hesap silme talebi destekliyor</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Bu uygulama hesap silme sayfasindaki secim listesine girsin.</p>
-              </div>
+            <label className="inline-flex items-center gap-2 text-sm">
+              <input type="checkbox" checked={formData.accountDeletionEnabled} onChange={(e) => setField('accountDeletionEnabled', e.target.checked)} />
+              Hesap silme sayfasinda goster
             </label>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <input name="year" value={formData.year} onChange={handleInputChange} placeholder="Yıl" className="input-field" />
-            <input name="location" value={formData.location} onChange={handleInputChange} placeholder="Konum" className="input-field" />
-            <input name="order" type="number" value={formData.order} onChange={handleInputChange} placeholder="Sıra" className="input-field" />
-          </div>
-          <div>
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" id="portfolio-image-upload" />
-            <label htmlFor="portfolio-image-upload" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-900 text-white cursor-pointer">
-              <Upload className="w-4 h-4" /> {uploading ? 'Yükleniyor...' : 'Görsel Yükle'}
-            </label>
-          </div>
-          <div className="flex gap-2">
-            <input value={newTech} onChange={(e) => setNewTech(e.target.value)} placeholder="Teknoloji" className="input-field flex-1" />
-            <button type="button" onClick={addTechnology} className="px-4 py-2 rounded-lg border"><Plus className="w-4 h-4" /></button>
-          </div>
-          <div className="flex justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
-            <button type="button" onClick={onClose} className="px-4 py-2 rounded-lg border">İptal</button>
-            <button type="submit" className="px-4 py-2 rounded-lg bg-primary text-white">{loading ? <LoadingSpinner size="small" text="" /> : 'Kaydet'}</button>
+
+          <div className="flex justify-end gap-3 border-t border-slate-800 pt-6">
+            <button type="button" onClick={onClose} className="rounded-xl border border-slate-700 px-4 py-2 text-slate-300">Iptal</button>
+            <button type="submit" className="rounded-xl bg-primary px-5 py-2 text-white">
+              {loading ? <LoadingSpinner size="small" text="" /> : 'Kaydet'}
+            </button>
           </div>
         </form>
       </motion.div>
