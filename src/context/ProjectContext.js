@@ -87,6 +87,21 @@ const dedupeById = (items = []) => {
   return Array.from(map.values());
 };
 
+const isAbsoluteHttpUrl = (value) => typeof value === 'string' && /^https?:\/\//i.test(value.trim());
+
+const isGitHubRepoUrl = (value) => typeof value === 'string' && /https?:\/\/(www\.)?github\.com\//i.test(value.trim());
+
+const normalizeExternalLinks = (item) => {
+  const link = typeof item.link === 'string' ? item.link.trim() : '';
+  const websiteUrl = item.websiteUrl || (isAbsoluteHttpUrl(link) && !isGitHubRepoUrl(link) ? link : '');
+  const githubUrl = item.githubUrl || (isGitHubRepoUrl(link) ? link : '');
+
+  return {
+    websiteUrl,
+    githubUrl
+  };
+};
+
 export const ProjectProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -114,8 +129,7 @@ export const ProjectProvider = ({ children }) => {
         source: 'admin',
         kind: 'project',
         originCollection: 'projects',
-        websiteUrl: item.websiteUrl || (item.link?.startsWith('http') && !item.link.includes('github.com') ? item.link : ''),
-        githubUrl: item.githubUrl || (item.link?.includes('github.com') ? item.link : '')
+        ...normalizeExternalLinks(item)
       }))
     ]));
   }, []);
@@ -134,8 +148,7 @@ export const ProjectProvider = ({ children }) => {
         source: 'admin',
         kind: 'application',
         originCollection: 'applications',
-        websiteUrl: item.websiteUrl || (item.link?.startsWith('http') && !item.link.includes('github.com') ? item.link : ''),
-        githubUrl: item.githubUrl || (item.link?.includes('github.com') ? item.link : '')
+        ...normalizeExternalLinks(item)
       }));
       portfolioApplications = rawPortfolio
         .filter((item) => (item.kind || 'project') === 'application')
@@ -150,8 +163,7 @@ export const ProjectProvider = ({ children }) => {
         source: 'hardcoded',
         kind: 'application',
         originCollection: 'applications',
-        websiteUrl: item.websiteUrl || (item.link?.startsWith('http') && !item.link.includes('github.com') ? item.link : ''),
-        githubUrl: item.githubUrl || (item.link?.includes('github.com') ? item.link : '')
+        ...normalizeExternalLinks(item)
       })),
       ...legacyApplications,
       ...portfolioApplications
@@ -258,8 +270,7 @@ export const ProjectProvider = ({ children }) => {
         source: 'admin',
         kind: item.kind || (application ? 'application' : 'project'),
         originCollection: portfolioItem ? 'portfolioItems' : (application ? 'applications' : 'projects'),
-        websiteUrl: item.websiteUrl || (item.link?.startsWith('http') && !item.link.includes('github.com') ? item.link : ''),
-        githubUrl: item.githubUrl || (item.link?.includes('github.com') ? item.link : '')
+        ...normalizeExternalLinks(item)
       } : null
     });
   }), [withErrorHandling]);
