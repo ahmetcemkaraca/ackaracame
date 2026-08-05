@@ -1,0 +1,67 @@
+name: Quality gate
+
+on:
+  pull_request:
+  push:
+    branches: [master, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            functions/package-lock.json
+
+      - uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install web dependencies
+        run: npm ci
+
+      - name: Install function dependencies
+        run: npm ci --prefix functions
+
+      - name: Static analysis
+        run: npm run lint
+
+      - name: Type safety
+        run: npm run typecheck
+
+      - name: Web unit tests
+        run: npm test
+
+      - name: Function unit tests
+        run: npm test --prefix functions
+
+      - name: Security Rules tests
+        run: npm run test:rules
+
+      - name: Runtime dependency audit and exact deploy-tool exception
+        run: npm run audit:policy
+
+      - name: Production build and prerender
+        run: npm run build
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: production-dist
+          path: dist
+          if-no-files-found: error
+          retention-days: 7

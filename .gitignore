@@ -11,6 +11,10 @@ node_modules/
 
 # production
 /build
+/dist
+/.ssr/
+/.legacy-migration/
+*.tsbuildinfo
 
 # misc
 .DS_Store
@@ -21,6 +25,8 @@ node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
+functions/.env.*
+!functions/.env.example
 
 # Firebase ve güvenlik dosyaları
 users.json

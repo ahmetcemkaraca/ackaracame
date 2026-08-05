@@ -8,13 +8,27 @@
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
     "deploy": "firebase deploy --only functions",
-    "seed:content": "node seed-content.mjs"
+    "seed:content": "node seed-content.mjs",
+    "export:content": "node export-content.mjs",
+    "media:publication": "node sync-media-publications.mjs",
+    "rebuild:report": "node report-rebuild-result.mjs",
+    "rebuild:claim": "node claim-rebuild-execution.mjs",
+    "legacy:migrate-content": "node migrate-legacy-content.mjs",
+    "legacy:retire": "node retire-legacy-functions.mjs",
+    "auth:enable-totp": "node enable-totp.mjs",
+    "owner:verify": "node verify-owner-account.mjs",
+    "admin:claim": "node set-admin-claim.mjs",
+    "test": "node --test",
+    "test:watch": "node --test --watch"
   },
   "engines": {
-    "node": "20"
+    "node": "22"
   },
   "dependencies": {
-    "firebase-admin": "^12.0.0",
-    "firebase-functions": "^6.0.0"
+    "firebase-admin": "^14.2.0",
+    "firebase-functions": "^7.3.2"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
   }
 }

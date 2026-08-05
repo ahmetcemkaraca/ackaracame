@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "owner": "ahmetcemkaraca",
+  "reviewBy": "2026-10-31",
+  "firebaseToolsVersion": "15.25.1",
+  "maximumSeverity": "moderate",
+  "rationale": "firebase-tools is a lockfile-pinned deploy/test CLI installed before production OIDC credentials. These advisories are confined to its non-runtime Pub/Sub telemetry and legacy gaxios dependency paths; neither path accepts visitor-controlled input in this repository. Runtime web and Functions dependency graphs must remain vulnerability-free.",
+  "advisories": [
+    "GHSA-8988-4f7v-96qf",
+    "GHSA-w5hq-g745-h8pq"
+  ],
+  "affectedPackages": [
+    "@google-cloud/pubsub",
+    "@opentelemetry/core",
+    "firebase-tools",
+    "gaxios",
+    "uuid"
+  ]
+}

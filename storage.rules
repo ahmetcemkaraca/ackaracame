@@ -1,15 +1,149 @@
 rules_version = '2';
+
 service firebase.storage {
   match /b/{bucket}/o {
+    function isConfiguredOwner() {
+      let ownerPath = /databases/(default)/documents/systemPolicies/owner-access;
+      return firestore.exists(ownerPath)
+        && firestore.get(ownerPath).data.uid == request.auth.uid
+        && firestore.get(ownerPath).data.email == request.auth.token.email;
+    }
+
+    function isAdmin() {
+      return request.auth != null
+        && ('admin' in request.auth.token)
+        && request.auth.token.admin == true
+        && ('email_verified' in request.auth.token)
+        && request.auth.token.email_verified == true
+        && ('firebase' in request.auth.token)
+        && ('sign_in_second_factor' in request.auth.token.firebase)
+        && request.auth.token.firebase.sign_in_second_factor == 'totp'
+        && isConfiguredOwner();
+    }
+
+    function isSafeImage() {
+      return request.resource != null
+        && request.resource.size > 0
+        && request.resource.size <= 20 * 1024 * 1024
+        && request.resource.contentType is string
+        && request.resource.contentType.matches('image/(jpeg|png|webp|avif|gif)');
+    }
+
+    function isSafeAdminMedia() {
+      return request.resource != null
+        && request.resource.size > 0
+        && request.resource.size <= 8 * 1024 * 1024
+        && request.resource.contentType is string
+        && request.resource.contentType.matches('image/(jpeg|png|webp|avif)');
+    }
+
+    function validPathPart(value) {
+      return value.matches('^[a-zA-Z0-9_-]{1,128}$');
+    }
+
+    function validAdminFileName(value) {
+      return value.matches('^[a-zA-Z0-9_-]{1,128}[.](jpg|jpeg|png|webp|avif)$');
+    }
+
+    function adminFileExtensionMatchesType(fileName) {
+      return (request.resource.contentType == 'image/jpeg'
+          && fileName.matches('^[a-zA-Z0-9_-]{1,128}[.](jpg|jpeg)$'))
+        || (request.resource.contentType == 'image/png'
+          && fileName.matches('^[a-zA-Z0-9_-]{1,128}[.]png$'))
+        || (request.resource.contentType == 'image/webp'
+          && fileName.matches('^[a-zA-Z0-9_-]{1,128}[.]webp$'))
+        || (request.resource.contentType == 'image/avif'
+          && fileName.matches('^[a-zA-Z0-9_-]{1,128}[.]avif$'));
+    }
+
+    function validPublishedMediaFileName(value) {
+      return value.matches('^[a-zA-Z0-9_-]{1,128}[.](jpg|jpeg|png|webp|avif|gif)$');
+    }
+
+    function publishedMediaExtensionMatchesType(fileName) {
+      return adminFileExtensionMatchesType(fileName)
+        || (request.resource.contentType == 'image/gif'
+          && fileName.matches('^[a-zA-Z0-9_-]{1,128}[.]gif$'));
+    }
+
+    function isPublishedProjectMedia(projectId, fileName) {
+      let publicationId = 'project--' + projectId;
+      let publication = firestore.get(/databases/(default)/documents/mediaPublications/$(publicationId)).data;
+      return validPathPart(projectId)
+        && validPublishedMediaFileName(fileName)
+        && publication.entity == 'project'
+        && publication.slug == projectId
+        && publication.active == true
+        && publication.complete == true
+        && publication.files is list
+        && publication.files.hasAny([fileName]);
+    }
+
+    function isPublishedJournalMedia(entryId, fileName) {
+      let publicationId = 'journal--' + entryId;
+      let publication = firestore.get(/databases/(default)/documents/mediaPublications/$(publicationId)).data;
+      return validPathPart(entryId)
+        && validPublishedMediaFileName(fileName)
+        && publication.entity == 'journal'
+        && publication.slug == entryId
+        && publication.active == true
+        && publication.complete == true
+        && publication.files is list
+        && publication.files.hasAny([fileName]);
+    }
+
+    match /admin-media/{uid}/{fileName} {
+      allow read: if isAdmin();
+      allow create: if isAdmin()
+        && request.auth.uid == uid
+        && validPathPart(uid)
+        && validAdminFileName(fileName)
+        && adminFileExtensionMatchesType(fileName)
+        && 'uploadedBy' in request.resource.metadata
+        && request.resource.metadata.uploadedBy == request.auth.uid
+        && isSafeAdminMedia();
+      allow update: if false;
+      allow delete: if isAdmin()
+        && request.auth.uid == uid
+        && validPathPart(uid)
+        && validAdminFileName(fileName);
+    }
+
+    // New immutable media layout. Public reads follow only the active Hosting
+    // deployment manifest; browser clients can never create, mutate, or delete
+    // promoted objects. Deletion is mediated by the guarded Admin SDK callable.
+    match /media/projects/{projectId}/{fileName} {
+      allow read: if isAdmin()
+        || isPublishedProjectMedia(projectId, fileName);
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /media/journal/{entryId}/{fileName} {
+      allow read: if isAdmin()
+        || isPublishedJournalMedia(entryId, fileName);
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /media/site/{settingsId}/{fileName} {
+      allow read: if settingsId == 'main';
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // Legacy objects are quarantined. The rebuilt site uses scoped /media paths.
     match /images/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null && request.auth.token.email == 'admin@ackaraca.me';
+      allow read: if isAdmin();
+      allow create, update: if isAdmin() && isSafeImage();
+      allow delete: if isAdmin();
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
     }
   }
 }
-
-
-
-
-
-

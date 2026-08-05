@@ -1,0 +1,1315 @@
+{
+  "journal": [
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "Architecture teaches how to read context, constraints, and human movement. Software tests similar decisions through states, feedback, and repeated flows. In this practice, both become different scales of the same decision-making discipline.",
+            "tr": "Mimarlık; bağlamı, sınırları ve insan hareketini okumayı öğretir. Yazılım ise aynı kararları durumlar, geri bildirimler ve tekrar eden akışlar üzerinden sınar. İki pratik, bu çalışma yönteminde aynı karar verme disiplininin farklı ölçekleri olarak buluşur."
+          },
+          "heading": {
+            "en": "Not two fields, but two scales",
+            "tr": "İki ayrı alan değil, iki ayrı ölçek"
+          },
+          "id": "mekan-arayuz-notu",
+          "type": "text"
+        }
+      ],
+      "cover": {
+        "alt": {
+          "en": "Sketches of space and interface",
+          "tr": "Mekân ve arayüz eskizleri"
+        },
+        "palette": [
+          "#ede9df",
+          "#121417",
+          "#197fe6"
+        ],
+        "slug": "mekan-ve-arayuz-arasinda",
+        "visualVariant": "editorial-collage"
+      },
+      "entryType": "journal",
+      "excerpt": {
+        "en": "An editorial introduction to how architectural thinking and product development can reinforce each other in one portfolio.",
+        "tr": "Mimari düşünce ile ürün geliştirme pratiğinin aynı portfolyoda nasıl birbirini besleyebileceğine dair editoryal bir giriş."
+      },
+      "linkedProjectSlugs": [
+        "archbuilder",
+        "draw-or-die"
+      ],
+      "order": 10,
+      "publishedAt": "2026-08-04T08:00:00.000Z",
+      "seo": {
+        "description": {
+          "en": "An essay on how architectural thinking meets software and product development within one way of making.",
+          "tr": "Mimari düşünce ile yazılım ve ürün geliştirme pratiğinin aynı üretim yöntemi içinde nasıl buluştuğuna dair yazı."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "Working Between Space and Interface",
+          "tr": "Mekân ve Arayüz Arasında Çalışmak"
+        }
+      },
+      "slug": "mekan-ve-arayuz-arasinda",
+      "status": "published",
+      "title": {
+        "en": "Working between space and interface",
+        "tr": "Mekân ve arayüz arasında çalışmak"
+      },
+      "topics": [
+        "architecture",
+        "software",
+        "practice"
+      ]
+    },
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "The repository includes a flow for generating QR codes for presentation boards and opening project media after scanning. Download, sharing, and zoom tools extend the physical presentation into a continuous digital layer.",
+            "tr": "Repo, paftalar için QR kod oluşturma ve okutulduğunda proje görseline ulaşma akışını içeriyor. İndirme, paylaşma ve yakınlaştırma gibi araçlar fiziksel sunumu kesintisiz bir dijital devamla tamamlıyor."
+          },
+          "heading": {
+            "en": "A digital continuation of physical presentation",
+            "tr": "Fiziksel teslimin dijital devamı"
+          },
+          "id": "pafta-qr-kapsam",
+          "type": "text"
+        }
+      ],
+      "cover": {
+        "alt": {
+          "en": "Presentation board and QR layer",
+          "tr": "Pafta ve QR kod katmanı"
+        },
+        "palette": [
+          "#111921",
+          "#e2e8f0",
+          "#22c55e"
+        ],
+        "slug": "paftadan-qr-katmanina",
+        "visualVariant": "architectural-grid"
+      },
+      "entryType": "lab-note",
+      "excerpt": {
+        "en": "A lab note on extending a physical architecture board with a QR code, zoomable media, and additional project context.",
+        "tr": "Fiziksel bir mimari paftayı QR kod, yakınlaştırılabilir görsel ve ek proje bilgisiyle genişletme fikri üzerine laboratuvar notu."
+      },
+      "linkedProjectSlugs": [],
+      "order": 20,
+      "publishedAt": "2026-08-03T08:00:00.000Z",
+      "seo": {
+        "description": {
+          "en": "A lab note about QR codes, zoomable media, and digital project context for architectural presentation boards.",
+          "tr": "Mimari paftalar için QR kod, yakınlaştırılabilir görsel ve dijital proje bilgisi akışını ele alan laboratuvar notu."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "From Board to QR Layer — Lab Note",
+          "tr": "Paftadan QR Katmanına — Laboratuvar Notu"
+        }
+      },
+      "slug": "paftadan-qr-katmanina",
+      "status": "published",
+      "title": {
+        "en": "From presentation board to QR layer",
+        "tr": "Paftadan QR katmanına"
+      },
+      "topics": [
+        "architecture",
+        "qr",
+        "presentation"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "Draw Or Die helps architecture students test boards, renders, and PDF submissions through different forms of critique before a jury. Analysis can feed a revision flow, while defence chat gives users room to articulate and justify design decisions.",
+            "tr": "Draw Or Die; mimarlık öğrencilerinin pafta, render ve PDF teslimlerini bir jüri öncesinde farklı eleştiri biçimleriyle sınamasına odaklanıyor. Analiz çıktısı revizyon akışına taşınabiliyor; savunma sohbeti ise kullanıcının tasarım kararlarını sözlü olarak gerekçelendirmesine alan açıyor."
+          },
+          "eyebrow": {
+            "en": "Product idea",
+            "tr": "Ürün fikri"
+          },
+          "heading": {
+            "en": "Turning jury rehearsal into structured feedback",
+            "tr": "Jüri provasını yapılandırılmış geri bildirime çevirmek"
+          },
+          "id": "draw-or-die-intent",
+          "type": "text"
+        },
+        {
+          "body": {
+            "en": "Next.js 15, React 19, and TypeScript support the product surface; Appwrite supports data and identity; and Gemini supports AI analysis. Stripe is part of the payment flow, while the community gallery provides a separate discovery surface for reviewed work.",
+            "tr": "Next.js 15, React 19 ve TypeScript ürün yüzeyini; Appwrite veri ve kimlik katmanlarını; Gemini yapay zekâ analizini destekliyor. Stripe ürünün ödeme akışında yer alırken topluluk galerisi, incelenen çalışmalar için ayrı bir keşif yüzeyi sağlıyor."
+          },
+          "eyebrow": {
+            "en": "System",
+            "tr": "Sistem"
+          },
+          "heading": {
+            "en": "Analysis, defence, and community layers",
+            "tr": "Analiz, savunma ve topluluk katmanları"
+          },
+          "id": "draw-or-die-system",
+          "type": "text"
+        },
+        {
+          "heading": {
+            "en": "Project profile",
+            "tr": "Proje profili"
+          },
+          "id": "draw-or-die-facts",
+          "items": [
+            {
+              "label": {
+                "en": "Format",
+                "tr": "Biçim"
+              },
+              "value": {
+                "en": "Architecture jury simulator",
+                "tr": "Mimarlık jüri simülatörü"
+              }
+            },
+            {
+              "label": {
+                "en": "Focus",
+                "tr": "Odak"
+              },
+              "value": {
+                "en": "Analysis, revision, and defence",
+                "tr": "Analiz, revizyon ve savunma"
+              }
+            }
+          ],
+          "type": "facts"
+        }
+      ],
+      "context": {
+        "en": "Personal work",
+        "tr": "Kişisel çalışma"
+      },
+      "cover": {
+        "alt": {
+          "en": "Draw Or Die architecture jury simulation",
+          "tr": "Draw Or Die mimarlık jüri simülasyonu"
+        },
+        "palette": [
+          "#0f172a",
+          "#f8fafc",
+          "#ef4444"
+        ],
+        "slug": "draw-or-die",
+        "visualVariant": "code-canvas"
+      },
+      "dek": {
+        "en": "An AI-assisted architecture jury simulator that reviews boards, renders, and PDFs through distinct critic perspectives.",
+        "tr": "Mimari pafta, render ve PDF’leri farklı jüri bakışlarıyla inceleyen yapay zekâ destekli mimarlık jüri simülatörü."
+      },
+      "discipline": "hybrid",
+      "featured": true,
+      "format": "product",
+      "links": [
+        {
+          "href": "https://github.com/ahmetcemkaraca/draw-or-die",
+          "kind": "source",
+          "label": {
+            "en": "GitHub repository",
+            "tr": "GitHub reposu"
+          },
+          "newTab": true
+        }
+      ],
+      "media": [],
+      "metrics": [
+        {
+          "context": {
+            "en": "This scope count comes from the analysis modes listed in the public project README.",
+            "tr": "Kapsam sayısı, projenin herkese açık README belgesinde listelenen analiz modlarına dayanır."
+          },
+          "id": "analysis-modes",
+          "label": {
+            "en": "Analysis modes",
+            "tr": "Analiz modu"
+          },
+          "value": {
+            "en": "9",
+            "tr": "9"
+          },
+          "verified": true
+        },
+        {
+          "context": {
+            "en": "This scope count comes from the jury personas listed in the public project README.",
+            "tr": "Kapsam sayısı, projenin herkese açık README belgesinde listelenen jüri personalarına dayanır."
+          },
+          "id": "jury-personas",
+          "label": {
+            "en": "Jury personas",
+            "tr": "Jüri personası"
+          },
+          "value": {
+            "en": "6",
+            "tr": "6"
+          },
+          "verified": true
+        }
+      ],
+      "order": 10,
+      "relatedSlugs": [
+        "archbuilder",
+        "beatforge"
+      ],
+      "seo": {
+        "description": {
+          "en": "An AI-assisted architecture jury simulator for board, render, and PDF analysis, with revision, defence chat, and a community gallery.",
+          "tr": "Pafta, render ve PDF analizi; revizyon akışı, savunma sohbeti ve topluluk galerisi sunan yapay zekâ destekli mimarlık jüri simülatörü."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "Draw Or Die — AI Architecture Jury",
+          "tr": "Draw Or Die — Yapay Zekâ Mimarlık Jürisi"
+        }
+      },
+      "slug": "draw-or-die",
+      "status": "published",
+      "technologies": [
+        "Next.js 15",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS",
+        "Framer Motion",
+        "Appwrite",
+        "Gemini",
+        "Stripe"
+      ],
+      "title": {
+        "en": "Draw Or Die",
+        "tr": "Draw Or Die"
+      },
+      "topics": [
+        "architecture",
+        "ai-critique",
+        "design-review"
+      ],
+      "year": 2026
+    },
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "MailCrush is structured as a service that receives email and turns it into a short OpenAI-assisted summary. The goal is a smaller reading surface that preserves the meaning of the message.",
+            "tr": "MailCrush, gelen e-postayı alıp OpenAI tabanlı kısa bir özete dönüştüren bir servis kurgusuna sahip. Amaç, mesajın anlamını koruyan daha küçük bir okuma yüzeyi oluşturmak."
+          },
+          "eyebrow": {
+            "en": "Product idea",
+            "tr": "Ürün fikri"
+          },
+          "heading": {
+            "en": "Turning the inbox into a digest layer",
+            "tr": "Gelen kutusunu özet katmanına çevirmek"
+          },
+          "id": "mailcrush-purpose",
+          "type": "text"
+        },
+        {
+          "body": {
+            "en": "Next.js carries the interface layer while FastAPI handles the service flow. Firebase is listed for authentication and Stripe for the subscription structure in the current project definition.",
+            "tr": "Next.js arayüz katmanını, FastAPI servis akışını taşır. Firebase kimlik doğrulamayı, Stripe ise abonelik yapısını desteklemek üzere mevcut proje tanımında yer alır."
+          },
+          "eyebrow": {
+            "en": "Technical spine",
+            "tr": "Teknik omurga"
+          },
+          "heading": {
+            "en": "Separating product and service layers",
+            "tr": "Ürün ve servis katmanlarını ayırmak"
+          },
+          "id": "mailcrush-architecture",
+          "type": "text"
+        },
+        {
+          "heading": {
+            "en": "Project profile",
+            "tr": "Proje profili"
+          },
+          "id": "mailcrush-facts",
+          "items": [
+            {
+              "label": {
+                "en": "Input",
+                "tr": "Girdi"
+              },
+              "value": {
+                "en": "Inbound email",
+                "tr": "Gelen e-posta"
+              }
+            },
+            {
+              "label": {
+                "en": "Output",
+                "tr": "Çıktı"
+              },
+              "value": {
+                "en": "Concise email digest",
+                "tr": "Kısa e-posta özeti"
+              }
+            }
+          ],
+          "type": "facts"
+        }
+      ],
+      "context": {
+        "en": "Personal work",
+        "tr": "Kişisel çalışma"
+      },
+      "cover": {
+        "alt": {
+          "en": "MailCrush email digest flow",
+          "tr": "MailCrush e-posta özet akışı"
+        },
+        "palette": [
+          "#111827",
+          "#e2e8f0",
+          "#8b5cf6"
+        ],
+        "slug": "mailcrush",
+        "visualVariant": "signal-field"
+      },
+      "dek": {
+        "en": "An AI-assisted email service designed to turn inbound messages into concise, readable digests.",
+        "tr": "Gelen e-postaları kısa, okunur özetlere dönüştürmek için tasarlanmış yapay zekâ destekli bir e-posta servisi."
+      },
+      "discipline": "software",
+      "featured": true,
+      "format": "product",
+      "links": [],
+      "media": [],
+      "metrics": [],
+      "order": 30,
+      "relatedSlugs": [
+        "peakactivity",
+        "hocapuanla"
+      ],
+      "seo": {
+        "description": {
+          "en": "An AI-assisted email digest service combining Next.js, FastAPI, OpenAI, Firebase, and Stripe.",
+          "tr": "Next.js, FastAPI, OpenAI, Firebase ve Stripe katmanlarını birleştiren yapay zekâ destekli e-posta özetleme servisi."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "MailCrush — AI-Assisted Email Digests",
+          "tr": "MailCrush — Yapay Zekâ Destekli E-posta Özeti"
+        }
+      },
+      "slug": "mailcrush",
+      "status": "published",
+      "technologies": [
+        "Next.js",
+        "FastAPI",
+        "OpenAI",
+        "Firebase",
+        "Stripe"
+      ],
+      "title": {
+        "en": "MailCrush",
+        "tr": "MailCrush"
+      },
+      "topics": [
+        "email",
+        "ai",
+        "subscription"
+      ],
+      "year": 2026
+    },
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "BeatForge explores keeping beat composition and arrangement decisions deterministic. Its MIDI-led approach represents the parts of a composition explicitly across a timeline.",
+            "tr": "BeatForge, beat besteleme ve aranjman kararlarını deterministik bir yapıda tutmayı araştırıyor. MIDI odaklı yaklaşım, kompozisyonun zaman çizelgesi üzerindeki parçalarını açık biçimde temsil ediyor."
+          },
+          "eyebrow": {
+            "en": "Principle",
+            "tr": "İlke"
+          },
+          "heading": {
+            "en": "A traceable flow from the same input",
+            "tr": "Aynı girdiden izlenebilir bir akış"
+          },
+          "id": "beatforge-principle",
+          "type": "text"
+        },
+        {
+          "body": {
+            "en": "The Python core uses mido and music21 for MIDI generation and musical structure, with simpleaudio supporting quick playback. Timeline sections keep arrangement decisions explicit, while Paperclip workflows organise production steps.",
+            "tr": "Python çekirdeği mido ve music21 ile MIDI üretimini ve müzikal yapıyı işler; simpleaudio hızlı dinleme katmanını destekler. Zaman çizelgesi bölümleri aranjman kararlarını açık tutarken Paperclip iş akışları üretim adımlarını düzenler."
+          },
+          "eyebrow": {
+            "en": "Workspace",
+            "tr": "Çalışma alanı"
+          },
+          "heading": {
+            "en": "A section-aware timeline",
+            "tr": "Bölüm farkındalığı olan zaman çizelgesi"
+          },
+          "id": "beatforge-workspace",
+          "type": "text"
+        },
+        {
+          "heading": {
+            "en": "Project profile",
+            "tr": "Proje profili"
+          },
+          "id": "beatforge-facts",
+          "items": [
+            {
+              "label": {
+                "en": "Core data",
+                "tr": "Temel veri"
+              },
+              "value": {
+                "en": "MIDI",
+                "tr": "MIDI"
+              }
+            },
+            {
+              "label": {
+                "en": "Approach",
+                "tr": "Yaklaşım"
+              },
+              "value": {
+                "en": "Deterministic composition",
+                "tr": "Deterministik kompozisyon"
+              }
+            }
+          ],
+          "type": "facts"
+        }
+      ],
+      "context": {
+        "en": "Personal work",
+        "tr": "Kişisel çalışma"
+      },
+      "cover": {
+        "alt": {
+          "en": "BeatForge MIDI timeline",
+          "tr": "BeatForge MIDI zaman çizelgesi"
+        },
+        "palette": [
+          "#0b1020",
+          "#22d3ee",
+          "#f59e0b"
+        ],
+        "slug": "beatforge",
+        "visualVariant": "signal-field"
+      },
+      "dek": {
+        "en": "A deterministic composition environment centred on MIDI and timeline awareness for reproducible music workflows.",
+        "tr": "Tekrar üretilebilir müzik akışları için MIDI ve zaman çizelgesi farkındalığını merkeze alan deterministik besteleme ortamı."
+      },
+      "discipline": "software",
+      "featured": false,
+      "format": "experiment",
+      "links": [],
+      "media": [],
+      "metrics": [],
+      "order": 60,
+      "relatedSlugs": [
+        "draw-or-die",
+        "peakactivity"
+      ],
+      "seo": {
+        "description": {
+          "en": "A MIDI-first composition environment using Python, mido, music21, and simpleaudio, with a section-aware timeline and Paperclip workflows.",
+          "tr": "Python, mido, music21 ve simpleaudio ile geliştirilen; bölüm farkındalıklı zaman çizelgesi ve Paperclip iş akışları sunan MIDI-first besteleme ortamı."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "BeatForge — Deterministic MIDI Workspace",
+          "tr": "BeatForge — Deterministik MIDI Çalışma Alanı"
+        }
+      },
+      "slug": "beatforge",
+      "status": "published",
+      "technologies": [
+        "Python",
+        "mido",
+        "music21",
+        "simpleaudio",
+        "Paperclip"
+      ],
+      "title": {
+        "en": "BeatForge",
+        "tr": "BeatForge"
+      },
+      "topics": [
+        "music",
+        "midi",
+        "creative-workflows"
+      ],
+      "year": 2026
+    },
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "PeakActivity explores a product structure that interprets ActivityWatch-based data through productivity and digital wellbeing instead of leaving it as a raw duration log.",
+            "tr": "PeakActivity, ActivityWatch tabanlı veriyi tek başına bir süre kaydı olarak bırakmak yerine üretkenlik ve dijital sağlık bağlamında anlamlandıran bir ürün yapısını araştırıyor."
+          },
+          "eyebrow": {
+            "en": "Question",
+            "tr": "Soru"
+          },
+          "heading": {
+            "en": "How should raw activity data be read?",
+            "tr": "Ham etkinlik verisi nasıl okunur?"
+          },
+          "id": "peakactivity-question",
+          "type": "text"
+        },
+        {
+          "body": {
+            "en": "Tauri, Vue 3, and TypeScript bring the desktop and web experiences into one product frame. Python-based Cloud Functions support data processing, Firestore stores product data, and Firebase Auth handles user identity.",
+            "tr": "Tauri, Vue 3 ve TypeScript masaüstü ve web deneyimini aynı ürün çerçevesinde topluyor. Python tabanlı Cloud Functions veri işleme katmanını, Firestore kalıcı veriyi, Firebase Auth ise kullanıcı kimliğini destekliyor."
+          },
+          "eyebrow": {
+            "en": "Layers",
+            "tr": "Katmanlar"
+          },
+          "heading": {
+            "en": "A system spanning desktop to cloud",
+            "tr": "Masaüstünden buluta uzanan sistem"
+          },
+          "id": "peakactivity-layers",
+          "type": "text"
+        },
+        {
+          "heading": {
+            "en": "Project profile",
+            "tr": "Proje profili"
+          },
+          "id": "peakactivity-facts",
+          "items": [
+            {
+              "label": {
+                "en": "Data source",
+                "tr": "Veri kaynağı"
+              },
+              "value": {
+                "en": "ActivityWatch",
+                "tr": "ActivityWatch"
+              }
+            },
+            {
+              "label": {
+                "en": "Product area",
+                "tr": "Ürün alanı"
+              },
+              "value": {
+                "en": "Productivity and digital wellbeing",
+                "tr": "Üretkenlik ve dijital sağlık"
+              }
+            }
+          ],
+          "type": "facts"
+        }
+      ],
+      "context": {
+        "en": "Personal work",
+        "tr": "Kişisel çalışma"
+      },
+      "cover": {
+        "alt": {
+          "en": "PeakActivity activity data view",
+          "tr": "PeakActivity etkinlik verisi görünümü"
+        },
+        "palette": [
+          "#07111f",
+          "#38bdf8",
+          "#a3e635"
+        ],
+        "slug": "peakactivity",
+        "visualVariant": "product-orbit"
+      },
+      "dek": {
+        "en": "A platform combining desktop, web, and cloud layers to interpret ActivityWatch data through productivity and digital wellbeing.",
+        "tr": "ActivityWatch verisini üretkenlik ve dijital sağlık bağlamında yorumlamak için masaüstü, web ve bulut katmanlarını birleştiren platform."
+      },
+      "discipline": "software",
+      "featured": true,
+      "format": "product",
+      "links": [
+        {
+          "href": "https://github.com/ahmetcemkaraca/PeakActivity",
+          "kind": "source",
+          "label": {
+            "en": "GitHub repository",
+            "tr": "GitHub reposu"
+          },
+          "newTab": true
+        }
+      ],
+      "media": [],
+      "metrics": [],
+      "order": 40,
+      "relatedSlugs": [
+        "mailcrush",
+        "beatforge"
+      ],
+      "seo": {
+        "description": {
+          "en": "A digital wellbeing platform interpreting ActivityWatch data with Tauri, Vue 3, TypeScript, Python Cloud Functions, Firestore, and Firebase Auth.",
+          "tr": "ActivityWatch verisini Tauri, Vue 3, TypeScript, Python Cloud Functions, Firestore ve Firebase Auth ile yorumlayan dijital sağlık platformu."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "PeakActivity — Productivity and Digital Wellbeing",
+          "tr": "PeakActivity — Üretkenlik ve Dijital Sağlık"
+        }
+      },
+      "slug": "peakactivity",
+      "status": "published",
+      "technologies": [
+        "Tauri",
+        "Vue 3",
+        "TypeScript",
+        "Python",
+        "Cloud Functions",
+        "Firestore",
+        "Firebase Auth"
+      ],
+      "title": {
+        "en": "PeakActivity",
+        "tr": "PeakActivity"
+      },
+      "topics": [
+        "productivity",
+        "digital-wellbeing",
+        "activity-data"
+      ],
+      "year": 2026
+    },
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "HocaPuanla brings professor search, profile exploration, anonymous reviews, and comparison into one discovery experience. Users can manage their own reviews with a PIN.",
+            "tr": "HocaPuanla; öğretim elemanı arama, profil inceleme, anonim değerlendirme ve karşılaştırma akışlarını tek bir keşif deneyiminde bir araya getiriyor. Kullanıcılar kendi değerlendirmelerini PIN ile yönetebiliyor."
+          },
+          "eyebrow": {
+            "en": "Scope",
+            "tr": "Kapsam"
+          },
+          "heading": {
+            "en": "Search, profiles, and anonymous feedback",
+            "tr": "Arama, profil ve anonim geri bildirim"
+          },
+          "id": "hocapuanla-scope",
+          "type": "text"
+        },
+        {
+          "body": {
+            "en": "Next.js 16, React 19, and TypeScript form the product surface, with Tailwind CSS 4, shadcn/ui, and Radix UI providing the component system. Firebase supports data and moderation, while the README identifies Upstash as optional infrastructure.",
+            "tr": "Next.js 16, React 19 ve TypeScript ürün yüzeyini; Tailwind CSS 4 ile shadcn/ui ve Radix UI bileşen sistemini kuruyor. Firebase veri ve moderasyon katmanlarını destekliyor; Upstash ise README’de isteğe bağlı altyapı bileşeni olarak tanımlanıyor."
+          },
+          "eyebrow": {
+            "en": "System",
+            "tr": "Sistem"
+          },
+          "heading": {
+            "en": "Treating moderation as part of the product",
+            "tr": "Moderasyonu ürünün parçası olarak ele almak"
+          },
+          "id": "hocapuanla-moderation",
+          "type": "text"
+        },
+        {
+          "heading": {
+            "en": "Project profile",
+            "tr": "Proje profili"
+          },
+          "id": "hocapuanla-facts",
+          "items": [
+            {
+              "label": {
+                "en": "Primary flow",
+                "tr": "Ana akış"
+              },
+              "value": {
+                "en": "Search, reviews, and comparison",
+                "tr": "Arama, değerlendirme ve karşılaştırma"
+              }
+            },
+            {
+              "label": {
+                "en": "Supporting layer",
+                "tr": "Destekleyici katman"
+              },
+              "value": {
+                "en": "PIN management and moderation",
+                "tr": "PIN yönetimi ve moderasyon"
+              }
+            }
+          ],
+          "type": "facts"
+        }
+      ],
+      "context": {
+        "en": "Personal work",
+        "tr": "Kişisel çalışma"
+      },
+      "cover": {
+        "alt": {
+          "en": "HocaPuanla search and profile surface",
+          "tr": "HocaPuanla arama ve profil yüzeyi"
+        },
+        "palette": [
+          "#111827",
+          "#f8fafc",
+          "#10b981"
+        ],
+        "slug": "hocapuanla",
+        "visualVariant": "product-orbit"
+      },
+      "dek": {
+        "en": "A professor discovery platform combining anonymous reviews, search, profiles, comparison, and moderation.",
+        "tr": "Anonim değerlendirme, arama, profil, karşılaştırma ve moderasyon akışlarını birleştiren öğretim elemanı keşif platformu."
+      },
+      "discipline": "software",
+      "featured": true,
+      "format": "product",
+      "links": [],
+      "media": [],
+      "metrics": [],
+      "order": 50,
+      "relatedSlugs": [
+        "mailcrush",
+        "archbuilder"
+      ],
+      "seo": {
+        "description": {
+          "en": "A Next.js 16 product combining search, profiles, anonymous reviews, PIN-based review management, comparison, and moderation.",
+          "tr": "Arama, profil, anonim değerlendirme, PIN yönetimi, karşılaştırma ve moderasyon akışlarını birleştiren Next.js 16 ürünü."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "HocaPuanla — Instructor Discovery Platform",
+          "tr": "HocaPuanla — Eğitmen Keşif Platformu"
+        }
+      },
+      "slug": "hocapuanla",
+      "status": "published",
+      "technologies": [
+        "Next.js 16",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS 4",
+        "shadcn/ui",
+        "Radix UI",
+        "Firebase",
+        "Upstash"
+      ],
+      "title": {
+        "en": "HocaPuanla",
+        "tr": "HocaPuanla"
+      },
+      "topics": [
+        "education",
+        "search",
+        "moderation"
+      ],
+      "year": 2026
+    },
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "ArchBuilder gathers the initial information required for architectural project development through a guided dialogue. It aims to organise concept, programme, and presentation data within the same process.",
+            "tr": "ArchBuilder, mimari proje üretiminde gereken başlangıç bilgisini soru-cevap akışıyla toplar. Konsept, program ve sunum verilerini aynı süreç içinde düzenlemeyi hedefler."
+          },
+          "eyebrow": {
+            "en": "Product idea",
+            "tr": "Ürün fikri"
+          },
+          "heading": {
+            "en": "Turning a fragmented brief into guided dialogue",
+            "tr": "Dağınık brief’i yönlendirilmiş diyaloğa çevirmek"
+          },
+          "id": "archbuilder-brief",
+          "type": "text"
+        },
+        {
+          "body": {
+            "en": "The project translates the sequence of architectural decisions into a software flow. TypeScript supports the product surface, the AI workflow supports guidance, and Firebase supports the application infrastructure.",
+            "tr": "Proje, mimari kararların sıralanışını bir yazılım akışına çevirir. TypeScript ürün yüzeyini, yapay zekâ iş akışı yönlendirmeyi, Firebase ise uygulama altyapısını destekler."
+          },
+          "eyebrow": {
+            "en": "Intersection",
+            "tr": "Kesişim"
+          },
+          "heading": {
+            "en": "Where architectural thinking meets product flow",
+            "tr": "Mimari düşünce ile ürün akışının birleşimi"
+          },
+          "id": "archbuilder-bridge",
+          "type": "text"
+        },
+        {
+          "heading": {
+            "en": "Project profile",
+            "tr": "Proje profili"
+          },
+          "id": "archbuilder-facts",
+          "items": [
+            {
+              "label": {
+                "en": "Platform",
+                "tr": "Platform"
+              },
+              "value": {
+                "en": "Web platform",
+                "tr": "Web platformu"
+              }
+            },
+            {
+              "label": {
+                "en": "Input structure",
+                "tr": "Girdi yapısı"
+              },
+              "value": {
+                "en": "Guided question and answer",
+                "tr": "Yönlendirilmiş soru-cevap"
+              }
+            }
+          ],
+          "type": "facts"
+        }
+      ],
+      "context": {
+        "en": "Architecture and software product",
+        "tr": "Mimarlık ve yazılım ürünü"
+      },
+      "cover": {
+        "alt": {
+          "en": "ArchBuilder architectural workflow",
+          "tr": "ArchBuilder mimari üretim akışı"
+        },
+        "palette": [
+          "#101828",
+          "#f2efe7",
+          "#197fe6"
+        ],
+        "slug": "archbuilder",
+        "visualVariant": "architectural-grid"
+      },
+      "dek": {
+        "en": "An AI-assisted web platform that structures architectural concept, programme, and presentation data through a guided dialogue.",
+        "tr": "Soru-cevap akışıyla mimari konsept, program ve sunum verilerini düzenleyen yapay zekâ destekli web platformu."
+      },
+      "discipline": "hybrid",
+      "featured": true,
+      "format": "product",
+      "links": [
+        {
+          "href": "https://archbuilder.app",
+          "kind": "live",
+          "label": {
+            "en": "Open ArchBuilder",
+            "tr": "ArchBuilder’ı aç"
+          },
+          "newTab": true
+        }
+      ],
+      "media": [],
+      "metrics": [],
+      "order": 20,
+      "relatedSlugs": [
+        "draw-or-die",
+        "hocapuanla"
+      ],
+      "releaseStage": "live",
+      "seo": {
+        "description": {
+          "en": "A TypeScript and Firebase platform structuring architectural concept, programme, and presentation data through guided dialogue.",
+          "tr": "Mimari konsept, program ve sunum verilerini yönlendirilmiş soru-cevap akışıyla düzenleyen TypeScript ve Firebase tabanlı platform."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "ArchBuilder — AI-Assisted Architectural Workflow",
+          "tr": "ArchBuilder — Yapay Zekâ Destekli Mimari Akış"
+        }
+      },
+      "slug": "archbuilder",
+      "status": "published",
+      "technologies": [
+        "TypeScript",
+        "AI Workflow",
+        "Firebase"
+      ],
+      "title": {
+        "en": "ArchBuilder",
+        "tr": "ArchBuilder"
+      },
+      "topics": [
+        "architecture",
+        "ai",
+        "workflow"
+      ]
+    },
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "DuaAPP provides prayer collections and access to sacred texts across Islam, Christianity, Judaism, Buddhism, and Hinduism. A prayer counter, AI guidance, and dream journal come together as distinct tools supporting daily spiritual practice.",
+            "tr": "DuaAPP; İslam, Hristiyanlık, Yahudilik, Budizm ve Hinduizm gelenekleri için dua koleksiyonları ve kutsal kitap erişimi sunuyor. Dua sayacı, yapay zekâ rehberliği ve rüya günlüğü günlük manevi pratiği destekleyen ayrı araçlar olarak aynı uygulamada buluşuyor."
+          },
+          "eyebrow": {
+            "en": "Content experience",
+            "tr": "İçerik deneyimi"
+          },
+          "heading": {
+            "en": "Bringing multiple traditions into one experience",
+            "tr": "Birden fazla geleneği tek deneyimde sunmak"
+          },
+          "id": "duaapp-content",
+          "type": "text"
+        },
+        {
+          "body": {
+            "en": "Flutter forms the application surface, Riverpod handles state, and GoRouter handles navigation. Appwrite Functions, Database, and Auth provide the backend layers for server logic, content, and user identity.",
+            "tr": "Flutter uygulama yüzeyini, Riverpod durum yönetimini, GoRouter gezinmeyi kuruyor. Appwrite Functions, Database ve Auth ise sunucu işlevlerini, içeriği ve kullanıcı kimliğini destekleyen arka uç katmanlarını oluşturuyor."
+          },
+          "eyebrow": {
+            "en": "System",
+            "tr": "Sistem"
+          },
+          "heading": {
+            "en": "Separating mobile state and service layers",
+            "tr": "Mobil durum ve servis katmanlarını ayırmak"
+          },
+          "id": "duaapp-localization",
+          "type": "text"
+        },
+        {
+          "heading": {
+            "en": "Project profile",
+            "tr": "Proje profili"
+          },
+          "id": "duaapp-facts",
+          "items": [
+            {
+              "label": {
+                "en": "README version",
+                "tr": "README sürümü"
+              },
+              "value": {
+                "en": "Stable v1.2.8",
+                "tr": "Kararlı v1.2.8"
+              }
+            },
+            {
+              "label": {
+                "en": "Content scope",
+                "tr": "İçerik kapsamı"
+              },
+              "value": {
+                "en": "Five faith traditions",
+                "tr": "Beş inanç geleneği"
+              }
+            }
+          ],
+          "type": "facts"
+        }
+      ],
+      "cover": {
+        "alt": {
+          "en": "DuaAPP spiritual practice flow",
+          "tr": "DuaAPP manevi pratik akışı"
+        },
+        "palette": [
+          "#0f172a",
+          "#f7f3e8",
+          "#a78bfa"
+        ],
+        "slug": "duaapp",
+        "visualVariant": "spatial-gradient"
+      },
+      "dek": {
+        "en": "A mobile spiritual companion combining prayers and sacred texts from five traditions with daily practice tools and AI guidance.",
+        "tr": "Beş inanç geleneğinden dua ve kutsal metinleri günlük pratik araçları ve yapay zekâ rehberliğiyle birleştiren mobil manevi yol arkadaşı."
+      },
+      "discipline": "software",
+      "featured": false,
+      "format": "product",
+      "links": [
+        {
+          "href": "/dua/news",
+          "kind": "updates",
+          "label": {
+            "en": "DuaAPP updates",
+            "tr": "DuaAPP güncellemeleri"
+          },
+          "newTab": false
+        }
+      ],
+      "media": [],
+      "metrics": [],
+      "order": 70,
+      "relatedSlugs": [
+        "where-to-go",
+        "archbuilder"
+      ],
+      "releaseStage": "maintained",
+      "seo": {
+        "description": {
+          "en": "A Flutter and Appwrite companion combining prayers, a counter, AI guidance, dream journaling, and sacred texts across five faith traditions.",
+          "tr": "Beş inanç geleneği için dua, sayaç, yapay zekâ rehberliği, rüya günlüğü ve kutsal metinleri birleştiren Flutter ve Appwrite uygulaması."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "DuaAPP — Multi-Tradition Spiritual Companion",
+          "tr": "DuaAPP — Çok Gelenekli Manevi Yol Arkadaşı"
+        }
+      },
+      "slug": "duaapp",
+      "status": "published",
+      "technologies": [
+        "Flutter",
+        "Dart",
+        "Riverpod",
+        "GoRouter",
+        "Appwrite Functions",
+        "Appwrite Database",
+        "Appwrite Auth"
+      ],
+      "title": {
+        "en": "DuaAPP",
+        "tr": "DuaAPP"
+      },
+      "topics": [
+        "mobile",
+        "spiritual-practice",
+        "multi-tradition"
+      ]
+    },
+    {
+      "blocks": [
+        {
+          "body": {
+            "en": "Where To-Go creates a Tinder-style place discovery flow for couples or two-person groups. Google Places options appear in a swipe interface, and a shared match is created when both participants choose the same place.",
+            "tr": "Where To-Go, çiftler veya iki kişilik gruplar için Tinder benzeri bir mekân keşif akışı kuruyor. Google Places seçenekleri kaydırma arayüzünde sunuluyor; iki katılımcının da aynı yeri seçmesi ortak bir eşleşme üretiyor."
+          },
+          "eyebrow": {
+            "en": "Product idea",
+            "tr": "Ürün fikri"
+          },
+          "heading": {
+            "en": "Turning two preferences into one decision",
+            "tr": "İki kişinin seçimlerini ortak karara çevirmek"
+          },
+          "id": "where-to-go-discovery",
+          "type": "text"
+        },
+        {
+          "body": {
+            "en": "Firebase supports the real-time two-person session and mutual match state, while deep links bring the second participant into the correct session. Flutter and Riverpod form the mobile product surface and state flow.",
+            "tr": "Firebase gerçek zamanlı iki kişilik oturumu ve karşılıklı eşleşme durumunu destekliyor; derin bağlantılar ikinci katılımcının doğru oturuma katılmasını sağlıyor. Flutter ve Riverpod mobil ürün yüzeyi ile durum akışını kuruyor."
+          },
+          "eyebrow": {
+            "en": "Session",
+            "tr": "Oturum"
+          },
+          "heading": {
+            "en": "Real-time participation and deep links",
+            "tr": "Gerçek zamanlı katılım ve derin bağlantılar"
+          },
+          "id": "where-to-go-session",
+          "type": "text"
+        },
+        {
+          "heading": {
+            "en": "Project profile",
+            "tr": "Proje profili"
+          },
+          "id": "where-to-go-facts",
+          "items": [
+            {
+              "label": {
+                "en": "Platform",
+                "tr": "Platform"
+              },
+              "value": {
+                "en": "iOS and Android",
+                "tr": "iOS ve Android"
+              }
+            },
+            {
+              "label": {
+                "en": "Development status",
+                "tr": "Geliştirme durumu"
+              },
+              "value": {
+                "en": "V1 issues documented; full rebuild planned",
+                "tr": "V1 sorunları belgeli; yeniden yapım planlı"
+              }
+            }
+          ],
+          "type": "facts"
+        }
+      ],
+      "cover": {
+        "alt": {
+          "en": "Where To-Go map and discovery flow",
+          "tr": "Where To-Go harita ve keşif akışı"
+        },
+        "palette": [
+          "#102a43",
+          "#f0f4f8",
+          "#2dd4bf"
+        ],
+        "slug": "where-to-go",
+        "visualVariant": "product-orbit"
+      },
+      "dek": {
+        "en": "A real-time discovery app where couples or two-person groups swipe through places and match when both choose the same option.",
+        "tr": "Çiftlerin veya iki kişilik grupların mekânları kaydırarak değerlendirdiği ve karşılıklı seçimde eşleştiği gerçek zamanlı keşif uygulaması."
+      },
+      "discipline": "software",
+      "featured": false,
+      "format": "product",
+      "links": [
+        {
+          "href": "/wheretogo/news",
+          "kind": "updates",
+          "label": {
+            "en": "Project notes",
+            "tr": "Proje notları"
+          },
+          "newTab": false
+        },
+        {
+          "href": "/wheretogo/privacy",
+          "kind": "privacy",
+          "label": {
+            "en": "Privacy policy",
+            "tr": "Gizlilik politikası"
+          },
+          "newTab": false
+        },
+        {
+          "href": "/wheretogo/terms",
+          "kind": "terms",
+          "label": {
+            "en": "Terms of use",
+            "tr": "Kullanım koşulları"
+          },
+          "newTab": false
+        }
+      ],
+      "media": [],
+      "metrics": [],
+      "order": 80,
+      "relatedSlugs": [
+        "duaapp",
+        "peakactivity"
+      ],
+      "releaseStage": "in-development",
+      "seo": {
+        "description": {
+          "en": "A two-person discovery app using Flutter, Riverpod, Firebase, and Google Places for real-time sessions, mutual matches, and deep links.",
+          "tr": "Flutter, Riverpod, Firebase ve Google Places ile gerçek zamanlı oturum, karşılıklı eşleşme ve derin bağlantı sunan iki kişilik keşif uygulaması."
+        },
+        "noIndex": false,
+        "title": {
+          "en": "Where To-Go — Place Discovery for Two",
+          "tr": "Where To-Go — İki Kişilik Mekân Keşfi"
+        }
+      },
+      "slug": "where-to-go",
+      "status": "published",
+      "technologies": [
+        "Flutter",
+        "Dart",
+        "Riverpod",
+        "Firebase",
+        "Google Maps",
+        "Google Places",
+        "Deep Links"
+      ],
+      "title": {
+        "en": "Where To-Go",
+        "tr": "Where To-Go"
+      },
+      "topics": [
+        "mobile",
+        "place-discovery",
+        "realtime-sessions"
+      ]
+    }
+  ],
+  "settings": {
+    "availability": "open-to-inquiries",
+    "canonicalUrl": "https://ackaraca.me",
+    "contactEmail": "info@ackaraca.me",
+    "defaultLocale": "tr",
+    "defaultSeo": {
+      "description": {
+        "en": "The bilingual portfolio of Ahmet Cem Karaca, spanning architecture, software, digital products, and experimental making.",
+        "tr": "Ahmet Cem Karaca’nın mimarlık, yazılım, dijital ürün ve deneysel üretim çalışmalarından oluşan iki dilli kişisel portfolyosu."
+      },
+      "noIndex": false,
+      "title": {
+        "en": "Ahmet Cem Karaca — Architect and Developer",
+        "tr": "Ahmet Cem Karaca — Mimar ve Geliştirici"
+      }
+    },
+    "footerNote": {
+      "en": "Selected work across architecture, products, and software.",
+      "tr": "Mimarlık, ürün ve yazılım üzerine seçilmiş çalışmalar."
+    },
+    "headline": {
+      "en": "An architect and developer working between architecture and software.",
+      "tr": "Mimarlık ve yazılım arasında çalışan bir mimar ve geliştirici."
+    },
+    "introduction": {
+      "en": "I turn complex ideas into legible spaces, products, and tools. This portfolio brings architectural thinking, product development, and experimental making under one editorial roof.",
+      "tr": "Karmaşık fikirleri okunur mekânlara, ürünlere ve araçlara dönüştürüyorum. Bu portfolyo; mimari düşünceyi, ürün geliştirmeyi ve deneysel üretimi aynı editoryal çatı altında toplar."
+    },
+    "location": {
+      "en": "UK / Türkiye · Remote",
+      "tr": "Birleşik Krallık / Türkiye · Uzaktan"
+    },
+    "ownerName": {
+      "en": "Ahmet Cem Karaca",
+      "tr": "Ahmet Cem Karaca"
+    },
+    "palette": {
+      "accent": "#197fe6",
+      "background": "#f5f2ea",
+      "foreground": "#121417"
+    },
+    "siteName": {
+      "en": "ACKaraca.me",
+      "tr": "ACKaraca.me"
+    },
+    "socialLinks": [
+      {
+        "href": "https://github.com/ahmetcemkaraca",
+        "kind": "social",
+        "label": {
+          "en": "GitHub profile",
+          "tr": "GitHub profili"
+        },
+        "newTab": true
+      }
+    ],
+    "supportedLocales": [
+      "tr",
+      "en"
+    ]
+  }
+}

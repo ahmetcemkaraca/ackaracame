@@ -1,0 +1,5 @@
+Contact: mailto:info@ackaraca.me
+Canonical: https://ackaraca.me/.well-known/security.txt
+Preferred-Languages: tr, en
+Policy: https://ackaraca.me/privacy
+Expires: 2027-08-04T00:00:00.000Z

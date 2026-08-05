@@ -1,54 +1,509 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Admin kontrolü
-    function isAdmin() {
-      return request.auth != null && request.auth.token.email == 'admin@ackaraca.me';
+    function isSignedIn() {
+      return request.auth != null;
     }
 
-    // Projeler - herkes okuyabilir, sadece admin yazabilir
-    match /projects/{document=**} {
-      allow read: if true;
-      allow write: if isAdmin();
+    function isConfiguredOwner() {
+      let owner = get(
+        /databases/$(database)/documents/systemPolicies/owner-access
+      ).data;
+      return owner.uid == request.auth.uid
+        && owner.email == request.auth.token.email;
     }
-    
-    // Paftalar - herkes okuyabilir, sadece admin yazabilir
-    match /paftas/{document=**} {
-      allow read: if true;
-      allow write: if isAdmin();
+
+    function isAdmin() {
+      return isSignedIn()
+        && ('admin' in request.auth.token)
+        && request.auth.token.admin == true
+        && ('email_verified' in request.auth.token)
+        && request.auth.token.email_verified == true
+        && ('firebase' in request.auth.token)
+        && ('sign_in_second_factor' in request.auth.token.firebase)
+        && request.auth.token.firebase.sign_in_second_factor == 'totp'
+        && isConfiguredOwner();
     }
-    
-    // Blog Postları - herkes okuyabilir, sadece admin yazabilir
-    match /blogPosts/{document=**} {
-      allow read: if true;
-      allow write: if isAdmin();
+
+    function mediaMutationAvailable() {
+      let mutationPath = /databases/$(database)/documents/systemOperations/media-mutation;
+      return !exists(mutationPath)
+        || get(mutationPath).data.status != 'running'
+        || (
+          get(mutationPath).data.leaseExpiresAt is timestamp
+          && get(mutationPath).data.leaseExpiresAt <= request.time
+        );
     }
-    
-    // Deneyler - herkes okuyabilir, sadece admin yazabilir
-    match /experiments/{document=**} {
-      allow read: if true;
-      allow write: if isAdmin();
+
+    function validState(value) {
+      return value in ['draft', 'published', 'archived'];
     }
-    
-    // İlhamlar - herkes okuyabilir, sadece admin yazabilir
-    match /inspirations/{document=**} {
-      allow read: if true;
-      allow write: if isAdmin();
+
+    function validSlug(value) {
+      return value is string
+        && value.size() >= 2
+        && value.size() <= 80
+        && value.matches('^[a-z0-9]+(-[a-z0-9]+)*$');
     }
-    
-    // Mesajlar - herkes yazabilir, sadece admin okuyabilir
-    match /messages/{document=**} {
+
+    function optionalString(data, field, maxSize) {
+      return !(field in data)
+        || (data[field] is string && data[field].size() <= maxSize);
+    }
+
+    function optionalHttpsUrl(data, field) {
+      return !(field in data)
+        || (data[field] is string
+          && data[field].size() <= 2048
+          && (data[field] == '' || data[field].matches('^https://.+$')));
+    }
+
+    function optionalLink(data, field) {
+      return !(field in data)
+        || (data[field] is string
+          && data[field].size() <= 2048
+          && (data[field] == ''
+            || data[field].matches('^https://.+$')
+            || data[field].matches('^/[A-Za-z0-9/_?&=.#%-]*$')));
+    }
+
+    function optionalBoolean(data, field) {
+      return !(field in data) || data[field] is bool;
+    }
+
+    function optionalInteger(data, field, minimum, maximum) {
+      return !(field in data)
+        || (data[field] is int && data[field] >= minimum && data[field] <= maximum);
+    }
+
+    function optionalList(data, field, maxItems) {
+      return !(field in data)
+        || (data[field] is list && data[field].size() <= maxItems);
+    }
+
+    function optionalMap(data, field, maxKeys) {
+      return !(field in data)
+        || (data[field] is map && data[field].keys().size() <= maxKeys);
+    }
+
+    function optionalTimestamp(data, field) {
+      return !(field in data) || data[field] is timestamp;
+    }
+
+    function optionalNullableTimestamp(data, field) {
+      return !(field in data) || data[field] == null || data[field] is timestamp;
+    }
+
+    function validLocalizedText(value, minimum, maximum) {
+      return value is map
+        && value.keys().hasAll(['tr', 'en'])
+        && value.keys().hasOnly(['tr', 'en'])
+        && value.tr is string
+        && value.tr.size() >= minimum
+        && value.tr.size() <= maximum
+        && value.en is string
+        && value.en.size() >= minimum
+        && value.en.size() <= maximum;
+    }
+
+    function optionalLocalizedText(data, field, minimum, maximum) {
+      return !(field in data) || validLocalizedText(data[field], minimum, maximum);
+    }
+
+    function validHexColor(value) {
+      return value is string && value.matches('^#[0-9a-fA-F]{6}$');
+    }
+
+    function validPalette(value) {
+      return value is list
+        && value.size() >= 2
+        && value.size() <= 6
+        && validHexColor(value[0])
+        && validHexColor(value[1])
+        && (value.size() < 3 || validHexColor(value[2]))
+        && (value.size() < 4 || validHexColor(value[3]))
+        && (value.size() < 5 || validHexColor(value[4]))
+        && (value.size() < 6 || validHexColor(value[5]));
+    }
+
+    function validSeo(value) {
+      return value is map
+        && value.keys().hasAll(['title', 'description', 'noIndex'])
+        && value.keys().hasOnly(['title', 'description', 'noIndex'])
+        && validLocalizedText(value.title, 10, 70)
+        && validLocalizedText(value.description, 40, 180)
+        && value.noIndex is bool;
+    }
+
+    function validSitePalette(value) {
+      return value is map
+        && value.keys().hasAll(['background', 'foreground', 'accent'])
+        && value.keys().hasOnly(['background', 'foreground', 'accent'])
+        && validHexColor(value.background)
+        && validHexColor(value.foreground)
+        && validHexColor(value.accent);
+    }
+
+    function validCover(value, slug) {
+      return value is map
+        && value.keys().hasAll(['slug', 'palette', 'visualVariant', 'alt'])
+        && value.keys().hasOnly(['slug', 'palette', 'visualVariant', 'alt'])
+        && value.slug == slug
+        && validPalette(value.palette)
+        && value.visualVariant in [
+          'architectural-grid', 'code-canvas', 'editorial-collage',
+          'product-orbit', 'signal-field', 'spatial-gradient'
+        ]
+        && validLocalizedText(value.alt, 1, 80);
+    }
+
+    function validCreateTimestamps(data) {
+      return data.createdAt is timestamp
+        && data.updatedAt is timestamp
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    function validUpdateTimestamps(data) {
+      return data.createdAt == resource.data.createdAt
+        && data.updatedAt is timestamp
+        && data.updatedAt == request.time;
+    }
+
+    function validProject(data, projectId) {
+      return validSlug(projectId)
+        && projectId == data.slug
+        && data.keys().hasAll([
+          'schemaVersion', 'slug', 'status', 'discipline', 'format', 'featured',
+          'title', 'dek', 'technologies', 'topics', 'cover', 'media', 'links',
+          'metrics', 'blocks', 'relatedSlugs', 'seo', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'schemaVersion', 'slug', 'status', 'discipline', 'format', 'featured',
+          'order', 'title', 'dek', 'year', 'context', 'location', 'releaseStage',
+          'technologies', 'topics', 'cover', 'media', 'links', 'metrics',
+          'blocks', 'relatedSlugs', 'seo', 'createdAt', 'updatedAt', 'deletedAt'
+        ])
+        && data.schemaVersion is int
+        && data.schemaVersion >= 2
+        && data.schemaVersion <= 10
+        && data.discipline in ['architecture', 'software', 'hybrid', 'research']
+        && data.format in ['case-study', 'product', 'experiment', 'academic']
+        && validLocalizedText(data.title, 2, 120)
+        && validLocalizedText(data.dek, 12, 360)
+        && validState(data.status)
+        && data.featured is bool
+        && optionalInteger(data, 'order', 0, 10000)
+        && optionalInteger(data, 'year', 2000, 2100)
+        && optionalLocalizedText(data, 'context', 1, 80)
+        && optionalLocalizedText(data, 'location', 1, 80)
+        && (!('releaseStage' in data) || data.releaseStage in [
+          'concept', 'prototype', 'in-development', 'live', 'maintained', 'archived'
+        ])
+        && data.technologies is list
+        && data.technologies.size() >= 1
+        && data.technologies.size() <= 20
+        && data.topics is list
+        && data.topics.size() >= 1
+        && data.topics.size() <= 12
+        && validCover(data.cover, data.slug)
+        && data.media is list
+        && data.media.size() <= 30
+        && data.links is list
+        && data.links.size() <= 12
+        && data.metrics is list
+        && data.metrics.size() <= 8
+        && data.blocks is list
+        && data.blocks.size() >= 2
+        && data.blocks.size() <= 40
+        && data.relatedSlugs is list
+        && data.relatedSlugs.size() <= 6
+        && validSeo(data.seo)
+        && optionalNullableTimestamp(data, 'deletedAt');
+    }
+
+    function validJournalEntry(data, entryId) {
+      return validSlug(entryId)
+        && entryId == data.slug
+        && data.keys().hasAll([
+          'schemaVersion', 'slug', 'entryType', 'status', 'title', 'excerpt',
+          'topics', 'cover', 'blocks', 'linkedProjectSlugs', 'seo',
+          'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'schemaVersion', 'slug', 'entryType', 'status', 'title', 'excerpt',
+          'order', 'topics', 'cover', 'blocks', 'linkedProjectSlugs', 'publishedAt',
+          'seo', 'createdAt', 'updatedAt', 'deletedAt'
+        ])
+        && data.schemaVersion is int
+        && data.schemaVersion >= 2
+        && data.schemaVersion <= 10
+        && data.entryType in ['journal', 'lab-note', 'release-note']
+        && validLocalizedText(data.title, 2, 120)
+        && validLocalizedText(data.excerpt, 12, 360)
+        && validState(data.status)
+        && optionalInteger(data, 'order', 0, 10000)
+        && data.topics is list
+        && data.topics.size() >= 1
+        && data.topics.size() <= 10
+        && validCover(data.cover, data.slug)
+        && data.blocks is list
+        && data.blocks.size() >= 1
+        && data.blocks.size() <= 40
+        && data.linkedProjectSlugs is list
+        && data.linkedProjectSlugs.size() <= 8
+        && validSeo(data.seo)
+        && optionalString(data, 'publishedAt', 40)
+        && (data.status != 'published' || ('publishedAt' in data))
+        && optionalNullableTimestamp(data, 'deletedAt');
+    }
+
+    function validSiteSettings(data) {
+      return data.keys().hasAll([
+          'schemaVersion', 'siteName', 'ownerName', 'headline', 'introduction',
+          'location', 'contactEmail', 'canonicalUrl', 'defaultLocale',
+          'supportedLocales', 'availability', 'socialLinks', 'palette',
+          'footerNote', 'defaultSeo', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'schemaVersion', 'siteName', 'ownerName', 'headline', 'introduction',
+          'location', 'contactEmail', 'canonicalUrl', 'defaultLocale',
+          'supportedLocales', 'availability', 'socialLinks', 'palette',
+          'footerNote', 'defaultSeo', 'createdAt', 'updatedAt'
+        ])
+        && data.schemaVersion is int
+        && data.schemaVersion >= 2
+        && data.schemaVersion <= 10
+        && validLocalizedText(data.siteName, 2, 80)
+        && validLocalizedText(data.ownerName, 2, 100)
+        && validLocalizedText(data.headline, 2, 120)
+        && validLocalizedText(data.introduction, 12, 360)
+        && validLocalizedText(data.location, 1, 80)
+        && data.contactEmail is string
+        && data.contactEmail.size() >= 3
+        && data.contactEmail.size() <= 254
+        && data.contactEmail.matches('^[^@ ]+@[^@ ]+[.][^@ ]+$')
+        && data.canonicalUrl is string
+        && data.canonicalUrl in ['https://ackaraca.me', 'https://ackaraca.me/']
+        && data.defaultLocale in ['tr', 'en']
+        && data.supportedLocales is list
+        && data.supportedLocales.size() == 2
+        && data.supportedLocales.hasAll(['tr', 'en'])
+        && data.supportedLocales.hasOnly(['tr', 'en'])
+        && data.availability in ['open-to-inquiries', 'limited', 'unavailable']
+        && data.socialLinks is list
+        && data.socialLinks.size() <= 8
+        && validSitePalette(data.palette)
+        && validLocalizedText(data.footerNote, 12, 360)
+        && validSeo(data.defaultSeo)
+        && optionalTimestamp(data, 'createdAt')
+        && data.updatedAt is timestamp;
+    }
+
+    function validInquiry(data) {
+      return data.keys().hasAll([
+          'name', 'email', 'inquiryType', 'message', 'locale', 'privacyConsent',
+          'status', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'name', 'email', 'organization', 'inquiryType',
+          'budgetBand', 'timeline', 'message', 'locale', 'privacyConsent',
+          'status', 'createdAt', 'updatedAt'
+        ])
+        && data.name is string
+        && data.name.size() >= 2
+        && data.name.size() <= 100
+        && data.email is string
+        && data.email.size() >= 3
+        && data.email.size() <= 254
+        && optionalString(data, 'organization', 120)
+        && data.message is string
+        && data.message.size() >= 20
+        && data.message.size() <= 4000
+        && data.inquiryType in [
+          'employment', 'architecture', 'product', 'collaboration',
+          'speaking', 'other'
+        ]
+        && (!('budgetBand' in data) || data.budgetBand in [
+          'not-specified', 'under-5k', '5k-15k', '15k-50k', 'over-50k'
+        ])
+        && (!('timeline' in data) || data.timeline in [
+          'not-specified', 'as-soon-as-possible', 'one-to-three-months', 'flexible'
+        ])
+        && data.locale in ['tr', 'en']
+        && data.privacyConsent == true
+        && data.status in ['new', 'in-review', 'replied', 'archived']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function validLegacyContent(data) {
+      return data.keys().size() <= 50
+        && ('status' in data)
+        && validState(data.status)
+        && optionalString(data, 'title', 180)
+        && optionalString(data, 'name', 180)
+        && optionalString(data, 'description', 10000)
+        && optionalString(data, 'summary', 1200)
+        && optionalString(data, 'content', 30000)
+        && optionalList(data, 'images', 30)
+        && optionalList(data, 'blocks', 250)
+        && optionalTimestamp(data, 'createdAt')
+        && optionalTimestamp(data, 'updatedAt');
+    }
+
+    match /projects/{projectId} {
+      // The public site is snapshot-only. Keeping direct reads admin-only avoids
+      // exposing an entire document when a newly added nested field drifts from
+      // the publish projection.
       allow read: if isAdmin();
-      allow create: if true;
+      allow create: if isAdmin()
+        && mediaMutationAvailable()
+        && validProject(request.resource.data, projectId)
+        && validCreateTimestamps(request.resource.data);
+      allow update: if isAdmin()
+        && mediaMutationAvailable()
+        && validProject(request.resource.data, projectId)
+        && validUpdateTimestamps(request.resource.data);
+      allow delete: if isAdmin();
     }
-    
-    // Site ayarları - herkes okuyabilir, sadece admin yazabilir
-    match /siteSettings/{document=**} {
-      allow read: if true;
-      allow write: if isAdmin();
+
+    match /journal/{entryId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin()
+        && mediaMutationAvailable()
+        && validJournalEntry(request.resource.data, entryId)
+        && validCreateTimestamps(request.resource.data);
+      allow update: if isAdmin()
+        && mediaMutationAvailable()
+        && validJournalEntry(request.resource.data, entryId)
+        && validUpdateTimestamps(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /siteSettings/{settingsId} {
+      allow read: if isAdmin();
+      allow create: if settingsId == 'main'
+        && isAdmin()
+        && validSiteSettings(request.resource.data)
+        && request.resource.data.updatedAt == request.time
+        && (!('createdAt' in request.resource.data)
+          || request.resource.data.createdAt == request.time);
+      allow update: if settingsId == 'main'
+        && isAdmin()
+        && validSiteSettings(request.resource.data)
+        && request.resource.data.updatedAt == request.time
+        && (!('createdAt' in request.resource.data)
+          || (('createdAt' in resource.data)
+            && request.resource.data.createdAt == resource.data.createdAt)
+          || (!('createdAt' in resource.data)
+            && request.resource.data.createdAt == request.time));
+      allow delete: if false;
+    }
+
+    match /inquiries/{inquiryId} {
+      allow read: if isAdmin();
+      allow create: if false;
+      allow update: if isAdmin()
+        && validInquiry(request.resource.data)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'status', 'updatedAt'
+        ])
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if isAdmin();
+    }
+
+    match /auditLogs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    // Legacy content is migration-only and never part of the public data plane.
+    match /paftas/{documentId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin() && validLegacyContent(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /blogPosts/{documentId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin() && validLegacyContent(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /experiments/{documentId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin() && validLegacyContent(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /inspirations/{documentId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin() && validLegacyContent(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /applications/{documentId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin() && validLegacyContent(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /portfolioItems/{documentId} {
+      allow read: if isAdmin();
+      allow create, update: if isAdmin() && validLegacyContent(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    // Legacy contact documents are private. New submissions must use the
+    // submitInquiry callable and are stored in /inquiries.
+    match /messages/{documentId} {
+      allow read, delete: if isAdmin();
+      allow create, update: if false;
+    }
+
+    // Function-owned operational state is never client-accessible.
+    match /rateLimits/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /systemMigrations/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /systemOperations/{documentId} {
+      allow read, write: if false;
+    }
+
+    // The Admin SDK claim utility is the only writer. Clients cannot inspect,
+    // forge, replace, or delete the sole-owner binding used by isAdmin().
+    match /systemPolicies/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /mediaPublications/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /mediaDeletionJournal/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /rebuildOutbox/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /rebuildExecutions/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /migrationBackups/{document=**} {
+      allow read, write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
-
-
-

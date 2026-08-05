@@ -1,14 +1,97 @@
 {
   "hosting": {
-    "public": "build",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**", "users.json", "*.local"],
-    "rewrites": [{"source": "**", "destination": "/index.html"}]
+    "public": "dist",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "ignore": ["firebase.json", "**/node_modules/**", "users.json", "*.local", "**/*.map"],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "Content-Security-Policy", "value": "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self'; style-src-attr 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://firebasestorage.googleapis.com https://*.googleusercontent.com; media-src 'self' blob: https://firebasestorage.googleapis.com https://*.googleusercontent.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.cloudfunctions.net https://*.google.com https://*.gstatic.com; frame-src https://*.firebaseapp.com https://*.web.app https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/ https://www.youtube-nocookie.com https://player.vimeo.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests" },
+          { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" },
+          { "key": "Cross-Origin-Resource-Policy", "value": "same-site" },
+          { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()" },
+          { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+          { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "X-Frame-Options", "value": "DENY" }
+        ]
+      },
+      {
+        "source": "/assets/**",
+        "headers": [{ "key": "Cache-Control", "value": "public,max-age=31536000,immutable" }]
+      },
+      {
+        "source": "/theme-init.js",
+        "headers": [{ "key": "Cache-Control", "value": "public,max-age=0,must-revalidate" }]
+      },
+      {
+        "source": "**/*.@(html|xml|json)",
+        "headers": [{ "key": "Cache-Control", "value": "public,max-age=0,must-revalidate" }]
+      },
+      {
+        "source": "/studio",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
+      },
+      {
+        "source": "/studio/**",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
+      },
+      {
+        "source": "/pafta",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
+      },
+      {
+        "source": "/pafta/**",
+        "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
+      },
+      {
+        "source": "/og.png",
+        "headers": [{ "key": "Cache-Control", "value": "public,max-age=604800,stale-while-revalidate=86400" }]
+      }
+    ],
+    "redirects": [
+      { "source": "/admin", "destination": "/studio", "type": 301 },
+      { "source": "/en/portfolio/:slug/changelog", "destination": "/en/work/:slug", "type": 301 },
+      { "source": "/en/portfolio/:slug", "destination": "/en/work/:slug", "type": 301 },
+      { "source": "/en/portfolio", "destination": "/en/work", "type": 301 },
+      { "source": "/en/project/:slug", "destination": "/en/work/:slug", "type": 301 },
+      { "source": "/en/applications/:slug", "destination": "/en/work/:slug", "type": 301 },
+      { "source": "/en/applications", "destination": "/en/work", "type": 301 },
+      { "source": "/en/archived-works", "destination": "/en/work", "type": 301 },
+      { "source": "/en/experiments", "destination": "/en/lab", "type": 301 },
+      { "source": "/en/inspiration/:slug", "destination": "/en/lab", "type": 301 },
+      { "source": "/en/inspiration-gallery", "destination": "/en/lab", "type": 301 },
+      { "source": "/en/semester-projects", "destination": "/en/work", "type": 301 },
+      { "source": "/en/blog/:slug", "destination": "/en/journal/:slug", "type": 301 },
+      { "source": "/en/blog", "destination": "/en/journal", "type": 301 },
+      { "source": "/en/services", "destination": "/en/about", "type": 301 },
+      { "source": "/portfolio/:slug/changelog", "destination": "/work/:slug", "type": 301 },
+      { "source": "/portfolio/:slug", "destination": "/work/:slug", "type": 301 },
+      { "source": "/portfolio", "destination": "/work", "type": 301 },
+      { "source": "/project/:slug", "destination": "/work/:slug", "type": 301 },
+      { "source": "/applications/:slug", "destination": "/work/:slug", "type": 301 },
+      { "source": "/applications", "destination": "/work", "type": 301 },
+      { "source": "/archived-works", "destination": "/work", "type": 301 },
+      { "source": "/experiments", "destination": "/lab", "type": 301 },
+      { "source": "/inspiration/:slug", "destination": "/lab", "type": 301 },
+      { "source": "/inspiration-gallery", "destination": "/lab", "type": 301 },
+      { "source": "/semester-projects", "destination": "/work", "type": 301 },
+      { "source": "/blog/:slug", "destination": "/journal/:slug", "type": 301 },
+      { "source": "/blog", "destination": "/journal", "type": 301 },
+      { "source": "/services", "destination": "/about", "type": 301 }
+    ],
+    "rewrites": [
+      { "source": "/studio/**", "destination": "/studio/index.html" },
+      { "source": "/pafta/**", "destination": "/pafta/index.html" }
+    ]
   },
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "storage": {"rules": "storage.rules"},
+  "storage": { "rules": "storage.rules" },
   "functions": {
     "source": "functions",
     "codebase": "default"

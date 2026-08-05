@@ -1,0 +1,89 @@
+name: Production deploy
+
+on:
+  repository_dispatch:
+    types: [site-rebuild]
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ackaraca-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: production
+    env:
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      ACKARACA_STORAGE_BUCKET: ${{ secrets.ACKARACA_STORAGE_BUCKET }}
+      ACKARACA_ADMIN_EMAIL: ${{ secrets.ACKARACA_ADMIN_EMAIL }}
+      SITE_REBUILD_WEBHOOK_HOST: ${{ vars.SITE_REBUILD_WEBHOOK_HOST }}
+      SITE_REBUILD_PROVIDER: ${{ vars.SITE_REBUILD_PROVIDER }}
+      VITE_FIREBASE_API_KEY: ${{ vars.VITE_FIREBASE_API_KEY }}
+      VITE_FIREBASE_AUTH_DOMAIN: ${{ vars.VITE_FIREBASE_AUTH_DOMAIN }}
+      VITE_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.ACKARACA_STORAGE_BUCKET }}
+      VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ vars.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+      VITE_FIREBASE_APP_ID: ${{ vars.VITE_FIREBASE_APP_ID }}
+      VITE_FIREBASE_APPCHECK_SITE_KEY: ${{ vars.VITE_FIREBASE_APPCHECK_SITE_KEY }}
+      VITE_FIREBASE_FUNCTIONS_REGION: europe-west1
+      ACKARACA_CONTENT_REVISION: ${{ github.event.client_payload.revision }}
+      REBUILD_REQUEST_ID: ${{ github.event.client_payload.requestId }}
+      REBUILD_EXECUTION_ID: github-${{ github.run_id }}
+      MEDIA_DEPLOYMENT_ID: gha-${{ github.run_id }}-${{ github.run_attempt }}-r${{ github.event.client_payload.revision }}
+      CONFIRM_PRODUCTION_DEPLOY: deploy:${{ secrets.FIREBASE_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            functions/package-lock.json
+
+      # Install every executable before loading the short-lived production
+      # credential. firebase-tools is an exact, lockfile-bound dev dependency.
+      - name: Install locked web, Function, and deploy dependencies
+        run: |
+          npm ci
+          npm ci --prefix functions
+
+      - name: Enforce runtime audits and the exact deploy-tool exception
+        run: npm run audit:policy
+
+      - name: Authenticate to Google Cloud without a stored key
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          project_id: ${{ secrets.FIREBASE_PROJECT_ID }}
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_DEPLOY_SERVICE_ACCOUNT }}
+
+      - name: Claim this rebuild revision before spending build capacity
+        id: rebuild_claim
+        env:
+          CONFIRM_REBUILD_EXECUTION: claim:${{ github.event.client_payload.revision }}:${{ secrets.FIREBASE_PROJECT_ID }}
+        run: npm run rebuild:claim --prefix functions
+
+      - name: Fail closed on incomplete production configuration
+        if: steps.rebuild_claim.outputs.should_run == 'true'
+        run: node scripts/verify-production-env.mjs
+
+      - name: Export, build, deploy, and atomically activate media
+        id: production_deploy
+        if: steps.rebuild_claim.outputs.should_run == 'true'
+        run: npm run deploy:production
+
+      - name: Preserve a terminal result when the claimed workflow fails
+        if: failure() && steps.rebuild_claim.outputs.should_run == 'true' && steps.production_deploy.outputs.result_reported != 'true'
+        env:
+          REBUILD_DEPLOYMENT_RESULT: failed
+          REBUILD_FAILURE_CODE: github-workflow-failed
+          CONFIRM_REBUILD_RESULT: report:${{ github.event.client_payload.revision }}:failed:${{ secrets.FIREBASE_PROJECT_ID }}
+        run: npm run rebuild:report --prefix functions

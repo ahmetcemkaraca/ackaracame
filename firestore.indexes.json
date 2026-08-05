@@ -1,10 +1,52 @@
 {
-  "indexes": [],
-  "fieldOverrides": []
+  "indexes": [
+    {
+      "collectionGroup": "paftas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "qrCodeData", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "rebuildOutbox",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "revision", "order": "ASCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": [
+    { "collectionGroup": "projects", "fieldPath": "dek", "indexes": [] },
+    { "collectionGroup": "projects", "fieldPath": "blocks", "indexes": [] },
+    { "collectionGroup": "projects", "fieldPath": "media", "indexes": [] },
+    { "collectionGroup": "projects", "fieldPath": "metrics", "indexes": [] },
+    { "collectionGroup": "projects", "fieldPath": "seo", "indexes": [] },
+    { "collectionGroup": "journal", "fieldPath": "excerpt", "indexes": [] },
+    { "collectionGroup": "journal", "fieldPath": "blocks", "indexes": [] },
+    { "collectionGroup": "journal", "fieldPath": "seo", "indexes": [] },
+    { "collectionGroup": "siteSettings", "fieldPath": "introduction", "indexes": [] },
+    { "collectionGroup": "siteSettings", "fieldPath": "defaultSeo", "indexes": [] },
+    { "collectionGroup": "inquiries", "fieldPath": "message", "indexes": [] },
+    { "collectionGroup": "auditLogs", "fieldPath": "metadata", "indexes": [] },
+    {
+      "collectionGroup": "rateLimits",
+      "fieldPath": "expiresAt",
+      "ttl": true,
+      "indexes": []
+    },
+    {
+      "collectionGroup": "rebuildOutbox",
+      "fieldPath": "expiresAt",
+      "ttl": true,
+      "indexes": []
+    },
+    {
+      "collectionGroup": "rebuildExecutions",
+      "fieldPath": "expiresAt",
+      "ttl": true,
+      "indexes": []
+    }
+  ]
 }
-
-
-
-
-
-
