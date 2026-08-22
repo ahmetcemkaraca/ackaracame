@@ -1,94 +1,92 @@
-# Design System
+# Design System — Meridian v3
 
-This document specifies the visual rules and component patterns for the Ahmet Karaca Portfolio project. It follows the Google Stitch DESIGN.md specification to provide a portable, agent-readable design system.
+This document specifies the visual rules and component patterns for the ACKaraca portfolio. It follows the Google Stitch DESIGN.md specification to provide a portable, agent-readable design system. It reflects the implemented tokens in `src/styles/global.css`.
 
 ## Overview
-A modern, comprehensive portfolio site for an architecture and software engineering student. The design emphasizes clarity, technical precision (architectural feel), and a smooth user experience across both light and dark modes.
+A bilingual portfolio for an architecture student and product developer. "Meridian v3" pairs porcelain (light) and graphite (dark) surfaces with an ultramarine signal accent, hairline blueprint textures, editorial serif italics, and fluid spring motion. Accessibility (focus rings, reduced motion, keyboard support) is a design input, not an afterthought.
 
 ## Colors
 
 ### Palette
-- **Primary:** `#197fe6` (A vibrant blue used for actions and highlights)
-- **Primary Hover:** `#156cbd`
-- **Primary Dark:** `#156cb8`
+- **Accent:** `#2b3fee` light / `#5c74ff` dark (primary actions, active states)
+- **Accent Strong:** `#1d2cc4` light / `#93a7ff` dark
+- **Signal:** `#0c8a6d` light / `#45d0bf` dark (availability, success)
+- **Amber:** `#c97a15` light / `#e8a33d` dark (constraints, warnings)
+- **Danger:** `#b3402a` light / form errors
 
 ### Semantic Tokens
 - **Background:**
-  - `light`: `#f6f7f8`
-  - `dark`: `#111921`
-- **Surface:**
-  - `light`: `#ffffff` (Mainly for cards and modals in light mode)
-  - `dark`: `#1a2632` (Surface for components in dark mode)
-- **Neutral Scale:**
-  - `neutral-800`: `#151e29`
-  - `neutral-700`: `#1e2b3b`
-  - `neutral-600`: `#334155`
-  - `neutral-400`: `#94a3b8`
-  - `neutral-200`: `#e2e8f0`
-- **Status:**
-  - `success`: `bg-green-100 text-green-800`
-  - `warning`: `bg-yellow-100 text-yellow-800`
-  - `error`: `bg-red-100 text-red-800`
-  - `info`: `bg-blue-100 text-blue-800`
+  - `light`: `#f7f6f2` (porcelain)
+  - `dark`: `#0a0c11` (deep graphite)
+- **Raised Surface:** `#fffefb` light / `#12151d` dark (cards, panels)
+- **Deep Surface:** `#edeae1` light / `#191d28` dark (wells, segmented controls)
+- **Inverse Footer:** footer always inverts (`--inverse-bg` = ink of current theme)
+- **Lines:** hairline `rgba(ink, 0.12–0.13)`; strong `rgba(ink, 0.26–0.28)`
+- **Text:** `--ink` `#0e1119`/`#edeff5`, soft and faint tiers at reduced contrast
+- **Texture:** fixed film-grain SVG noise overlay at 4–7% opacity; center hairline on body
 
 ## Typography
 
 ### Font Families
-- **Display:** `Inter, sans-serif` (Primary UI and headings)
-- **Serif:** `Playfair Display, serif` (Elegant headings/quotes)
-- **Mono:** `Space Grotesk, monospace` (Technical/code data)
-- **Technical:** `Lexend, sans-serif`
-- **Alternative Serif:** `Noto Serif, serif`
+- **Sans/Display:** `'Manrope Variable'` (UI, headings; weights 500–830, tight tracking −0.02em to −0.042em)
+- **Serif Accent:** `'Newsreader Variable'` italic (editorial emphasis inside headlines, deks, quotes)
+- **Mono:** `ui-monospace, 'SF Mono', 'Cascadia Code', Menlo` (kickers, meta rows, kbd, code)
 
-### Type Scale
-- **h1:** 32px / 700 weight / 1.2 line-height (Inter)
-- **h2:** 24px / 600 weight / 1.2 line-height (Inter)
-- **h3:** 20px / 600 weight / 1.2 line-height (Inter)
-- **body:** 16px / 400 weight / 1.6 line-height (Inter)
-- **caption:** 14px / 500 weight (Inter)
-- **code/data:** 12px / 400 weight (Space Grotesk)
+### Type Scale (fluid via clamp)
+- **Hero h1:** `clamp(2.7rem, 6.6vw, 5.6rem)` / 780 / line-height 1.0
+- **Page h1:** `clamp(2.4rem, 5.4vw, 4.4rem)` / 760
+- **Section h2:** `clamp(1.9rem, 3.6vw, 3.1rem)` / 750
+- **Card h3:** `clamp(1.35rem, 2.2vw, 1.7rem)` / 740
+- **Body:** 1.05–1.12rem / 400–450 / line-height 1.65–1.78
+- **Eyebrow/Meta:** 0.72rem / 700 / letter-spacing 0.22em uppercase
 
 ## Spacing & Layout
 
 ### Base Units
-- **Base Grid:** 4px (1rem = 16px)
-- **Container Padding:** `p-4` (Mobile), `p-6` (Desktop)
-- **Section Gap:** `space-y-8`, `gap-8`
+- **Shell width:** `min(86rem, 100vw − clamp(2rem, 6vw, 5rem))`
+- **Header height:** `4.75rem` desktop / `4.25rem` mobile
+- **Section padding:** `clamp(4.5rem, 10vw, 8.5rem)` block
 
 ### Visual Rules
-- **Border Radius:**
-  - `default`: `4px` (0.25rem)
-  - `rounded-xl`: `12px` (0.75rem) - Used for inputs and small components
-  - `rounded-2xl`: `16px` (1rem) - Used for cards and sections
-- **Shadows:**
-  - `card`: `shadow-md`
-  - `modal`: `shadow-2xl`
-- **Transitions:** `duration-200`, `duration-300`, `ease-out`
+- **Radii:** cards `1.25rem`, panels/case media `1.75rem`, pills/buttons `999px`
+- **Shadows:** three tiers (`sm/md/lg`) + ultramarine glow `--glow` for primary actions
+- **Motion curves:** `--ease-out cubic-bezier(.22,1,.36,1)`, springy `--ease-spring cubic-bezier(.34,1.56,.64,1)`
+- **Breakpoints:** 1080px (nav collapses), 900px (grids stack), 640px (single column forms/stats)
 
 ## Component Patterns
 
 ### Buttons
-- **Primary:**
-  - `style`: `rounded-xl bg-primary px-5 py-2 text-white font-medium`
-  - `hover`: `bg-primary-hover`
-- **Secondary/Outline:**
-  - `style`: `rounded-xl border border-slate-700 px-4 py-2 text-slate-300 hover:bg-slate-800`
+- **Primary:** pill, `linear-gradient(135deg, accent, accent-strong)`, white text, glow shadow; hover lifts −2px and nudges arrow icon
+- **Ghost:** pill, hairline border; hover tints border/background with accent
 
-### Cards (e.g., ProjectCard)
-- **Container:** `rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 p-6 overflow-hidden`
-- **Interaction:** `whileHover={{ y: -5 }}` (framer-motion)
-- **Image:** `w-full h-48 object-cover rounded-t-xl transition-transform duration-300 group-hover:scale-105`
+### Header (SiteHeader)
+- Fixed, transparent → glass (`backdrop-blur`, hairline bottom) after 16px scroll
+- Scroll progress bar: 2px accent→signal gradient scaled by `--scroll-progress`
+- Nav links animate a scaleX underline from the left; active state persists
+- Brand mark: two-letter tile (ink + accent gradient), rotates −6° on hover
+- ≤1080px: hamburger opens a full-screen opaque overlay menu with staggered numbered links, focus trap, Escape restore
 
-### Inputs & Forms
-- **Field:** `w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/40`
-- **Section Box:** `rounded-2xl border border-slate-800 bg-slate-950/60 p-5`
+### Cards (ProjectCard)
+- Raised surface, hairline border, generative artwork header (16:9)
+- Pointer-driven 3D tilt (max ~5°, `--tilt-x/--tilt-y`) + radial spotlight (`--spot-x/--spot-y`)
+- Hover: lift −6px, glow shadow, title→accent, arrow slides into accent circle
+- Meta row in mono caps; tech chips as bordered pills; verified metric in signal green
 
-### Navigation (Navbar)
-- **Style:** Sticky top, `backdrop-blur`, border-bottom
-- **Height:** 72px (approx)
-- **Links:** `text-sm font-medium transition-colors hover:text-primary`
+### Home Hero
+- Layered background: pointer-tracked aura gradients (`--mx/--my`) + constellation canvas
+- Kinetic headline: per-line clip reveal (`line-rise`), middle line Newsreader italic in accent
+- Utility column: ⌘K search card + hire/explore lens segmented control
+- Below: marquee strip (32s loop, edge mask, pause on hover), animated stat counters
+
+### Forms (ContactPage)
+- Inputs: 0.8rem radius, hairline border, accent focus ring/glow; error state uses danger token
+- Custom checkbox for consent; visually hidden honeypot; live character counter
+
+### Footer
+- Inverse panel with rounded top corners; CTA lead, link columns
+- Giant outlined wordmark ("ACKARACA") fills on hover; motion preference toggle persists
 
 ## Animations
-- **Fade In Up:** `fadeInUp 0.6s ease-out forwards`
-- **Fade Up:** `fadeUp 0.6s ease-out forwards`
-- **Smooth Scroll:** `scroll-behavior: smooth`
+- Scroll reveals: `whileInView` fade+26px rise, once, `Reveal` helper (respects MotionConfig reduced-motion)
+- Keyframes: `line-rise` (headline), `marquee-slide`, `availability-pulse`, `radar-pulse/spin` (Lab), `scroll-nudge`
+- `prefers-reduced-motion`: animations collapse to 0.01ms, marquee stops, transforms neutralized
