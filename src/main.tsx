@@ -1,5 +1,6 @@
 import '@fontsource-variable/manrope/wght.css';
 import '@fontsource-variable/newsreader/wght.css';
+import '@fontsource-variable/newsreader/wght-italic.css';
 import { StrictMode } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import App from './App';

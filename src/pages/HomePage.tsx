@@ -1,12 +1,15 @@
-import { useMemo } from 'react';
-import { ArrowDown, ArrowRight, ArrowUpRight, Command, Layers3, MoveUpRight, Sparkles, type LucideIcon } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useEffect, useMemo, useRef } from 'react';
+import { animate, motion, useInView, useMotionValue, useTransform } from 'framer-motion';
+import { ArrowDown, ArrowRight, ArrowUpRight, Command } from 'lucide-react';
 import { Link } from 'wouter';
 import { useAppPreferences, localize } from '../context/AppPreferences';
 import { useContent } from '../context/Content';
+import { Marquee } from '../components/experience/Marquee';
 import { ProjectConstellation } from '../components/experience/ProjectConstellation';
+import { Reveal } from '../components/experience/Reveal';
 import { ProjectCard } from '../components/projects/ProjectCard';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
+import { usePointerGlow } from '../hooks/usePointerGlow';
 import { availabilityLabel, isAcceptingInquiries } from '../lib/availability';
 
 const copy = {
@@ -42,8 +45,11 @@ const copy = {
     readProfile: 'Profili oku',
     projectCount: 'seçili proje',
     disciplineCount: 'çalışma alanı',
+    technologyCount: 'araç ve teknoloji',
     languages: 'TR + EN',
     languagesLabel: 'iki dilli anlatım',
+    scroll: 'Kaydır',
+    statsLabel: 'Pratik özeti',
   },
   en: {
     status: 'Open to work and collaboration conversations',
@@ -77,15 +83,38 @@ const copy = {
     readProfile: 'Read the profile',
     projectCount: 'selected projects',
     disciplineCount: 'practice areas',
+    technologyCount: 'tools & technologies',
     languages: 'TR + EN',
     languagesLabel: 'bilingual narrative',
+    scroll: 'Scroll',
+    statsLabel: 'Practice summary',
   },
 } as const;
+
+const CountUp = ({ value }: { value: number }) => {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: '0px 0px -10% 0px' });
+  const raw = useMotionValue(0);
+  const rounded = useTransform(raw, (latest) => Math.round(latest).toString());
+
+  useEffect(() => {
+    if (!inView) return undefined;
+    const controls = animate(raw, value, { duration: 1.5, ease: [0.22, 1, 0.36, 1] });
+    return () => controls.stop();
+  }, [inView, raw, value]);
+
+  return (
+    <strong>
+      <motion.span ref={ref}>{rounded}</motion.span>
+    </strong>
+  );
+};
 
 export default function HomePage() {
   const { settings, projects, featuredProjects } = useContent();
   const { locale, lens, setLens, motionEnabled } = useAppPreferences();
   const t = copy[locale];
+  const heroGlowRef = usePointerGlow<HTMLElement>();
 
   const selectedProjects = useMemo(() => {
     if (lens === 'hire') return (featuredProjects.length ? featuredProjects : projects).slice(0, 4);
@@ -96,12 +125,21 @@ export default function HomePage() {
   }, [featuredProjects, projects, lens]);
 
   const disciplineCount = new Set(projects.map((project) => project.discipline)).size;
+  const technologyCount = new Set(projects.flatMap((project) => project.technologies)).size;
   const acceptingInquiries = isAcceptingInquiries(settings.availability);
   const availabilityCopy = availabilityLabel(settings.availability, locale);
-  const methods: Array<{ title: string; body: string; icon: LucideIcon }> = [
-    { title: t.capability1, body: t.capability1Body, icon: Layers3 },
-    { title: t.capability2, body: t.capability2Body, icon: Sparkles },
-    { title: t.capability3, body: t.capability3Body, icon: MoveUpRight },
+
+  const marqueeItems = useMemo(() => [
+    ...new Set([
+      ...projects.slice(0, 6).map((project) => localize(project.title, locale)),
+      ...projects.flatMap((project) => project.technologies.slice(0, 1)),
+    ]),
+  ], [projects, locale]);
+
+  const methods = [
+    { title: t.capability1, body: t.capability1Body },
+    { title: t.capability2, body: t.capability2Body },
+    { title: t.capability3, body: t.capability3Body },
   ];
 
   useDocumentMeta({
@@ -122,31 +160,35 @@ export default function HomePage() {
   });
 
   const openSearch = () => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }));
+  const heroLines = [t.headlineA, t.headlineB, t.headlineC];
 
   return (
     <main id="main-content" tabIndex={-1} className="home-page">
-      <section className="home-hero">
+      <section className="home-hero" ref={heroGlowRef}>
+        <span className="home-hero__aura" aria-hidden="true" />
         <ProjectConstellation
           projects={projects}
           motionEnabled={motionEnabled}
-          palette={[settings.palette.accent, '#d56f4b', '#c8b98e']}
+          palette={['#2b3fee', '#0c8a6d', '#c97a15']}
           className="home-hero__constellation"
         />
         <div className="shell home-hero__grid">
           <div className="home-hero__copy">
             <motion.div
               className="availability"
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45 }}
+              transition={{ duration: 0.5 }}
             >
               <i aria-hidden="true" /> {availabilityCopy}
             </motion.div>
             <p className="home-hero__kicker">{t.kicker}</p>
             <h1>
-              <span>{t.headlineA}</span>
-              <span className="home-hero__serif">{t.headlineB}</span>
-              <span>{t.headlineC}</span>
+              {heroLines.map((line, index) => (
+                <span key={line}>
+                  <span className={index === 1 ? 'home-hero__serif' : ''} style={{ '--line-i': index } as React.CSSProperties}>{line}</span>
+                </span>
+              ))}
             </h1>
             <p className="home-hero__intro">{t.intro}</p>
             <div className="home-hero__actions">
@@ -175,15 +217,30 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <a className="home-hero__scroll" href="#selected-work"><ArrowDown aria-hidden="true" /> {locale === 'tr' ? 'Kaydır' : 'Scroll'}</a>
+        <div className="shell">
+          <a className="home-hero__scroll" href="#selected-work"><ArrowDown aria-hidden="true" /> {t.scroll}</a>
+        </div>
+      </section>
+
+      <Marquee items={marqueeItems} />
+
+      <section className="section" aria-label={t.statsLabel}>
+        <div className="shell">
+          <Reveal className="stats-band">
+            <div className="stat"><CountUp value={projects.length} /><span>{t.projectCount}</span></div>
+            <div className="stat"><CountUp value={disciplineCount} /><span>{t.disciplineCount}</span></div>
+            <div className="stat"><CountUp value={technologyCount} /><span>{t.technologyCount}</span></div>
+            <div className="stat"><strong>{t.languages}</strong><span>{t.languagesLabel}</span></div>
+          </Reveal>
+        </div>
       </section>
 
       <section className="section selected-work" id="selected-work">
         <div className="shell">
-          <header className="section-heading section-heading--split">
+          <Reveal as="header" className="section-heading section-heading--split">
             <div><span className="eyebrow">{t.selectedEyebrow}</span><h2>{t.selectedTitle}</h2></div>
             <div><p>{lens === 'hire' ? t.selectedBodyHire : t.selectedBodyExplore}</p><Link href="/work" className="text-link">{t.allWork}<ArrowUpRight aria-hidden="true" /></Link></div>
-          </header>
+          </Reveal>
           <div className="project-grid">
             {selectedProjects.map((project, index) => <ProjectCard key={project.slug} project={project} index={index} />)}
           </div>
@@ -192,19 +249,18 @@ export default function HomePage() {
 
       <section className="section method-section">
         <div className="shell method-section__grid">
-          <div className="method-section__intro">
+          <Reveal className="method-section__intro">
             <span className="eyebrow">{t.methodEyebrow}</span>
             <h2>{t.methodTitle}</h2>
             <p>{t.methodBody}</p>
-          </div>
+          </Reveal>
           <ol className="method-list">
-            {methods.map(({ title, body, icon: Icon }, index) => (
-              <li key={title}>
+            {methods.map(({ title, body }, index) => (
+              <Reveal as="li" key={title} delay={index * 0.08}>
                 <span>0{index + 1}</span>
-                <Icon aria-hidden="true" />
                 <h3>{title}</h3>
                 <p>{body}</p>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </div>
@@ -212,15 +268,15 @@ export default function HomePage() {
 
       <section className="section profile-teaser">
         <div className="shell profile-teaser__grid">
-          <div className="profile-teaser__portrait" aria-hidden="true">
+          <Reveal className="profile-teaser__portrait">
             <span>AC</span><i /><i /><i />
-          </div>
-          <div className="profile-teaser__copy">
+          </Reveal>
+          <Reveal className="profile-teaser__copy" delay={0.08}>
             <span className="eyebrow">{t.profileEyebrow}</span>
             <h2>{t.profileTitle}</h2>
             <p>{t.profileBody}</p>
             <Link href="/about" className="text-link text-link--large">{t.readProfile}<ArrowUpRight aria-hidden="true" /></Link>
-          </div>
+          </Reveal>
           <dl className="profile-teaser__facts">
             <div><dt>{projects.length}</dt><dd>{t.projectCount}</dd></div>
             <div><dt>{disciplineCount}</dt><dd>{t.disciplineCount}</dd></div>

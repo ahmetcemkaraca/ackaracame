@@ -41,6 +41,9 @@ export const SiteFooter = ({ settings, showJournal = false }: { settings: SiteSe
           </div>
         </div>
       </div>
+      <div className="shell">
+        <span className="site-footer__wordmark" aria-hidden="true">ACKARACA</span>
+      </div>
       <div className="shell site-footer__bottom">
         <span>© {year} {localize(settings.ownerName, locale)}</span>
         <span>{localize(settings.footerNote, locale)}</span>

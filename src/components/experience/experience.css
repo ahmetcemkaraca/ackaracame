@@ -4,17 +4,17 @@
     .experience-command-palette,
     .experience-command-palette-backdrop
   ) {
-  --experience-ui-bg: #f4f1ea;
-  --experience-ui-surface: rgba(255, 255, 255, 0.92);
-  --experience-ui-surface-solid: #fffdf9;
-  --experience-ui-surface-muted: #ece8df;
-  --experience-ui-line: rgba(22, 27, 34, 0.13);
-  --experience-ui-line-strong: rgba(22, 27, 34, 0.22);
-  --experience-ui-text: #171b22;
-  --experience-ui-text-muted: #646a73;
-  --experience-ui-accent: #16715f;
-  --experience-ui-accent-soft: rgba(22, 113, 95, 0.11);
-  --experience-ui-shadow: 0 30px 90px rgba(24, 29, 38, 0.18), 0 8px 28px rgba(24, 29, 38, 0.1);
+  --experience-ui-bg: #f7f6f2;
+  --experience-ui-surface: rgba(255, 254, 251, 0.92);
+  --experience-ui-surface-solid: #fffefb;
+  --experience-ui-surface-muted: #edeae1;
+  --experience-ui-line: rgba(14, 17, 25, 0.12);
+  --experience-ui-line-strong: rgba(14, 17, 25, 0.26);
+  --experience-ui-text: #0e1119;
+  --experience-ui-text-muted: #474d5c;
+  --experience-ui-accent: #2b3fee;
+  --experience-ui-accent-soft: rgba(43, 63, 238, 0.09);
+  --experience-ui-shadow: 0 30px 90px rgba(14, 17, 25, 0.18), 0 8px 28px rgba(14, 17, 25, 0.1);
   box-sizing: border-box;
 }
 
@@ -25,16 +25,16 @@
       .experience-command-palette,
       .experience-command-palette-backdrop
     ) {
-    --experience-ui-bg: #0d1014;
-    --experience-ui-surface: rgba(23, 27, 33, 0.94);
-    --experience-ui-surface-solid: #171b21;
-    --experience-ui-surface-muted: #22272f;
-    --experience-ui-line: rgba(255, 255, 255, 0.1);
-    --experience-ui-line-strong: rgba(255, 255, 255, 0.19);
-    --experience-ui-text: #f2f1ec;
-    --experience-ui-text-muted: #a3a8b0;
-    --experience-ui-accent: #83e5c7;
-    --experience-ui-accent-soft: rgba(131, 229, 199, 0.12);
+    --experience-ui-bg: #0a0c11;
+    --experience-ui-surface: rgba(18, 21, 29, 0.94);
+    --experience-ui-surface-solid: #12151d;
+    --experience-ui-surface-muted: #191d28;
+    --experience-ui-line: rgba(237, 239, 245, 0.13);
+    --experience-ui-line-strong: rgba(237, 239, 245, 0.28);
+    --experience-ui-text: #edeff5;
+    --experience-ui-text-muted: #a7adbe;
+    --experience-ui-accent: #96a7ff;
+    --experience-ui-accent-soft: rgba(150, 167, 255, 0.13);
     --experience-ui-shadow: 0 36px 110px rgba(0, 0, 0, 0.58), 0 8px 30px rgba(0, 0, 0, 0.32);
   }
 }
@@ -46,16 +46,16 @@
     .experience-command-palette,
     .experience-command-palette-backdrop
   ) {
-  --experience-ui-bg: #0d1014;
-  --experience-ui-surface: rgba(23, 27, 33, 0.94);
-  --experience-ui-surface-solid: #171b21;
-  --experience-ui-surface-muted: #22272f;
-  --experience-ui-line: rgba(255, 255, 255, 0.1);
-  --experience-ui-line-strong: rgba(255, 255, 255, 0.19);
-  --experience-ui-text: #f2f1ec;
-  --experience-ui-text-muted: #a3a8b0;
-  --experience-ui-accent: #83e5c7;
-  --experience-ui-accent-soft: rgba(131, 229, 199, 0.12);
+  --experience-ui-bg: #0a0c11;
+  --experience-ui-surface: rgba(18, 21, 29, 0.94);
+  --experience-ui-surface-solid: #12151d;
+  --experience-ui-surface-muted: #191d28;
+  --experience-ui-line: rgba(237, 239, 245, 0.13);
+  --experience-ui-line-strong: rgba(237, 239, 245, 0.28);
+  --experience-ui-text: #edeff5;
+  --experience-ui-text-muted: #a7adbe;
+  --experience-ui-accent: #96a7ff;
+  --experience-ui-accent-soft: rgba(150, 167, 255, 0.13);
   --experience-ui-shadow: 0 36px 110px rgba(0, 0, 0, 0.58), 0 8px 30px rgba(0, 0, 0, 0.32);
 }
 
@@ -66,17 +66,17 @@
     .experience-command-palette,
     .experience-command-palette-backdrop
   ) {
-  --experience-ui-bg: #f4f1ea;
-  --experience-ui-surface: rgba(255, 255, 255, 0.92);
-  --experience-ui-surface-solid: #fffdf9;
-  --experience-ui-surface-muted: #ece8df;
-  --experience-ui-line: rgba(22, 27, 34, 0.13);
-  --experience-ui-line-strong: rgba(22, 27, 34, 0.22);
-  --experience-ui-text: #171b22;
-  --experience-ui-text-muted: #646a73;
-  --experience-ui-accent: #16715f;
-  --experience-ui-accent-soft: rgba(22, 113, 95, 0.11);
-  --experience-ui-shadow: 0 30px 90px rgba(24, 29, 38, 0.18), 0 8px 28px rgba(24, 29, 38, 0.1);
+  --experience-ui-bg: #f7f6f2;
+  --experience-ui-surface: rgba(255, 254, 251, 0.92);
+  --experience-ui-surface-solid: #fffefb;
+  --experience-ui-surface-muted: #edeae1;
+  --experience-ui-line: rgba(14, 17, 25, 0.12);
+  --experience-ui-line-strong: rgba(14, 17, 25, 0.26);
+  --experience-ui-text: #0e1119;
+  --experience-ui-text-muted: #474d5c;
+  --experience-ui-accent: #2b3fee;
+  --experience-ui-accent-soft: rgba(43, 63, 238, 0.09);
+  --experience-ui-shadow: 0 30px 90px rgba(14, 17, 25, 0.18), 0 8px 28px rgba(14, 17, 25, 0.1);
 }
 
 /* Decorative project constellation */

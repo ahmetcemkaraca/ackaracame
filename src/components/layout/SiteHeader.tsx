@@ -29,14 +29,24 @@ export const SiteHeader = ({ settings, projects, journal }: SiteHeaderProps) => 
   const [scrolled, setScrolled] = useState(false);
   const { locale, setLocale, resolvedTheme, setTheme } = useAppPreferences();
   const localeHref = useLocaleHref();
+  const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 16);
+    const update = () => {
+      setScrolled(window.scrollY > 16);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      headerRef.current?.style.setProperty('--scroll-progress', progress.toFixed(4));
+    };
     update();
     window.addEventListener('scroll', update, { passive: true });
-    return () => window.removeEventListener('scroll', update);
+    window.addEventListener('resize', update, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
   }, []);
 
   useEffect(() => {
@@ -112,7 +122,7 @@ export const SiteHeader = ({ settings, projects, journal }: SiteHeaderProps) => 
   };
 
   return (
-    <header className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
+    <header ref={headerRef} className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
       <div className="site-header__inner shell">
         <Link href={localeHref('/')} className="brand" aria-label={`${localize(settings.ownerName, locale)} — ${locale === 'tr' ? 'ana sayfa' : 'home'}`}>
           <span className="brand__mark" aria-hidden="true"><i>A</i><i>C</i></span>
@@ -175,10 +185,12 @@ export const SiteHeader = ({ settings, projects, journal }: SiteHeaderProps) => 
         </div>
       </div>
 
+      <span className="site-header__progress" aria-hidden="true" />
+
       <div ref={mobileMenuRef} id="mobile-navigation" className={`mobile-nav${menuOpen ? ' mobile-nav--open' : ''}`} hidden={!menuOpen} role="dialog" aria-modal="true" aria-label={locale === 'tr' ? 'Mobil navigasyon' : 'Mobile navigation'}>
         <nav className="shell" aria-label={locale === 'tr' ? 'Mobil navigasyon' : 'Mobile navigation'}>
           {navigation.map((item, index) => (
-            <Link key={item.href} href={localeHref(item.href)} onClick={() => setMenuOpen(false)}>
+            <Link key={item.href} href={localeHref(item.href)} onClick={() => setMenuOpen(false)} style={{ '--nav-i': index } as React.CSSProperties}>
               <span>0{index + 1}</span>{item[locale]}
             </Link>
           ))}
