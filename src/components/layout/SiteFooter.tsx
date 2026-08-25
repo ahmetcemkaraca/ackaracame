@@ -6,7 +6,7 @@ import { useLocaleHref } from '../../hooks/useLocaleHref';
 import { isAcceptingInquiries } from '../../lib/availability';
 
 export const SiteFooter = ({ settings, showJournal = false }: { settings: SiteSettings; showJournal?: boolean }) => {
-  const { locale, motionEnabled, setMotionEnabled } = useAppPreferences();
+  const { locale } = useAppPreferences();
   const year = new Date().getFullYear();
   const localeHref = useLocaleHref();
   const acceptingInquiries = isAcceptingInquiries(settings.availability);
@@ -45,11 +45,8 @@ export const SiteFooter = ({ settings, showJournal = false }: { settings: SiteSe
         <span className="site-footer__wordmark" aria-hidden="true">ACKARACA</span>
       </div>
       <div className="shell site-footer__bottom">
-        <span>© {year} {localize(settings.ownerName, locale)}</span>
+        <span>© {year} {localize(settings.ownerName, locale)} - bruv 🥀🥀🥀</span>
         <span>{localize(settings.footerNote, locale)}</span>
-        <button type="button" onClick={() => setMotionEnabled(!motionEnabled)} aria-pressed={motionEnabled}>
-          {locale === 'tr' ? 'Hareket' : 'Motion'}: {motionEnabled ? (locale === 'tr' ? 'Açık' : 'On') : (locale === 'tr' ? 'Kapalı' : 'Off')}
-        </button>
         <div>
           <Link href={localeHref('/privacy')}>{locale === 'tr' ? 'Gizlilik' : 'Privacy'}</Link>
           <Link href={localeHref('/terms')}>{locale === 'tr' ? 'Koşullar' : 'Terms'}</Link>

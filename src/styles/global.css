@@ -1128,33 +1128,6 @@ html[data-theme='dark'] .button--primary {
   color: var(--ink-soft);
 }
 
-.lens-switch {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  padding: 0.3rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--bg-deep) 65%, transparent);
-}
-
-.lens-switch button {
-  padding: 0.62rem 0.9rem;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  font-size: 0.84rem;
-  font-weight: 650;
-  cursor: pointer;
-  color: var(--ink-soft);
-  transition: background-color 260ms var(--ease-out), color 260ms ease, box-shadow 260ms var(--ease-out);
-}
-
-.lens-switch button.is-active {
-  color: var(--ink);
-  background: var(--bg-raised);
-  box-shadow: var(--shadow-sm);
-}
-
 .home-hero__scroll {
   position: relative;
   z-index: 1;
@@ -1237,21 +1210,21 @@ html[data-theme='dark'] .button--primary {
   position: relative;
 }
 
-.method-section {
+.focus-section {
   border-block: 1px solid var(--line);
   background:
     radial-gradient(52rem 24rem at 110% 0%, var(--accent-soft), transparent 70%),
     color-mix(in srgb, var(--bg-deep) 42%, transparent);
 }
 
-.method-section__grid {
+.focus-section__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.35fr);
   gap: clamp(2.5rem, 6vw, 5rem);
   align-items: start;
 }
 
-.method-section__intro {
+.focus-section__intro {
   display: grid;
   justify-items: start;
   gap: 1.3rem;
@@ -1259,7 +1232,7 @@ html[data-theme='dark'] .button--primary {
   top: calc(var(--header-height) + 2rem);
 }
 
-.method-section__intro h2 {
+.focus-section__intro h2 {
   font-size: clamp(1.9rem, 3.6vw, 3.1rem);
   font-weight: 750;
   letter-spacing: -0.03em;
@@ -1267,61 +1240,36 @@ html[data-theme='dark'] .button--primary {
   text-wrap: balance;
 }
 
-.method-section__intro p {
-  color: var(--ink-soft);
-  line-height: 1.7;
-  max-width: 44ch;
-}
-
-.method-list {
+.focus-grid {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
 }
 
-.method-list li {
-  position: relative;
+.focus-card {
   display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 1.4rem;
-  padding: clamp(1.5rem, 3vw, 2.2rem) 0;
-  border-bottom: 1px solid var(--line);
-  transition: padding-left 340ms var(--ease-out);
+  gap: 0.65rem;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  background: var(--bg);
+  transition: background 280ms var(--ease-out);
 }
 
-.method-list li:first-child {
-  border-top: 1px solid var(--line);
+.focus-card:hover {
+  background: color-mix(in srgb, var(--bg) 88%, var(--accent-soft));
 }
 
-.method-list li:hover {
-  padding-left: 0.9rem;
-}
-
-.method-list li > span {
-  grid-row: 1 / -1;
-  align-self: start;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.12em;
-  color: var(--accent);
-  padding-top: 0.3rem;
-}
-
-.method-list li > svg {
-  display: none;
-}
-
-.method-list h3 {
-  font-size: 1.28rem;
+.focus-card h3 {
+  font-size: 1.22rem;
   font-weight: 720;
   letter-spacing: -0.02em;
 }
 
-.method-list p {
-  grid-column: 2;
-  margin-top: 0.55rem;
+.focus-card p {
   color: var(--ink-soft);
   line-height: 1.66;
-  max-width: 52ch;
+  max-width: 36ch;
 }
 
 .profile-teaser__grid {
@@ -3205,7 +3153,7 @@ html[data-theme='dark'] .work-toolbar__filters button.is-active {
   }
 
   .page-hero__grid,
-  .method-section__grid,
+  .focus-section__grid,
   .about-story,
   .now-section__grid,
   .contact-layout,
@@ -3231,8 +3179,12 @@ html[data-theme='dark'] .work-toolbar__filters button.is-active {
     max-width: 30rem;
   }
 
-  .method-section__intro {
+  .focus-section__intro {
     position: static;
+  }
+
+  .focus-grid {
+    grid-template-columns: 1fr;
   }
 
   .contact-aside {

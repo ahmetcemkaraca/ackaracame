@@ -5,18 +5,15 @@ import { AppPreferencesProvider, useAppPreferences } from './AppPreferences';
 describe('AppPreferencesProvider', () => {
   beforeEach(() => window.localStorage.clear());
 
-  it('persists locale and visitor lens as non-authoritative preferences', () => {
+  it('persists locale as a non-authoritative preference', () => {
     const { result } = renderHook(() => useAppPreferences(), { wrapper: AppPreferencesProvider });
 
     act(() => {
       result.current.setLocale('en');
-      result.current.setLens('explore');
     });
 
     expect(result.current.locale).toBe('en');
-    expect(result.current.lens).toBe('explore');
     expect(window.localStorage.getItem('ack.locale')).toBe('en');
-    expect(window.localStorage.getItem('ack.lens')).toBe('explore');
   });
 
   it('reflects a theme override on the document root', () => {

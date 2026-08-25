@@ -1,12 +1,10 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Command, Menu, Moon, Sun, X } from 'lucide-react';
-import { Link, useLocation, useRouter } from 'wouter';
+import { useEffect, useRef, useState } from 'react';
+import { Menu, Moon, Sun, X } from 'lucide-react';
+import { Link, useLocation } from 'wouter';
 import { useAppPreferences, localize } from '../../context/AppPreferences';
-import { journalEntryPath, type JournalEntry, type PortfolioProject, type SiteSettings } from '../../domain/content';
+import type { JournalEntry, PortfolioProject, SiteSettings } from '../../domain/content';
 import { useLocaleHref } from '../../hooks/useLocaleHref';
 import { availabilityLabel } from '../../lib/availability';
-import { ENGLISH_PREFIX, localePath, stripLocalePrefix } from '../../lib/localeRouting';
-import { CommandPalette } from '../experience/CommandPalette';
 
 interface SiteHeaderProps {
   settings: SiteSettings;
@@ -22,9 +20,8 @@ const navigation = [
   { href: '/contact', tr: 'İletişim', en: 'Contact', keywords: ['hire', 'email', 'iş'] },
 ] as const;
 
-export const SiteHeader = ({ settings, projects, journal }: SiteHeaderProps) => {
-  const [location, navigate] = useLocation();
-  const { base } = useRouter();
+export const SiteHeader = ({ settings }: SiteHeaderProps) => {
+  const [location] = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { locale, setLocale, resolvedTheme, setTheme } = useAppPreferences();
@@ -90,37 +87,6 @@ export const SiteHeader = ({ settings, projects, journal }: SiteHeaderProps) => 
     };
   }, [menuOpen]);
 
-  const paletteProjects = useMemo(() => projects.map((project) => ({
-    slug: project.slug,
-    title: localize(project.title, locale),
-    description: localize(project.dek, locale),
-    category: project.discipline,
-    tags: project.technologies,
-    keywords: project.topics,
-    href: localePath(`/work/${project.slug}`, locale),
-  })), [projects, locale]);
-
-  const paletteNavigation = useMemo(() => [
-    ...navigation.map((item) => ({
-      id: item.href,
-      label: item[locale],
-      href: localePath(item.href, locale),
-      keywords: item.keywords as readonly string[],
-    })),
-    ...journal.map((entry) => ({
-      id: `journal-${entry.slug}`,
-      label: localize(entry.title, locale),
-      description: localize(entry.excerpt, locale),
-      href: localePath(journalEntryPath(entry), locale),
-      keywords: entry.topics,
-    })),
-  ], [journal, locale]);
-
-  const handleNavigate = (href: string) => {
-    if (href.startsWith('/')) navigate(base === ENGLISH_PREFIX ? stripLocalePrefix(href) : href);
-    else window.location.assign(href);
-  };
-
   return (
     <header ref={headerRef} className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
       <div className="site-header__inner shell">
@@ -142,19 +108,6 @@ export const SiteHeader = ({ settings, projects, journal }: SiteHeaderProps) => 
         </nav>
 
         <div className="site-header__actions">
-          <CommandPalette
-            projects={paletteProjects}
-            navigationItems={paletteNavigation}
-            projectHref={(project) => project.href ?? localePath(`/work/${project.slug}`, locale)}
-            onNavigate={handleNavigate}
-            labels={locale === 'tr' ? {
-              trigger: 'Projelerde ara', shortcut: '⌘ K', dialog: 'Portfolyoda ara', input: 'Arama',
-              placeholder: 'Proje, teknoloji veya sayfa ara…', close: 'Kapat', navigation: 'Sayfalar', projects: 'Projeler', empty: 'Sonuç bulunamadı.',
-            } : {
-              trigger: 'Search work', shortcut: '⌘ K', dialog: 'Search the portfolio', input: 'Search',
-              placeholder: 'Search projects, tools, or pages…', close: 'Close', navigation: 'Pages', projects: 'Projects', empty: 'No matching result.',
-            }}
-          />
           <button
             type="button"
             className="icon-button site-header__theme"
@@ -198,9 +151,6 @@ export const SiteHeader = ({ settings, projects, journal }: SiteHeaderProps) => 
             <i aria-hidden="true" />
             {availabilityLabel(settings.availability, locale)}
           </div>
-          <button type="button" onClick={() => { setMenuOpen(false); window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true })); }}>
-            <Command aria-hidden="true" /> {locale === 'tr' ? 'Hızlı aramayı aç' : 'Open quick search'}
-          </button>
         </nav>
       </div>
     </header>
