@@ -91,7 +91,7 @@ export const SiteHeader = ({ settings }: SiteHeaderProps) => {
     <header ref={headerRef} className={`site-header${scrolled ? ' site-header--scrolled' : ''}`}>
       <div className="site-header__inner shell">
         <Link href={localeHref('/')} className="brand" aria-label={`${localize(settings.ownerName, locale)} — ${locale === 'tr' ? 'ana sayfa' : 'home'}`}>
-          <span className="brand__mark" aria-hidden="true"><i>A</i><i>C</i></span>
+          <img className="brand__mark" src="/AC-KARACA.svg" alt="" aria-hidden="true" />
           <span className="brand__name">Ahmet Cem<br />Karaca</span>
         </Link>
 

@@ -565,39 +565,20 @@ html[data-theme='dark'] .button--primary {
 }
 
 .brand__mark {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  width: 2.35rem;
-  height: 2.35rem;
+  display: block;
+  width: 5.1rem;
+  height: auto;
+  aspect-ratio: 1.76;
+  object-fit: contain;
   overflow: hidden;
-  border-radius: 0.6rem;
-  outline: 1px solid var(--line-strong);
-  outline-offset: 2px;
-  transition: transform 420ms var(--ease-spring), outline-color 220ms ease;
+  border: 1px solid var(--line-strong);
+  flex-shrink: 0;
+  transition: transform 420ms var(--ease-spring), border-color 220ms ease;
 }
 
 .brand:hover .brand__mark {
   transform: rotate(-6deg) scale(1.05);
-  outline-color: var(--accent);
-}
-
-.brand__mark i {
-  display: grid;
-  place-items: center;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 0.78rem;
-  letter-spacing: 0;
-}
-
-.brand__mark i:first-child {
-  color: var(--inverse-ink);
-  background: var(--ink);
-}
-
-.brand__mark i:last-child {
-  color: #fff;
-  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  border-color: var(--accent);
 }
 
 .brand__name {
@@ -865,22 +846,13 @@ html[data-theme='dark'] .button--primary {
 
 .site-footer__wordmark {
   display: block;
-  width: fit-content;
+  width: min(100%, 44rem);
+  height: auto;
+  aspect-ratio: 1.76;
+  object-fit: contain;
   margin-inline: auto;
   padding-bottom: clamp(1rem, 3vw, 2rem);
-  font-size: clamp(3.4rem, 13.5vw, 12rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 0.9;
-  white-space: nowrap;
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in srgb, var(--inverse-ink) 34%, transparent);
   user-select: none;
-  transition: color 500ms var(--ease-out);
-}
-
-.site-footer__wordmark:hover {
-  color: color-mix(in srgb, var(--inverse-ink) 92%, transparent);
 }
 
 .site-footer__bottom {

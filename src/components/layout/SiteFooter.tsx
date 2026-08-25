@@ -42,7 +42,7 @@ export const SiteFooter = ({ settings, showJournal = false }: { settings: SiteSe
         </div>
       </div>
       <div className="shell">
-        <span className="site-footer__wordmark" aria-hidden="true">ACKARACA</span>
+        <img className="site-footer__wordmark" src="/AC-KARACA.svg" alt="" aria-hidden="true" />
       </div>
       <div className="shell site-footer__bottom">
         <span>© {year} {localize(settings.ownerName, locale)} - bruv 🥀🥀🥀</span>
