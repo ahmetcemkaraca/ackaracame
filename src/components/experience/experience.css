@@ -193,10 +193,11 @@
 .experience-project-artwork-caption {
   display: flex;
   align-items: baseline;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   min-width: 0;
   padding-inline: 0.15rem;
+  text-align: center;
 }
 
 .experience-project-artwork-title {
@@ -1483,14 +1484,15 @@
   }
 
   .experience-project-artwork-caption {
-    align-items: flex-start;
     flex-direction: column;
     gap: 0.22rem;
+    align-items: center;
+    width: 100%;
   }
 
   .experience-project-artwork-description {
     max-width: 100%;
-    text-align: left;
+    text-align: center;
   }
 
   .experience-artwork-mail {

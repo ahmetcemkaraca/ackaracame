@@ -19,6 +19,7 @@
      width="440"
      height="250"
      fill="#ffffff"
+     fill-opacity="0.50"
      id="rect4" />
   <g
      fill="#111111"
