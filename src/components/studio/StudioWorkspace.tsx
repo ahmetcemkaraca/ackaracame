@@ -625,7 +625,7 @@ export const StudioWorkspace = ({ userEmail, onLogout }: StudioWorkspaceProps) =
     <div className="studio-shell">
       <a className="studio-skip-link" href="#studio-main">Ana içeriğe geç</a>
       <aside ref={mobileNavigationRef} id="studio-navigation" className={`studio-sidebar${mobileNavigationOpen ? ' studio-sidebar--open' : ''}`}>
-        <div className="studio-brand"><a href="/" aria-label="ACKaraca sitesine git"><span>ACK</span><strong>Content studio</strong></a><small>Private editorial system</small></div>
+        <div className="studio-brand"><a href="/" aria-label="ACKaraca sitesine git"><img src="/AC-KARACA.svg" alt="" aria-hidden="true" /><strong>Content studio</strong></a><small>Private editorial system</small></div>
         <nav aria-label="Stüdyo bölümleri">
           {sections.map((item) => <button type="button" key={item.id} className={section === item.id ? 'is-active' : ''} aria-current={section === item.id ? 'page' : undefined} onClick={() => navigate(item.id)}><span>{item.index}</span>{item.label}</button>)}
         </nav>

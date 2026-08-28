@@ -10,7 +10,6 @@ import {
 
 export type Locale = 'tr' | 'en';
 export type ThemePreference = 'light' | 'dark' | 'system';
-export type VisitorLens = 'hire' | 'explore';
 
 interface AppPreferencesValue {
   locale: Locale;
@@ -20,8 +19,6 @@ interface AppPreferencesValue {
   setTheme: (theme: ThemePreference) => void;
   motionEnabled: boolean;
   setMotionEnabled: (enabled: boolean) => void;
-  lens: VisitorLens;
-  setLens: (lens: VisitorLens) => void;
 }
 
 interface AppPreferencesProviderProps extends PropsWithChildren {
@@ -39,7 +36,6 @@ const preferenceSnapshot = () => {
     return [
       window.localStorage.getItem('ack.locale') ?? '',
       window.localStorage.getItem('ack.theme') ?? '',
-      window.localStorage.getItem('ack.lens') ?? '',
       window.localStorage.getItem('ack.motion') ?? '',
     ].join('|');
   } catch {
@@ -74,10 +70,9 @@ const writePreference = (key: string, value: string) => {
 
 export const AppPreferencesProvider = ({ children, routeLocale, defaultLocale = 'tr', onLocaleChange }: AppPreferencesProviderProps) => {
   const stored = useSyncExternalStore(subscribePreferences, preferenceSnapshot, () => '');
-  const [storedLocale = '', storedTheme = '', storedLens = '', storedMotion = ''] = stored.split('|');
+  const [storedLocale = '', storedTheme = '', storedMotion = ''] = stored.split('|');
   const locale: Locale = routeLocale ?? (storedLocale === 'tr' || storedLocale === 'en' ? storedLocale : defaultLocale);
   const theme: ThemePreference = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'system';
-  const lens: VisitorLens = storedLens === 'explore' ? 'explore' : 'hire';
   const motionOverride: 'on' | 'off' | null = storedMotion === 'on' || storedMotion === 'off' ? storedMotion : null;
   const systemDark = useSyncExternalStore(
     (notify) => subscribeMedia('(prefers-color-scheme: dark)', notify),
@@ -118,10 +113,6 @@ export const AppPreferencesProvider = ({ children, routeLocale, defaultLocale = 
     writePreference('ack.theme', next);
   }, []);
 
-  const setLens = useCallback((next: VisitorLens) => {
-    writePreference('ack.lens', next);
-  }, []);
-
   const setMotionEnabled = useCallback((enabled: boolean) => {
     const next = enabled ? 'on' : 'off';
     writePreference('ack.motion', next);
@@ -135,9 +126,7 @@ export const AppPreferencesProvider = ({ children, routeLocale, defaultLocale = 
     setTheme,
     motionEnabled,
     setMotionEnabled,
-    lens,
-    setLens,
-  }), [locale, setLocale, theme, resolvedTheme, setTheme, motionEnabled, setMotionEnabled, lens, setLens]);
+  }), [locale, setLocale, theme, resolvedTheme, setTheme, motionEnabled, setMotionEnabled]);
 
   return <AppPreferencesContext.Provider value={value}>{children}</AppPreferencesContext.Provider>;
 };

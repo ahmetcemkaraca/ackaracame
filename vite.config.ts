@@ -10,6 +10,7 @@ export default defineConfig({
   },
   preview: {
     port: 4173,
+    allowedHosts: true,
   },
   build: {
     target: 'es2022',
