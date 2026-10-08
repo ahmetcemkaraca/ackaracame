@@ -1427,7 +1427,7 @@ html[data-theme='dark'] .button--primary {
 }
 
 .project-card__artwork {
-  aspect-ratio: 16 / 9;
+  min-width: 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1542,6 +1542,10 @@ html[data-theme='dark'] .button--primary {
 }
 
 .project-card--compact .project-card__artwork {
+  aspect-ratio: auto;
+}
+
+.project-card--compact .experience-project-artwork-frame {
   aspect-ratio: 21 / 9;
 }
 
@@ -3230,6 +3234,10 @@ html[data-theme='dark'] .work-toolbar__filters button.is-active {
     display: none;
   }
 
+  .brand__mark {
+    width: 4.6rem;
+  }
+
   .hero-search kbd {
     display: none;
   }
@@ -3241,6 +3249,37 @@ html[data-theme='dark'] .work-toolbar__filters button.is-active {
 
   .work-search {
     min-width: 100%;
+  }
+
+  .project-card__body {
+    gap: 0.7rem;
+    padding: 1rem;
+  }
+
+  .project-card__heading-row {
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+
+  .project-card__heading-row h3 {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  .project-card__body > p {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    -webkit-line-clamp: 3;
+  }
+
+  .project-card__footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .project-card__metric {
+    text-align: start;
   }
 
   .form-grid {
