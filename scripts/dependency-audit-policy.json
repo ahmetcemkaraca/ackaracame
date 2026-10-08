@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "owner": "ahmetcemkaraca",
   "reviewBy": "2026-10-31",
-  "firebaseToolsVersion": "15.25.1",
+  "firebaseToolsVersion": "15.33.0",
   "maximumSeverity": "moderate",
   "rationale": "firebase-tools is a lockfile-pinned deploy/test CLI installed before production OIDC credentials. These advisories are confined to its non-runtime Pub/Sub telemetry and legacy gaxios dependency paths; neither path accepts visitor-controlled input in this repository. Runtime web and Functions dependency graphs must remain vulnerability-free.",
   "advisories": [
